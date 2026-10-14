@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hulog — Cost Breakdown, Pricing & TAM SAM SOM</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #111;
+      background: #fff;
+      font-size: 8.8pt;
+      line-height: 1.35;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    @page {
+      size: A4 portrait;
+      margin: 8mm 10mm;
+    }
+    .container {
+      width: 100%;
+      max-width: 190mm;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid #000;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .header-left h1 {
+      font-size: 13pt;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+    .header-left .sub {
+      font-size: 7.8pt;
+      color: #444;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 7.5pt;
+      color: #333;
+      font-family: monospace;
+      font-weight: bold;
+      background: #f0f0f0;
+      padding: 3px 6px;
+      border: 1px solid #999;
+      border-radius: 2px;
+    }
+
+    /* Meta Bar */
+    .meta-bar {
+      border: 1px solid #333;
+      background: #fafafa;
+      padding: 4px 8px;
+      margin-bottom: 8px;
+      font-size: 8pt;
+      display: flex;
+      justify-content: space-between;
+    }
+    .meta-bar strong { color: #000; }
+
+    /* Concept Box */
+    .concept-box {
+      border-left: 3px solid #b42318;
+      background: #fcf8f8;
+      padding: 4px 8px;
+      margin-bottom: 8px;
+      font-size: 8.2pt;
+    }
+    .concept-box strong { color: #b42318; }
+
+    /* 2 Column Layout */
+    .grid {
+      display: flex;
+      gap: 10px;
+    }
+    .col {
+      flex: 1;
+    }
+
+    /* Section Headings */
+    h2.sec-title {
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid #111;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+      letter-spacing: 0.3px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Tables */
+    table.compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.8pt;
+      margin-bottom: 6px;
+    }
+    table.compact-table th, table.compact-table td {
+      border: 1px solid #444;
+      padding: 2.5px 5px;
+      vertical-align: middle;
+    }
+    table.compact-table th {
+      background: #ececec;
+      font-weight: 800;
+      text-align: left;
+      text-transform: uppercase;
+    }
+    table.compact-table tr:nth-child(even) td {
+      background: #fbfbfb;
+    }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .font-mono { font-family: "Courier New", Courier, monospace; }
+    .bold { font-weight: bold; }
+
+    /* Metric Cards */
+    .metric-card {
+      border: 1.5px solid #111;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .metric-card.tam { border-left: 5px solid #111; background: #fbfbfb; }
+    .metric-card.sam { border-left: 5px solid #555; background: #f6f6f6; }
+    .metric-card.som { border-left: 5px solid #b42318; background: #fff5f5; }
+
+    .metric-card .title {
+      font-size: 8.4pt;
+      font-weight: 900;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+    .metric-card .desc {
+      font-size: 7.6pt;
+      color: #333;
+      line-height: 1.25;
+    }
+
+    /* Bottom Summary Strip */
+    .summary-box {
+      border: 1.5px solid #000;
+      background: #111;
+      color: #fff;
+      padding: 5px 8px;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8pt;
+    }
+    .summary-box .highlight {
+      font-size: 11pt;
+      font-weight: 900;
+      color: #4ade80;
+      font-family: monospace;
+    }
+
+    .footer {
+      border-top: 1px solid #999;
+      margin-top: 6px;
+      padding-top: 2px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7pt;
+      color: #555;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Top Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="sub">University of Makati &bull; CCIS &bull; Technopreneurship &amp; RTS</div>
+        <h1>Hulog: Costing, Pricing &amp; Market Sizing (TAM SAM SOM)</h1>
+      </div>
+      <div class="header-right">
+        PROJECT DOSSIER<br>AY 2026–2027
+      </div>
+    </div>
+
+    <!-- Meta Bar -->
+    <div class="meta-bar">
+      <div><strong>Proponents:</strong> J. Camarador, L. Corpuz, A. Goze, J. Luzano</div>
+      <div><strong>Adviser:</strong> Engr. Bhai Nhuraisha I. Deplomo, PECE</div>
+    </div>
+
+    <!-- Concept Tagline -->
+    <div class="concept-box">
+      <strong>The Idea:</strong> Autonomous IoT gate drop vault with a heavy-duty 12V solenoid lock. Couriers deposit parcels using a <strong>single-use, expiring 6-digit PIN / dynamic QR</strong> without needing an app. Optical IR sensor &amp; door limit switch verify package entry and lock closure to stop parcel theft.
+    </div>
+
+    <!-- 2 Column Grid -->
+    <div class="grid">
+      
+      <!-- LEFT COLUMN: ITEM-BY-ITEM EXPENSE BREAKDOWN -->
+      <div class="col">
+        <h2 class="sec-title">
+          <span>1. Itemized Cost Breakdown</span>
+          <span class="font-mono">COGS: ₱2,000.00</span>
+        </h2>
+
+        <!-- Table: Materials -->
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>A. Materials Subsystem</th>
+              <th class="text-right">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ESP32 DevKit V1 (Wi-Fi/BLE Controller)</td>
+              <td class="text-right font-mono">₱240.00</td>
+            </tr>
+            <tr>
+              <td>12V 0.8A Electromagnetic Solenoid Lock</td>
+              <td class="text-right font-mono">₱190.00</td>
+            </tr>
+            <tr>
+              <td>12V 2A DC Power Adapter Supply</td>
+              <td class="text-right font-mono">₱115.00</td>
+            </tr>
+            <tr>
+              <td>0.96" Monochrome I2C OLED Display</td>
+              <td class="text-right font-mono">₱110.00</td>
+            </tr>
+            <tr>
+              <td>4x4 Matrix Membrane Keypad</td>
+              <td class="text-right font-mono">₱65.00</td>
+            </tr>
+            <tr>
+              <td>LM2596 DC-DC Buck Converter (12V to 5V)</td>
+              <td class="text-right font-mono">₱55.00</td>
+            </tr>
+            <tr>
+              <td>MC-38 Magnetic Door Reed Switch</td>
+              <td class="text-right font-mono">₱55.00</td>
+            </tr>
+            <tr>
+              <td>1-Channel 5V Optocoupler Relay</td>
+              <td class="text-right font-mono">₱45.00</td>
+            </tr>
+            <tr>
+              <td>Optical IR Parcel Presence Sensor</td>
+              <td class="text-right font-mono">₱25.00</td>
+            </tr>
+            <tr>
+              <td>5V Active Piezo Audio Buzzer</td>
+              <td class="text-right font-mono">₱20.00</td>
+            </tr>
+            <tr>
+              <td>Internal Wire Harness, DC Jacks &amp; Connectors</td>
+              <td class="text-right font-mono">₱80.00</td>
+            </tr>
+            <tr style="background:#efefef;">
+              <td class="bold">Subtotal — Electronics Subsystem:</td>
+              <td class="text-right font-mono bold">₱1,000.00</td>
+            </tr>
+            <tr>
+              <td>1.2mm Galvanized Metal Enclosure (Laser-cut)</td>
+              <td class="text-right font-mono">₱500.00</td>
+            </tr>
+            <tr>
+              <td>Outdoor Anti-Rust Powder Coating</td>
+              <td class="text-right font-mono">₱120.00</td>
+            </tr>
+            <tr>
+              <td>Continuous Piano Hinges, Gaskets &amp; Screws</td>
+              <td class="text-right font-mono">₱80.00</td>
+            </tr>
+            <tr style="background:#e2e2e2;">
+              <td class="bold">Subtotal — Direct Materials (BOM):</td>
+              <td class="text-right font-mono bold">₱1,700.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Table: Manpower & Overhead -->
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>B. Manpower / Labor (2.0 hrs @ ₱90/hr)</th>
+              <th class="text-right">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Circuit Wiring, Buck Tuning &amp; Soldering (45m)</td>
+              <td class="text-right font-mono">₱67.50</td>
+            </tr>
+            <tr>
+              <td>Solenoid Lock &amp; Mechanical Integration (45m)</td>
+              <td class="text-right font-mono">₱67.50</td>
+            </tr>
+            <tr>
+              <td>Firmware Flashing &amp; QA Door Cycle Test (30m)</td>
+              <td class="text-right font-mono">₱45.00</td>
+            </tr>
+            <tr style="background:#e2e2e2;">
+              <td class="bold">Subtotal — Direct Manpower:</td>
+              <td class="text-right font-mono bold">₱180.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>C. Overhead &amp; Packaging</th>
+              <th class="text-right">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Packaging Box, Foam Cushioning &amp; Manual</td>
+              <td class="text-right font-mono">₱65.00</td>
+            </tr>
+            <tr>
+              <td>Consumables (Solder, heat shrink, zip ties)</td>
+              <td class="text-right font-mono">₱25.00</td>
+            </tr>
+            <tr>
+              <td>Shop Electricity &amp; Tool Wear Allocation</td>
+              <td class="text-right font-mono">₱30.00</td>
+            </tr>
+            <tr style="background:#e2e2e2;">
+              <td class="bold">Subtotal — Overhead &amp; Packaging:</td>
+              <td class="text-right font-mono bold">₱120.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- RIGHT COLUMN: PRICING & MARKET SIZING -->
+      <div class="col">
+        
+        <!-- Pricing Section -->
+        <h2 class="sec-title">
+          <span>2. Pricing &amp; Profitability</span>
+          <span class="font-mono">PRICE: ₱3,499.00</span>
+        </h2>
+
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>Financial Metric</th>
+              <th class="text-right">Amount (PHP)</th>
+              <th class="text-center">Margin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bold">Retail Price (Base Unit)</td>
+              <td class="text-right font-mono bold">₱3,499.00</td>
+              <td class="text-center">&mdash;</td>
+            </tr>
+            <tr>
+              <td>Unit COGS (Materials+Labor+Overhead)</td>
+              <td class="text-right font-mono">₱2,000.00</td>
+              <td class="text-center">&mdash;</td>
+            </tr>
+            <tr style="background:#f0fff4;">
+              <td class="bold">Gross Profit per Unit</td>
+              <td class="text-right font-mono bold" style="color:#15803d;">₱1,499.00</td>
+              <td class="text-center font-mono bold" style="color:#15803d;">42.8%</td>
+            </tr>
+            <tr>
+              <td>Allocated OPEX (Marketing, shipping, warranty)</td>
+              <td class="text-right font-mono">₱500.00</td>
+              <td class="text-center">&mdash;</td>
+            </tr>
+            <tr style="background:#e6fffa;">
+              <td class="bold">Net Profit per Unit</td>
+              <td class="text-right font-mono bold" style="color:#0f766e;">₱999.00</td>
+              <td class="text-center font-mono bold" style="color:#0f766e;">28.5%</td>
+            </tr>
+            <tr>
+              <td>Pro Tier (w/ Li-Ion Battery Backup)</td>
+              <td class="text-right font-mono bold">₱4,499.00</td>
+              <td class="text-center font-mono">45.5%</td>
+            </tr>
+            <tr>
+              <td>Optional SaaS (Dorm / Boarding House)</td>
+              <td class="text-right font-mono bold">₱199.00/mo</td>
+              <td class="text-center font-mono">>85%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Market Sizing (TAM SAM SOM) -->
+        <h2 class="sec-title" style="margin-top: 8px;">
+          <span>3. Market Sizing (TAM &bull; SAM &bull; SOM)</span>
+        </h2>
+
+        <!-- TAM Card -->
+        <div class="metric-card tam">
+          <div class="title">
+            <span>TAM: Total Addressable Market</span>
+            <span class="font-mono">₱38.5 Billion</span>
+          </div>
+          <div class="desc">
+            <strong>Scope:</strong> Total Philippine online shopping households.<br>
+            &bull; ~11.0M active e-commerce buying households nationwide.<br>
+            &bull; <strong>Formula:</strong> $11,000,000\text{ households} \times \text{₱3,500} = \mathbf{₱38.5\text{B}}$ (~$687M USD).
+          </div>
+        </div>
+
+        <!-- SAM Card -->
+        <div class="metric-card sam">
+          <div class="title">
+            <span>SAM: Serviceable Addressable Market</span>
+            <span class="font-mono">₱5.25 Billion</span>
+          </div>
+          <div class="desc">
+            <strong>Scope:</strong> Mega Manila &amp; Key Metros (NCR, Cavite, Laguna, Rizal).<br>
+            &bull; Standalone gated homes, townhouses &amp; student dorms with regular unattended delivery issues (~1.5M target dwellings).<br>
+            &bull; <strong>Formula:</strong> $1,500,000\text{ units} \times \text{₱3,500} = \mathbf{₱5.25\text{B}}$ (~$93.7M USD).
+          </div>
+        </div>
+
+        <!-- SOM Card -->
+        <div class="metric-card som">
+          <div class="title">
+            <span>SOM: Serviceable Obtainable Market</span>
+            <span class="font-mono">₱35.0 Million</span>
+          </div>
+          <div class="desc">
+            <strong>Scope:</strong> 3-Year Realistic Sales Goal (~0.65% share of SAM).<br>
+            &bull; <strong>10,000 units</strong> sold via U-Belt dorms &amp; HOA partnerships.<br>
+            &bull; <strong>Formula:</strong> $10,000\text{ units} \times \text{₱3,500} = \mathbf{₱35.0\text{M}}$ hardware.<br>
+            &bull; <em>Plus SaaS:</em> 1,200 dorms @ ₱199/mo = <strong>+₱2.86M/yr</strong>.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Highlight Banner -->
+    <div class="summary-box">
+      <div><strong>COGS:</strong> ₱2,000.00 &nbsp;|&nbsp; <strong>RETAIL:</strong> ₱3,499.00 &nbsp;|&nbsp; <strong>GROSS MARGIN:</strong> 42.8%</div>
+      <div class="highlight">SOM: ₱35,000,000.00 (10k Units)</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div>Project Hulog &bull; College of Computer Science &bull; University of Makati</div>
+      <div>1/2 Paper Pitch Summary Sheet &bull; Academic Year 2026–2027</div>
+    </div>
+
+  </div>
+</body>
+</html>

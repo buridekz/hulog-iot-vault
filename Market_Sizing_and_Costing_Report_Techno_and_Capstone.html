@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Market Sizing (TAM, SAM, SOM) & Product Costing Report — Techno & Capstone Projects</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      color: #1f2421;
+      background: #fff;
+      font-size: 9pt;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 12mm 14mm;
+    }
+    .page {
+      width: 100%;
+      max-width: 182mm;
+      margin: 0 auto;
+    }
+    .page-break {
+      page-break-before: always;
+      padding-top: 8px;
+    }
+
+    /* Header */
+    .report-header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .inst-block {
+      flex: 1;
+    }
+    .inst-name {
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .report-title {
+      font-size: 13pt;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      line-height: 1.15;
+      margin: 2px 0;
+      letter-spacing: 0.2px;
+    }
+    .report-subtitle {
+      font-size: 8.5pt;
+      color: #475569;
+      font-weight: 500;
+    }
+    .dossier-tag {
+      text-align: right;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      font-weight: 700;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 4px 8px;
+      border-radius: 3px;
+      color: #1e293b;
+      line-height: 1.3;
+    }
+
+    /* Metadata Block */
+    .meta-card {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      font-size: 8.3pt;
+      border-radius: 2px;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 105px 1fr 100px 1fr;
+      row-gap: 3px;
+      column-gap: 8px;
+    }
+    .meta-label {
+      font-weight: 700;
+      color: #334155;
+    }
+    .meta-val {
+      color: #0f172a;
+    }
+
+    /* Headings */
+    h2.section-heading {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      border-bottom: 1.5px solid #0f172a;
+      padding-bottom: 2px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h2.section-heading .sec-id {
+      background: #0f172a;
+      color: #fff;
+      font-size: 7.8pt;
+      padding: 1px 5px;
+      border-radius: 2px;
+      margin-right: 5px;
+    }
+
+    h3.sub-heading {
+      font-size: 8.8pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 6px;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 6px;
+      line-height: 1.4;
+      font-size: 8.6pt;
+    }
+
+    /* Callout Note */
+    .callout {
+      border-left: 3px solid #0284c7;
+      background: #f0f9ff;
+      padding: 5px 8px;
+      margin: 6px 0;
+      font-size: 8.2pt;
+      line-height: 1.35;
+    }
+    .callout strong {
+      color: #0369a1;
+    }
+
+    .callout-amber {
+      border-left: 3px solid #d97706;
+      background: #fffbeb;
+      padding: 5px 8px;
+      margin: 6px 0;
+      font-size: 8.2pt;
+      line-height: 1.35;
+    }
+    .callout-amber strong {
+      color: #b45309;
+    }
+
+    /* Tables */
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8pt;
+      margin-bottom: 7px;
+    }
+    table.custom-table th, table.custom-table td {
+      border: 1px solid #94a3b8;
+      padding: 3px 5px;
+      vertical-align: middle;
+    }
+    table.custom-table th {
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: 700;
+      text-align: left;
+      font-size: 7.8pt;
+      text-transform: uppercase;
+    }
+    table.custom-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .bold { font-weight: 700; }
+
+    /* Market Cards */
+    .market-row {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 7px;
+    }
+    .market-col {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-top: 3px solid #0f172a;
+      background: #ffffff;
+      padding: 6px 8px;
+      border-radius: 2px;
+    }
+    .market-col.tam-box { border-top-color: #3b82f6; }
+    .market-col.sam-box { border-top-color: #0f172a; }
+    .market-col.som-box { border-top-color: #dc2626; background: #fef2f2; }
+
+    .market-col .badge {
+      font-size: 7.2pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #475569;
+    }
+    .market-col .amount {
+      font-size: 11pt;
+      font-weight: 900;
+      font-family: ui-monospace, monospace;
+      color: #0f172a;
+      margin: 1px 0 2px;
+    }
+    .market-col.som-box .amount {
+      color: #b91c1c;
+    }
+    .market-col .desc {
+      font-size: 7.6pt;
+      color: #334155;
+      line-height: 1.25;
+    }
+
+    /* Footer */
+    .report-footer {
+      border-top: 1px solid #cbd5e1;
+      padding-top: 4px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.3pt;
+      color: #64748b;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Document Header -->
+    <div class="report-header">
+      <div class="inst-block">
+        <div class="inst-name">University of Makati &bull; College of Computing and Information Sciences</div>
+        <div class="report-title">Market Sizing (TAM &bull; SAM &bull; SOM) &amp; Product Costing Report</div>
+        <div class="report-subtitle">Application of Chapter 3 Concepts to Technopreneurship (Hulog) and Capstone Projects</div>
+      </div>
+      <div class="dossier-tag">
+        ACADEMIC SUBMISSION<br>AY 2026–2027 &bull; 4TH YEAR
+      </div>
+    </div>
+
+    <!-- Metadata Block -->
+    <div class="meta-card">
+      <div class="meta-grid">
+        <div class="meta-label">Student / Proponent:</div>
+        <div class="meta-val"><strong>CORPUZ, Lance Josh M.</strong> (IV-BINS)</div>
+        <div class="meta-label">Course Subject:</div>
+        <div class="meta-val">Technopreneurship &amp; RTS</div>
+
+        <div class="meta-label">Techno Teammates:</div>
+        <div class="meta-val">J. Camarador, A. Goze, J. Luzano</div>
+        <div class="meta-label">Course Professor:</div>
+        <div class="meta-val">Engr. Bhai Nhuraisha I. Deplomo</div>
+
+        <div class="meta-label">Techno Project:</div>
+        <div class="meta-val"><strong>HULOG:</strong> IoT Dynamic QR/PIN Parcel Drop Vault</div>
+        <div class="meta-label">Capstone Project:</div>
+        <div class="meta-val">Closed-Loop WAN Self-Healing Framework</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Academic Review -->
+    <h2 class="section-heading">
+      <span><span class="sec-id">01</span> Review of Chapter 3: TAM, SAM, and SOM Framework</span>
+    </h2>
+    <p>
+      In Technopreneurship, assessing the commercial viability of a technical innovation requires defining how large the real opportunity is and how much of it we can realistically capture. Chapter 3 outlines the three-tiered market sizing framework:
+    </p>
+
+    <div class="market-row">
+      <div class="market-col tam-box">
+        <div class="badge">TAM &bull; Total Addressable Market</div>
+        <div class="amount">100% Demand</div>
+        <div class="desc">
+          The overall revenue opportunity available if our product achieved 100% market share with zero competitors and unrestricted distribution nationwide.
+        </div>
+      </div>
+      <div class="market-col sam-box">
+        <div class="badge">SAM &bull; Serviceable Addressable Market</div>
+        <div class="amount">Target Segment</div>
+        <div class="desc">
+          The portion of TAM that fits our specific product form factor, geographic reach, income class, and distribution channels (e.g., Mega Manila gated homes).
+        </div>
+      </div>
+      <div class="market-col som-box">
+        <div class="badge">SOM &bull; Serviceable Obtainable Market</div>
+        <div class="amount">Realistic Capture</div>
+        <div class="desc">
+          The realistic market share we can capture over the first 1 to 3 years, constrained by production capacity, initial capital, and early marketing beachheads.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Engineering Rationale for Product Pricing:</strong> Market sizing cannot be separated from unit economics. Before calculating TAM/SAM/SOM value, we must determine the <strong>Target Selling Price</strong> through bottom-up expense accounting: <em>Total Unit Cost (COGS) = Direct Materials (BOM) + Direct Labor (Assembly/QA) + Manufacturing Overhead</em>, followed by a viable commercial gross profit markup (40%–55%).
+    </div>
+
+    <!-- Section 2: Techno Project -->
+    <h2 class="section-heading">
+      <span><span class="sec-id">02</span> Application to TECHNO Project: HULOG (Smart Parcel Drop Vault)</span>
+    </h2>
+    <p>
+      <strong>Product Summary:</strong> An IoT-enabled perimeter gate parcel vault designed for residential townhouses, dormitories, and boarding houses. Using an ESP32 microcontroller, a 12V 1000N solenoid lock, and an internal optical IR sensor, recipients generate a single-use, 6-digit PIN or dynamic QR code that invalidates immediately after the delivery rider deposits the package and closes the door.
+    </p>
+
+    <h3 class="sub-heading">A. Itemized Cost &amp; Expense Breakdown (COGS per Unit)</h3>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Subsystem / Item</th>
+          <th style="width: 50%;">Technical Specification &amp; Component Purpose</th>
+          <th class="text-right" style="width: 22%;">Unit Cost (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">ESP32 DevKit V1</td>
+          <td>Dual-Core 240MHz, 4MB Flash, Wi-Fi &amp; BLE; runs FreeRTOS control loops</td>
+          <td class="text-right mono">₱240.00</td>
+        </tr>
+        <tr>
+          <td class="bold">12V Solenoid Latch</td>
+          <td>12V 0.8A heavy-duty cabinet electromagnetic tongue lock (1000N force)</td>
+          <td class="text-right mono">₱190.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Power Subsystem</td>
+          <td>12V 2A DC Adapter (₱115) + LM2596 Buck Converter (₱55) + DC Jacks (₱20)</td>
+          <td class="text-right mono">₱190.00</td>
+        </tr>
+        <tr>
+          <td class="bold">User Display &amp; Keypad</td>
+          <td>0.96" I2C OLED SSD1306 (₱110) + 4x4 Weatherproof Membrane Keypad (₱65)</td>
+          <td class="text-right mono">₱175.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Sensors &amp; Relay</td>
+          <td>MC-38 Magnetic Door Switch (₱55) + 1-Ch Relay (₱45) + Optical IR Sensor (₱25)</td>
+          <td class="text-right mono">₱125.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Audio Alert &amp; Wiring</td>
+          <td>5V Active Buzzer (₱20) + Wire harnesses, terminal blocks &amp; connectors (₱60)</td>
+          <td class="text-right mono">₱80.00</td>
+        </tr>
+        <tr style="background:#f1f5f9;">
+          <td colspan="2" class="bold text-right">Subtotal &mdash; Core Electronics Subsystem:</td>
+          <td class="text-right mono bold">₱1,000.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Sheet Metal Enclosure</td>
+          <td>1.2mm Galvanized Iron (GI) steel box with anti-theft baffle (laser cut)</td>
+          <td class="text-right mono">₱500.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Powder Coating Finish</td>
+          <td>Electrostatic anti-rust, weather-resistant outdoor finish</td>
+          <td class="text-right mono">₱120.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Mechanical Hardware</td>
+          <td>Stainless continuous piano hinge, rubber door seals &amp; security screws</td>
+          <td class="text-right mono">₱80.00</td>
+        </tr>
+        <tr style="background:#e2e8f0;">
+          <td colspan="2" class="bold text-right">1. TOTAL DIRECT MATERIALS (BOM):</td>
+          <td class="text-right mono bold">₱1,700.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Direct Labor (Manpower)</td>
+          <td>2.0 hours technician labor @ ₱90.00/hr (Wiring: ₱67.50, Assembly: ₱67.50, QA: ₱45.00)</td>
+          <td class="text-right mono">₱180.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Manufacturing Overhead</td>
+          <td>Packaging box &amp; foam (₱65) + consumables (₱25) + shop electricity/tool wear (₱30)</td>
+          <td class="text-right mono">₱120.00</td>
+        </tr>
+        <tr style="background:#0f172a; color:#fff;">
+          <td colspan="2" class="bold text-right" style="color:#fff;">TOTAL COST OF GOODS SOLD (COGS) PER UNIT:</td>
+          <td class="text-right mono bold" style="color:#fff;">₱2,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-heading">B. Target Price Determination &amp; Profit Margins</h3>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Commercial Model</th>
+          <th class="text-right">Target Price</th>
+          <th class="text-right">Unit COGS</th>
+          <th class="text-right">Gross Profit</th>
+          <th class="text-center">Gross Margin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Hulog Core (Standard Turnkey Unit)</td>
+          <td class="text-right mono bold" style="color:#0284c7;">₱3,499.00</td>
+          <td class="text-right mono">₱2,000.00</td>
+          <td class="text-right mono bold">₱1,499.00</td>
+          <td class="text-center bold">42.8%</td>
+        </tr>
+        <tr>
+          <td class="bold">Hulog Pro (w/ Li-Ion Battery Backup)</td>
+          <td class="text-right mono bold">₱4,499.00</td>
+          <td class="text-right mono">₱2,450.00</td>
+          <td class="text-right mono bold">₱2,049.00</td>
+          <td class="text-center bold">45.5%</td>
+        </tr>
+        <tr>
+          <td class="bold">Boarding House SaaS Portal (Monthly)</td>
+          <td class="text-right mono bold">₱199.00/mo</td>
+          <td class="text-right mono">₱25.00/mo</td>
+          <td class="text-right mono bold">₱174.00/mo</td>
+          <td class="text-center bold">87.4%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-heading">C. Market Sizing Calculations (Hulog)</h3>
+    <div class="market-row">
+      <div class="market-col tam-box">
+        <div class="badge">TAM &bull; Nationwide</div>
+        <div class="amount">₱38.5 Billion</div>
+        <div class="desc">
+          <strong>11,000,000</strong> e-commerce households in PH &times; <strong>₱3,500</strong> retail price. Basis: ~42% of 26.4M PSA households regularly buy online.
+        </div>
+      </div>
+      <div class="market-col sam-box">
+        <div class="badge">SAM &bull; Mega Manila</div>
+        <div class="desc">
+          <div class="amount" style="font-size:10pt;">₱5.25 Billion</div>
+          <strong>1,500,000</strong> gated houses, townhouses, and dorms in NCR + CALABARZON (Class B/C with home Wi-Fi) &times; <strong>₱3,500</strong>.
+        </div>
+      </div>
+      <div class="market-col som-box">
+        <div class="badge">SOM &bull; 3-Year Target</div>
+        <div class="amount">₱35.0 Million</div>
+        <div class="desc">
+          <strong>10,000 units</strong> (~0.65% SAM share) &times; ₱3,500 hardware. Plus ~1,200 dorm subscriptions = <strong>+₱2.86M/yr SaaS</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Break for Capstone Project & Synthesis -->
+    <div class="page-break"></div>
+
+    <!-- Section 3: Capstone Project -->
+    <h2 class="section-heading">
+      <span><span class="sec-id">03</span> Application to CAPSTONE Project: Multi-Branch Hybrid WAN Self-Healing Framework</span>
+    </h2>
+    <p>
+      <strong>Product Summary:</strong> An enterprise network infrastructure and telemetry software suite designed for distributed public agencies and enterprises (e.g., regional offices, BPOs). It integrates edge Prometheus probe exporters, a centralized decision controller, and automated MAPE-K closed-loop routing failover to autonomously mitigate brownouts and ISP degradation without requiring a full SD-WAN rip-and-replace.
+    </p>
+
+    <h3 class="sub-heading">A. Production &amp; Deployment Cost Breakdown (Per Branch Appliance &amp; Controller Package)</h3>
+    <p>
+      Unlike a mass-market hardware consumer gadget, enterprise network software is sold as a <strong>deployment package (On-Prem Edge Probe Appliance + Central Controller License + 1-Year SLA Support)</strong> for branch deployments:
+    </p>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Expense Category</th>
+          <th style="width: 50%;">Scope, Tools &amp; Implementation Cost Details</th>
+          <th class="text-right" style="width: 22%;">Cost Allocation (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Edge Telemetry Probe Hardware</td>
+          <td>Industrial fanless Quad-Core x86 Micro-PC (Dual GbE, 8GB RAM, DIN-rail mount) for local edge ICMP/eBPF probe exports</td>
+          <td class="text-right mono">₱8,500.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Controller Cloud / Server Allocation</td>
+          <td>Amortized annual server instance (Docker, Prometheus, Grafana, TimescaleDB, alerting broker) allocated per branch node</td>
+          <td class="text-right mono">₱2,400.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Engineering Manpower (Setup &amp; Config)</td>
+          <td>Network automation &amp; DevOps engineer labor (WAN router integration, BGP/tunnel failover testing in EVE-NG testbed, 16 hrs @ ₱350/hr)</td>
+          <td class="text-right mono">₱5,600.00</td>
+        </tr>
+        <tr>
+          <td class="bold">On-Site Commissioning &amp; QA</td>
+          <td>Field technician site visit, physical rack mounting, failover threshold validation, and SME handover</td>
+          <td class="text-right mono">₱2,500.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Administrative &amp; Documentation</td>
+          <td>SOP user manual, compliance checklists, tamper-evident security labels, and warranty buffer</td>
+          <td class="text-right mono">₱1,000.00</td>
+        </tr>
+        <tr style="background:#0f172a; color:#fff;">
+          <td colspan="2" class="bold text-right" style="color:#fff;">TOTAL COST OF DEPLOYMENT PER BRANCH SITE:</td>
+          <td class="text-right mono bold" style="color:#fff;">₱20,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-heading">B. Enterprise Target Price Determination &amp; Licensing Model</h3>
+    <p>
+      We benchmark against proprietary SD-WAN vendors (Cisco Meraki, Fortinet, Silver Peak) which charge over ₱60,000–₱120,000 per branch annually. Our vendor-agnostic framework provides a highly competitive alternative:
+    </p>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Offering Tier</th>
+          <th class="text-right">Target Price</th>
+          <th class="text-right">Unit COGS</th>
+          <th class="text-right">Gross Profit</th>
+          <th class="text-center">Gross Margin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Per-Branch Appliance + 1-Yr License</td>
+          <td class="text-right mono bold" style="color:#0284c7;">₱35,000.00</td>
+          <td class="text-right mono">₱20,000.00</td>
+          <td class="text-right mono bold">₱15,000.00</td>
+          <td class="text-center bold">42.9%</td>
+        </tr>
+        <tr>
+          <td class="bold">Annual Enterprise Support Renewal (Year 2+)</td>
+          <td class="text-right mono bold">₱8,500.00/yr</td>
+          <td class="text-right mono">₱2,400.00/yr</td>
+          <td class="text-right mono bold">₱6,100.00/yr</td>
+          <td class="text-center bold">71.8%</td>
+        </tr>
+        <tr>
+          <td class="bold">Turnkey 20-Branch Enterprise Rollout</td>
+          <td class="text-right mono bold">₱650,000.00</td>
+          <td class="text-right mono">₱380,000.00</td>
+          <td class="text-right mono bold">₱270,000.00</td>
+          <td class="text-center bold">41.5%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-heading">C. Market Sizing Calculations (Capstone Project: Enterprise WANs)</h3>
+    <div class="market-row">
+      <div class="market-col tam-box">
+        <div class="badge">TAM &bull; Philippine Enterprise WANs</div>
+        <div class="amount">₱2.80 Billion</div>
+        <div class="desc">
+          <strong>80,000 total branch sites</strong> across government agencies, banks, BPOs, and retail chains nationwide &times; <strong>₱35,000</strong> per branch deployment.
+        </div>
+      </div>
+      <div class="market-col sam-box">
+        <div class="badge">SAM &bull; Public Agencies &amp; Medium BPOs</div>
+        <div class="amount" style="font-size:10pt;">₱420.0 Million</div>
+        <div class="desc">
+          <strong>12,000 distributed regional/district offices</strong> of national government agencies and regional mid-sized IT/BPO offices operating hybrid dual-ISP links &times; <strong>₱35,000</strong>.
+        </div>
+      </div>
+      <div class="market-col som-box">
+        <div class="badge">SOM &bull; Initial 3-Year Agency Beachhead</div>
+        <div class="amount">₱10.5 Million</div>
+        <div class="desc">
+          <strong>300 branch sites</strong> across 3–5 public agency partners (like our capstone target agency with 200+ district offices) &times; ₱35,000 = <strong>₱10.5M</strong>, plus recurring SLA renewals.
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Comparative Synthesis -->
+    <h2 class="section-heading">
+      <span><span class="sec-id">04</span> Comparative Synthesis: B2C IoT vs. B2B Enterprise Infrastructure</span>
+    </h2>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Dimension</th>
+          <th style="width: 39%;">Techno Project: HULOG (IoT Vault)</th>
+          <th style="width: 39%;">Capstone Project: Self-Healing Hybrid WAN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Market Nature</td>
+          <td><strong>B2C / Consumer &amp; Micro-Rental:</strong> High volume, mass residential e-commerce buyers &amp; landlords.</td>
+          <td><strong>B2B / Government Enterprise:</strong> Low volume, high contract value, multi-office branch networks.</td>
+        </tr>
+        <tr>
+          <td class="bold">Production Cost (COGS)</td>
+          <td><strong>₱2,000.00</strong> (₱1,700 materials + ₱180 labor + ₱120 overhead).</td>
+          <td><strong>₱20,000.00</strong> per branch (₱8.5k probe + ₱5.6k engineering + ₱2.4k cloud/server + ₱3.5k field/QA).</td>
+        </tr>
+        <tr>
+          <td class="bold">Target Selling Price</td>
+          <td><strong>₱3,499.00</strong> (42.8% gross margin) + ₱199/mo SaaS.</td>
+          <td><strong>₱35,000.00</strong> per branch (42.9% gross margin) + ₱8.5k/yr SLA.</td>
+        </tr>
+        <tr>
+          <td class="bold">TAM Market Size</td>
+          <td><strong>₱38.5 Billion</strong> (11.0M online buying households).</td>
+          <td><strong>₱2.80 Billion</strong> (80,000 enterprise branch sites in PH).</td>
+        </tr>
+        <tr>
+          <td class="bold">SAM Target Segment</td>
+          <td><strong>₱5.25 Billion</strong> (1.5M Mega Manila gated homes &amp; dorms).</td>
+          <td><strong>₱420.0 Million</strong> (12,000 government &amp; BPO hybrid WAN branches).</td>
+        </tr>
+        <tr>
+          <td class="bold">3-Year SOM Goal</td>
+          <td><strong>₱35.0 Million</strong> (10,000 units sold @ 0.65% SAM share).</td>
+          <td><strong>₱10.5 Million</strong> (300 branch deployments across 3–5 agencies).</td>
+        </tr>
+        <tr>
+          <td class="bold">Adoption Bottleneck</td>
+          <td>Gate installation physical mounting &amp; user habit shift.</td>
+          <td>Government procurement bidding cycles (RA 9184) &amp; security approval.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-amber">
+      <strong>Key Takeaway:</strong> Hulog relies on a <em>high-volume, consumer distribution model</em> where affordability (sub-₱3,500 retail) and rapid self-installation drive adoption. Conversely, our Capstone project operates on a <em>high-value enterprise systems model</em> where reliability, vendor-independence, and uptime preservation justify higher per-site integration pricing. Both maintain a healthy <strong>~42% to 43% gross margin</strong>, ensuring strong long-term commercial sustainability.
+    </div>
+
+    <!-- Student Sign-off -->
+    <div style="margin-top: 10px; border-top: 1px dashed #64748b; padding-top: 6px; display: flex; justify-content: space-between; font-size: 7.8pt;">
+      <div>
+        <strong>Prepared and Submitted by:</strong><br>
+        <strong>LANCE JOSH M. CORPUZ</strong><br>
+        Student Researcher &bull; IV-BINS, CCIS, University of Makati
+      </div>
+      <div style="text-align: right;">
+        <strong>Course Adviser:</strong><br>
+        <strong>ENGR. BHAI NHURAISHA I. DEPLOMO</strong><br>
+        Technopreneurship &bull; CCIS Faculty / CEO, Erovoutika
+      </div>
+    </div>
+
+    <!-- Report Footer -->
+    <div class="report-footer">
+      <div>University of Makati &bull; College of Computing and Information Sciences &bull; Technopreneurship &amp; RTS</div>
+      <div>Official Chapter 3 Market Sizing &amp; Costing Dossier &bull; Page 2 of 2</div>
+    </div>
+
+  </div>
+</body>
+</html>

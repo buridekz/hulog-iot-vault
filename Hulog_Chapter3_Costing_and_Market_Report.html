@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chapter 3 Report: Market Sizing & Product Costing — Project Hulog</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Georgia", "Times New Roman", Times, serif;
+      background: #ffffff;
+      color: #111111;
+      font-size: 9.8pt;
+      line-height: 1.55;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 16mm 20mm;
+    }
+
+    .report-container {
+      width: 100%;
+      max-width: 170mm;
+      margin: 0 auto;
+    }
+
+    /* Page Breaks - clean separation with no orphan content */
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+      padding-top: 10px;
+    }
+
+    h2, h3 {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    table, .market-entry {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Header */
+    .univ-header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid #111111;
+    }
+
+    .univ-header .institution {
+      font-size: 9.5pt;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
+
+    .univ-header .college {
+      font-size: 9pt;
+      color: #333333;
+      margin-bottom: 6px;
+    }
+
+    .univ-header h1 {
+      font-size: 13.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 5px 0;
+    }
+
+    .univ-header .course-info {
+      font-size: 9pt;
+      color: #333333;
+      font-style: italic;
+    }
+
+    /* Meta Table */
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 18px;
+      font-size: 9pt;
+    }
+
+    .meta-table td {
+      padding: 3px 0;
+      vertical-align: top;
+    }
+
+    .meta-table .label {
+      width: 120px;
+      font-weight: bold;
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 10.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #111111;
+    }
+
+    h3 {
+      font-size: 9.5pt;
+      font-weight: bold;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 10px;
+      text-indent: 22px;
+    }
+
+    p.no-indent {
+      text-indent: 0;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 5px;
+      text-align: justify;
+    }
+
+    /* Tables (Clean Academic Style - Top, Header, Bottom borders only, strictly no colors) */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 16px 0;
+      font-size: 8.8pt;
+    }
+
+    table.academic-table th,
+    table.academic-table td {
+      padding: 5px 7px;
+      vertical-align: middle;
+      border-bottom: 1px solid #cccccc;
+    }
+
+    table.academic-table th {
+      border-top: 1.5px solid #111111;
+      border-bottom: 1.5px solid #111111;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    table.academic-table tr.total-row td {
+      border-top: 1.5px solid #111111;
+      border-bottom: 1.5px solid #111111;
+      font-weight: bold;
+    }
+
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .font-mono { font-family: "Courier New", Courier, monospace; }
+
+    /* Market Block (Uncluttered, black-and-white, generous breathing room) */
+    .market-entry {
+      margin-bottom: 14px;
+      padding-left: 12px;
+      border-left: 2px solid #111111;
+    }
+
+    .market-entry .market-name {
+      font-weight: bold;
+      font-size: 9.5pt;
+      margin-bottom: 2px;
+    }
+
+    .market-entry .market-calc {
+      font-family: "Courier New", Courier, monospace;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .market-entry .market-text {
+      font-size: 8.8pt;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #111111;
+      margin-top: 25px;
+      padding-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="report-container">
+
+    <!-- ========================================== -->
+    <!-- PAGE 1: CHAPTER 3 REVIEW & PROJECT OVERVIEW -->
+    <!-- ========================================== -->
+
+    <!-- University & Document Header -->
+    <div class="univ-header">
+      <div class="institution">University of Makati</div>
+      <div class="college">College of Computing and Information Sciences</div>
+      <h1>Chapter 3 Report: Market Sizing &amp; Product Costing</h1>
+      <div class="course-info">Technopreneurship &bull; Academic Year 2026–2027</div>
+    </div>
+
+    <!-- Student & Project Information -->
+    <table class="meta-table">
+      <tr>
+        <td class="label">Project Title:</td>
+        <td><strong>HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Proponents:</td>
+        <td>CAMARADOR, Jhorenz S. &bull; CORPUZ, Lance Josh M. &bull; GOZE, AJ M. &bull; LUZANO, Justin Mark D.</td>
+      </tr>
+      <tr>
+        <td class="label">Course / Year:</td>
+        <td>BSIT — 4th Year (IV-BINS) &bull; Technopreneurship</td>
+      </tr>
+      <tr>
+        <td class="label">Professor / Adviser:</td>
+        <td>Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT</td>
+      </tr>
+    </table>
+
+    <!-- Section 1 -->
+    <h2>1. Review of Chapter 3: TAM, SAM, and SOM Framework</h2>
+    
+    <p>
+      Chapter 3 provides the foundational methodologies for identifying market opportunities and sizing target markets. In technopreneurship, market sizing allows founders and investors to understand the scale of a problem, determine commercial feasibility, and avoid pursuing an innovation that has no paying audience. The framework breaks down the potential market into three distinct, realistic layers:
+    </p>
+
+    <ul>
+      <li>
+        <strong>TAM (Total Addressable Market):</strong> The maximum theoretical demand for a product or service if 100% market share were captured nationwide. It represents the total population of individuals or businesses that experience the problem and could benefit from the solution, assuming no competition and zero distribution barriers.
+      </li>
+      <li>
+        <strong>SAM (Serviceable Addressable Market):</strong> The specific subset of the TAM that our product can realistically serve based on our chosen business model, physical product design, technical constraints, geographic coverage, and customer income level. It eliminates demographics that do not match our channel or form factor.
+      </li>
+      <li>
+        <strong>SOM (Serviceable Obtainable Market):</strong> The practical, realistic portion of the SAM that our team can capture during the first 1 to 3 years of commercial operations. This is directly constrained by early production limits, working capital, student sales bandwidth, and initial target beachheads.
+      </li>
+    </ul>
+
+    <p>
+      Furthermore, Chapter 3 emphasizes that market sizing cannot be calculated in a vacuum—it requires an accurate <strong>Target Selling Price</strong>. Deriving an accurate price demands bottom-up expense accounting, where direct materials, labor/manpower, and production overhead are itemized to determine the unit Cost of Goods Sold (COGS).
+    </p>
+
+    <!-- Section 2 -->
+    <h2>2. Project Overview &amp; Problem Statement</h2>
+
+    <p>
+      <strong>Hulog</strong> is an autonomous, smart parcel drop vault installed at residential perimeter gates, townhouses, and student dormitories.
+    </p>
+
+    <p>
+      Over 65% of e-commerce orders in the Philippines (Shopee, Lazada, TikTok Shop) are prepaid through e-wallets such as GCash and Maya. However, because working homeowners and students are frequently away during daytime courier delivery windows, couriers often throw packages over gates or leave them exposed on doorsteps. This leads to rampant parcel theft, weather damage, or delivery rescheduling. Traditional padlocks require physical keys that cannot be shared remotely, while static QR stickers on mailboxes are easily photocopied or cloned.
+    </p>
+
+    <p>
+      Hulog solves this by using dynamic, single-use access credentials. When a parcel is scheduled, the owner generates a 6-digit PIN or dynamic QR code valid for 15 to 30 minutes. The courier punches the PIN on a weatherproof 4x4 keypad with zero mobile app downloads. An ESP32 microcontroller triggers a 12V electromagnetic solenoid lock, an internal optical infrared (IR) sensor verifies parcel placement, a door switch confirms closure, and the single-use token immediately invalidates while sending an instant confirmation to the recipient.
+    </p>
+
+    <div class="footer">
+      <div>Project Hulog &bull; College of Computing and Information Sciences &bull; University of Makati</div>
+      <div>Page 1 of 3</div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- PAGE 2: COST COMPUTATION & PRICING         -->
+    <!-- ========================================== -->
+    <div class="page-break"></div>
+
+    <!-- Section 3 -->
+    <h2>3. Product Expense &amp; Cost Computation (Unit COGS)</h2>
+
+    <p class="no-indent">
+      To calculate the unit cost of a commercial finished vault, production expenses are divided into direct materials, direct manpower, and manufacturing overhead based on batch manufacturing runs.
+    </p>
+
+    <h3>A. Direct Material Costs (Bill of Materials)</h3>
+
+    <table class="academic-table">
+      <thead>
+        <tr>
+          <th style="width: 35%;">Component / Subsystem</th>
+          <th style="width: 45%;">Engineering Description &amp; Function</th>
+          <th class="text-right" style="width: 20%;">Cost (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ESP32 DevKit V1</td>
+          <td>Dual-Core 240MHz, Wi-Fi/BLE controller running FreeRTOS</td>
+          <td class="text-right font-mono">₱240.00</td>
+        </tr>
+        <tr>
+          <td>12V Solenoid Latch Lock</td>
+          <td>12V 0.8A heavy-duty cabinet electromagnetic tongue latch</td>
+          <td class="text-right font-mono">₱190.00</td>
+        </tr>
+        <tr>
+          <td>12V 2A DC Power Adapter</td>
+          <td>220V AC to 12V DC power supply adapter</td>
+          <td class="text-right font-mono">₱115.00</td>
+        </tr>
+        <tr>
+          <td>0.96" I2C OLED Display</td>
+          <td>SSD1306 monochrome screen for dynamic QR and PIN prompts</td>
+          <td class="text-right font-mono">₱110.00</td>
+        </tr>
+        <tr>
+          <td>4x4 Matrix Membrane Keypad</td>
+          <td>16-key weather-resistant keypad for courier PIN entry</td>
+          <td class="text-right font-mono">₱65.00</td>
+        </tr>
+        <tr>
+          <td>LM2596 Buck Converter</td>
+          <td>Steps 12V down to 5V to power ESP32 from a single power line</td>
+          <td class="text-right font-mono">₱55.00</td>
+        </tr>
+        <tr>
+          <td>MC-38 Magnetic Door Switch</td>
+          <td>Normally closed reed switch to verify door closure</td>
+          <td class="text-right font-mono">₱55.00</td>
+        </tr>
+        <tr>
+          <td>1-Channel 5V Relay Module</td>
+          <td>Optocoupler isolation to switch 12V solenoid from ESP32 GPIO</td>
+          <td class="text-right font-mono">₱45.00</td>
+        </tr>
+        <tr>
+          <td>Optical IR Sensor Module</td>
+          <td>Infrared sensor to detect physical parcel presence inside vault</td>
+          <td class="text-right font-mono">₱25.00</td>
+        </tr>
+        <tr>
+          <td>5V Active Buzzer</td>
+          <td>Acoustic chime on unlock and alarm if door is held open</td>
+          <td class="text-right font-mono">₱20.00</td>
+        </tr>
+        <tr>
+          <td>Wiring Harness &amp; Terminals</td>
+          <td>Internal jumpers, terminal screw blocks, and DC jacks</td>
+          <td class="text-right font-mono">₱80.00</td>
+        </tr>
+        <tr>
+          <td>Sheet Metal Enclosure</td>
+          <td>1.2mm Galvanized Iron (GI) steel box with anti-fishing baffle</td>
+          <td class="text-right font-mono">₱500.00</td>
+        </tr>
+        <tr>
+          <td>Outdoor Powder Coating</td>
+          <td>Anti-rust, weather-resistant electrostatic matte finish</td>
+          <td class="text-right font-mono">₱120.00</td>
+        </tr>
+        <tr>
+          <td>Hardware Fittings</td>
+          <td>Stainless piano hinge, rubber weather gaskets, security screws</td>
+          <td class="text-right font-mono">₱80.00</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2">Subtotal &mdash; Direct Materials (BOM):</td>
+          <td class="text-right font-mono">₱1,700.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>B. Direct Manpower &bull; Labor Cost</h3>
+    <p class="no-indent">
+      Calculated based on standard Philippine electronics assembly rates of ₱90.00 per hour (2.0 hours total labor per unit):
+    </p>
+
+    <ul>
+      <li><strong>Wiring and Soldering (45 mins):</strong> Wire harness crimping, board soldering, buck converter calibration = <strong>₱67.50</strong></li>
+      <li><strong>Mechanical Assembly (45 mins):</strong> Solenoid alignment, keypad mounting, sensor installation = <strong>₱67.50</strong></li>
+      <li><strong>Firmware &amp; QA Testing (30 mins):</strong> ESP32 flashing, Wi-Fi pairing test, 10-cycle door lock inspection = <strong>₱45.00</strong></li>
+    </ul>
+    <p class="no-indent" style="text-align: right; font-weight: bold; margin-bottom: 12px;">
+      Subtotal &mdash; Direct Manpower: ₱180.00
+    </p>
+
+    <h3>C. Manufacturing Overhead &amp; Production Expenses</h3>
+    <ul>
+      <li><strong>Packaging &amp; Cushioning:</strong> Corrugated box, custom foam inserts, user quick-start manual = <strong>₱65.00</strong></li>
+      <li><strong>Assembly Consumables:</strong> Heat shrink, solder lead, cable ties, acrylic sealant = <strong>₱25.00</strong></li>
+      <li><strong>Shop Electricity &amp; Tool Depreciation:</strong> Power tools, soldering equipment allocation = <strong>₱30.00</strong></li>
+    </ul>
+    <p class="no-indent" style="text-align: right; font-weight: bold; margin-bottom: 12px;">
+      Subtotal &mdash; Manufacturing Overhead: ₱120.00
+    </p>
+
+    <table class="academic-table">
+      <tr class="total-row" style="font-size: 9.5pt;">
+        <td style="width: 75%;">TOTAL UNIT COST OF GOODS SOLD (COGS):</td>
+        <td class="text-right font-mono" style="width: 25%;">₱2,000.00</td>
+      </tr>
+    </table>
+
+    <!-- Section 4 -->
+    <h2>4. Target Price Determination &amp; Margins</h2>
+
+    <p>
+      Our pricing strategy is benchmarked against non-smart mechanical drop boxes (₱2,500 to ₱4,500) and commercial digital door locks (₱4,000 to ₱8,000). A base selling price of <strong>₱3,499.00</strong> establishes an accessible entry point while maintaining a healthy gross margin:
+    </p>
+
+    <table class="academic-table">
+      <thead>
+        <tr>
+          <th>Commercial Product Offering</th>
+          <th class="text-right">Unit COGS</th>
+          <th class="text-right">Selling Price</th>
+          <th class="text-right">Gross Profit</th>
+          <th class="text-center">Gross Margin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hulog Core</strong> (Standard Turnkey Unit)</td>
+          <td class="text-right font-mono">₱2,000.00</td>
+          <td class="text-right font-mono"><strong>₱3,499.00</strong></td>
+          <td class="text-right font-mono">₱1,499.00</td>
+          <td class="text-center font-mono">42.8%</td>
+        </tr>
+        <tr>
+          <td><strong>Hulog Pro</strong> (w/ Li-Ion Battery Backup)</td>
+          <td class="text-right font-mono">₱2,450.00</td>
+          <td class="text-right font-mono"><strong>₱4,499.00</strong></td>
+          <td class="text-right font-mono">₱2,049.00</td>
+          <td class="text-center font-mono">45.5%</td>
+        </tr>
+        <tr>
+          <td><strong>Multi-Tenant SaaS</strong> (Monthly Subscription)</td>
+          <td class="text-right font-mono">₱25.00/mo</td>
+          <td class="text-right font-mono"><strong>₱199.00/mo</strong></td>
+          <td class="text-right font-mono">₱174.00/mo</td>
+          <td class="text-center font-mono">87.4%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="no-indent">
+      <strong>Customer Value Anchor:</strong> Preventing the theft or weather destruction of just one mid-range parcel (sneakers, cosmetics, or smartphones averaging ₱3,000 to ₱15,000) completely pays for the entire lifetime cost of the vault.
+    </p>
+
+    <div class="footer">
+      <div>Project Hulog &bull; College of Computing and Information Sciences &bull; University of Makati</div>
+      <div>Page 2 of 3</div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- PAGE 3: MARKET SIZING (TAM SAM SOM) & CONCLUSION -->
+    <!-- ========================================== -->
+    <div class="page-break"></div>
+
+    <!-- Section 5 -->
+    <h2>5. Application of Market Sizing (TAM &bull; SAM &bull; SOM)</h2>
+
+    <p class="no-indent">
+      Applying Chapter 3 formulas using Philippine Statistics Authority (PSA) demographic data and local e-commerce delivery indices:
+    </p>
+
+    <div class="market-entry">
+      <div class="market-name">A. Total Addressable Market (TAM)</div>
+      <div class="market-calc">TAM = 11,000,000 households &times; ₱3,500 = ₱38,500,000,000 (₱38.5 Billion)</div>
+      <div class="market-text">
+        The Philippines has approximately 26.4 million households. According to e-commerce industry reports, approximately 42% (11.0 million households) regularly purchase online via Shopee, Lazada, and TikTok Shop at least once a month. At our base retail price of ₱3,500, the total nationwide opportunity is ₱38.5 Billion (~$687M USD).
+      </div>
+    </div>
+
+    <div class="market-entry">
+      <div class="market-name">B. Serviceable Addressable Market (SAM)</div>
+      <div class="market-calc">SAM = 1,500,000 target units &times; ₱3,500 = ₱5,250,000,000 (₱5.25 Billion)</div>
+      <div class="market-text">
+        We filter the TAM to the demographic segment that matches Hulog's physical gate form factor and distribution reach:
+        <ul style="margin-top: 4px; margin-bottom: 4px;">
+          <li><em>Geography:</em> Mega Manila (NCR and Region IV-A CALABARZON), which represents over 65% of all e-commerce parcel deliveries in the country.</li>
+          <li><em>Dwelling Type:</em> Standalone homes with perimeter gates, gated townhouses, and multi-tenant boarding houses (excluding high-rise condominium units that have private lobby mailrooms).</li>
+          <li><em>Income &amp; Connectivity:</em> Middle-to-upper-middle-class households (SEC B and C) with active home Wi-Fi and working occupants who are regularly away during daytime delivery hours.</li>
+        </ul>
+        This yields an addressable market of 1.5 million target dwellings, representing a SAM of ₱5.25 Billion.
+      </div>
+    </div>
+
+    <div class="market-entry">
+      <div class="market-name">C. Serviceable Obtainable Market (SOM)</div>
+      <div class="market-calc">SOM = 10,000 units &times; ₱3,500 = ₱35,000,000 (₱35.0 Million)</div>
+      <div class="market-text">
+        Our conservative, realistic 3-year commercial target captures approximately <strong>0.65% market share of our SAM</strong> (10,000 cumulative units sold):
+        <ul style="margin-top: 4px; margin-bottom: 4px;">
+          <li><em>Year 1 (1,000 units &bull; ₱3.5M):</em> Beachhead rollout to student dormitories and boarding houses around the University Belt (Manila, Makati, Quezon City) where communal gates receive dozens of daily parcels.</li>
+          <li><em>Year 2 (3,500 units &bull; ₱12.25M):</em> Online direct-to-consumer store (Shopee/Lazada) and bulk partnerships with Homeowners Associations (HOAs) in Cavite, Rizal, and Taguig.</li>
+          <li><em>Year 3 (5,500 units &bull; ₱19.25M):</em> Expansion into hardware retail distribution networks (e.g., Ace Hardware, Wilcon) across Metro Manila and Metro Cebu.</li>
+        </ul>
+        Adding recurring SaaS revenue from 1,200 subscribing boarding houses by Year 3 (1,200 &times; ₱199 &times; 12 months = ₱2.86M/year), our total 3-year obtainable revenue is approximately <strong>₱37.85 Million</strong>.
+      </div>
+    </div>
+
+    <!-- Section 6 -->
+    <h2>6. Conclusion &amp; Feasibility Summary</h2>
+
+    <p>
+      The financial calculations demonstrate that <strong>Project Hulog is commercially and technically feasible</strong>. By engineering the electronics BOM to ₱1,000.00 and complete unit COGS to ₱2,000.00, our target price of ₱3,499.00 yields a strong gross margin of 42.8% without outpricing middle-class Filipino households. Capturing even less than 1% of the serviceable market in Mega Manila validates that Hulog represents a viable, sustainable business venture.
+    </p>
+
+    <div class="footer">
+      <div>Project Hulog &bull; College of Computing and Information Sciences &bull; University of Makati</div>
+      <div>Page 3 of 3</div>
+    </div>
+
+  </div>
+</body>
+</html>

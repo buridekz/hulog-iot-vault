@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hulog — Financial Costing, Pricing & Market Sizing (TAM, SAM, SOM)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #fdfdfd;
+      color: #111;
+      line-height: 1.45;
+      font-size: 9.5pt;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm;
+    }
+    .page {
+      width: 100%;
+      max-width: 210mm;
+      margin: 0 auto;
+    }
+    .page-break {
+      page-break-before: always;
+      margin-top: 15px;
+      padding-top: 10px;
+    }
+
+    /* Document Header */
+    .header-table {
+      width: 100%;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .header-table td {
+      vertical-align: middle;
+    }
+    .inst-title {
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #444;
+      font-weight: 600;
+    }
+    .doc-main-title {
+      font-size: 13.5pt;
+      font-weight: 800;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-top: 1px;
+    }
+    .doc-tagline {
+      font-size: 8.8pt;
+      color: #555;
+      font-style: italic;
+    }
+    .doc-badge {
+      text-align: right;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      color: #222;
+      font-weight: bold;
+      background: #f0f0f0;
+      padding: 4px 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    /* Metadata Box */
+    .meta-box {
+      width: 100%;
+      border: 1px solid #222;
+      background: #fafafa;
+      padding: 7px 10px;
+      margin-bottom: 12px;
+      font-size: 8.8pt;
+    }
+    .meta-grid {
+      display: table;
+      width: 100%;
+    }
+    .meta-row {
+      display: table-row;
+    }
+    .meta-cell-label {
+      display: table-cell;
+      font-weight: 700;
+      width: 120px;
+      padding: 1.5px 0;
+      color: #222;
+    }
+    .meta-cell-val {
+      display: table-cell;
+      padding: 1.5px 0;
+      color: #111;
+    }
+
+    /* Section Headings */
+    h2.section-title {
+      font-size: 10.5pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      border-bottom: 1.5px solid #111;
+      padding-bottom: 2px;
+      margin-top: 11px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h2.section-title span.sec-num {
+      background: #111;
+      color: #fff;
+      padding: 1px 6px;
+      font-size: 8.5pt;
+      border-radius: 2px;
+      margin-right: 6px;
+    }
+
+    h3.sub-title {
+      font-size: 9.2pt;
+      font-weight: 700;
+      color: #222;
+      margin-top: 7px;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 6px;
+      line-height: 1.38;
+    }
+
+    /* Highlight Summary Banner */
+    .highlight-banner {
+      border: 1.5px solid #111;
+      background: #f8f8f8;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .stat-pill {
+      flex: 1;
+      text-align: center;
+      border-right: 1px solid #ddd;
+      padding: 0 4px;
+    }
+    .stat-pill:last-child {
+      border-right: none;
+    }
+    .stat-pill .val {
+      font-size: 12pt;
+      font-weight: 900;
+      color: #000;
+      font-family: "Courier New", monospace;
+    }
+    .stat-pill .lbl {
+      font-size: 7.2pt;
+      text-transform: uppercase;
+      color: #555;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 8px;
+      font-size: 8.5pt;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid #333;
+      padding: 4px 6px;
+      vertical-align: middle;
+    }
+    table.data-table th {
+      background: #ececec;
+      font-weight: 700;
+      text-align: left;
+      font-size: 8.2pt;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+    table.data-table tr:nth-child(even) td {
+      background: #fafafa;
+    }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .bold { font-weight: 700; }
+    .font-mono { font-family: "Courier New", Courier, monospace; }
+
+    /* Market Diagrams */
+    .market-box {
+      border: 1px solid #111;
+      padding: 6px 10px;
+      margin-bottom: 7px;
+      background: #fff;
+    }
+    .market-box.tam { border-left: 6px solid #111; background: #fafafa; }
+    .market-box.sam { border-left: 6px solid #444; background: #f4f4f4; margin-left: 10px; }
+    .market-box.som { border-left: 6px solid #b42318; background: #fff5f5; margin-left: 20px; }
+
+    .market-box .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 9.3pt;
+      margin-bottom: 2px;
+    }
+    .market-box .desc {
+      font-size: 8.4pt;
+      color: #333;
+      line-height: 1.32;
+    }
+
+    /* Footer */
+    .page-footer {
+      border-top: 1px solid #111;
+      margin-top: 10px;
+      padding-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.8pt;
+      color: #444;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    
+    <!-- Header -->
+    <table class="header-table">
+      <tr>
+        <td>
+          <div class="inst-title">University of Makati &bull; College of Computer Science (CCIS)</div>
+          <div class="doc-main-title">Financial Costing, Pricing Engineering &amp; Market Sizing</div>
+          <div class="doc-tagline">Technopreneurship &amp; Real-Time Systems (RTS) Course Requirement &bull; AY 2026&ndash;2027</div>
+        </td>
+        <td style="width: 140px; text-align: right;">
+          <div class="doc-badge">FEASIBILITY DOSSIER<br>PROJECT: HULOG</div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Meta Info Block -->
+    <div class="meta-box">
+      <div class="meta-grid">
+        <div class="meta-row">
+          <div class="meta-cell-label">Project Title:</div>
+          <div class="meta-cell-val"><strong>HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault for Residential Gates</strong></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-cell-label">Team Proponents:</div>
+          <div class="meta-cell-val"><strong>CAMARADOR, Jhorenz S. &bull; CORPUZ, Lance Josh M. &bull; GOZE, AJ M. &bull; LUZANO, Justin Mark D.</strong></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-cell-label">Course Professor:</div>
+          <div class="meta-cell-val"><strong>Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT</strong> <em>(Founder &amp; CEO, Erovoutika)</em></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-cell-label">Core Innovation:</div>
+          <div class="meta-cell-val">Single-use dynamic QR/PIN token access with closed-loop optical IR presence and mechanical limit switch door latching.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Highlight Strip -->
+    <div class="highlight-banner">
+      <div class="stat-pill">
+        <div class="val">₱2,050</div>
+        <div class="lbl">Unit COGS (Cost)</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">₱3,499</div>
+        <div class="lbl">Retail Price (Base)</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">41.4%</div>
+        <div class="lbl">Gross Profit Margin</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">₱38.84 B</div>
+        <div class="lbl">TAM (Philippines)</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">₱5.35 B</div>
+        <div class="lbl">SAM (Mega Manila)</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">₱37.85 M</div>
+        <div class="lbl">SOM (3-Yr Capture)</div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <h2 class="section-title"><span>01</span> Project Overview &amp; Commercial Value Proposition</h2>
+    <p>
+      <strong>Hulog</strong> is an autonomous, tamper-resistant smart parcel drop vault designed for perimeter gate grills, townhouses, and multi-tenant boarding houses. It resolves the severe <em>"last-meter unattended delivery vulnerability"</em> prevalent across the Philippine e-commerce market (Shopee, Lazada, TikTok Shop, J&amp;T, SPX, Flash Express, and Lalamove).
+    </p>
+    <p>
+      Over <strong>65%</strong> of Philippine e-commerce packages are now prepaid via GCash, Maya, or debit/credit cards. When recipients are absent, riders routinely leave parcels vulnerable to porch theft and torrential weather damage. Rescheduling incurs heavy return-to-sender penalties. Traditional padlocks require cumbersome physical keys, whereas static QR stickers pasted on boxes can be photographed, duplicated, or scanned days later. 
+      <strong>Hulog</strong> replaces static credentials with <strong>single-use, time-expiring (15&ndash;30 min) dynamic QR/PIN tokens</strong>. Delivery riders enter the 6-digit PIN on a 4x4 keypad with <em>zero mobile app downloads</em>. An onboard optical IR sensor verifies physical package placement, a door limit switch validates closure, and the token immediately self-destructs.
+    </p>
+
+    <!-- Section 2 -->
+    <h2 class="section-title"><span>02</span> Complete Unit Expense &amp; Production Cost Engineering</h2>
+    <p>
+      Costs are engineered for commercial batch manufacturing (100&ndash;500 unit production runs), separating direct hardware/enclosure materials, direct assembly manpower, and manufacturing overhead.
+    </p>
+
+    <h3 class="sub-title">A. Direct Material Cost (Bill of Materials &bull; BOM)</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Category &bull; Component</th>
+          <th style="width: 45%;">Engineering Specification &amp; Application</th>
+          <th class="text-center" style="width: 10%;">Qty</th>
+          <th class="text-right" style="width: 20%;">Unit Cost (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">ESP32 DevKit V1 (30-pin)</td>
+          <td>Dual-Core 240MHz, 4MB Flash, FreeRTOS, Wi-Fi 802.11 b/g/n &amp; BLE</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱240.00</td>
+        </tr>
+        <tr>
+          <td class="bold">0.96" I2C OLED Display</td>
+          <td>Monochrome SSD1306, 128x64 pixels, dynamic QR &amp; PIN prompt display</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱110.00</td>
+        </tr>
+        <tr>
+          <td class="bold">4x4 Matrix Membrane Keypad</td>
+          <td>16-key weather-resistant tactile keypad for direct rider PIN entry</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱65.00</td>
+        </tr>
+        <tr>
+          <td class="bold">12V Solenoid Latch Lock</td>
+          <td>Heavy-duty 12V 0.8A cabinet electromagnetic latch (1000N holding force)</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱190.00</td>
+        </tr>
+        <tr>
+          <td class="bold">1-Ch Optocoupler Relay</td>
+          <td>5V trigger, 10A 250VAC contacts; electrically isolates ESP32 from 12V coil</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱45.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Door State Sensor Pair</td>
+          <td>MC-38 Magnetic Door Reed Switch (₱55) + Optical IR Sensor (₱25)</td>
+          <td class="text-center">2</td>
+          <td class="text-right font-mono">₱80.00</td>
+        </tr>
+        <tr>
+          <td class="bold">5V Active Piezo Buzzer</td>
+          <td>85dB acoustic audio prompt &amp; door-ajar alarm (>60s open alert)</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱20.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Power Subsystem</td>
+          <td>12V 2A Adapter (₱115) + LM2596 Step-Down (₱55) + DC Screw Jacks (₱20)</td>
+          <td class="text-center">3</td>
+          <td class="text-right font-mono">₱190.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Internal Wiring &amp; Custom PCB</td>
+          <td>Jumper harnesses, terminal screw blocks, perfboard wiring harness</td>
+          <td class="text-center">1 set</td>
+          <td class="text-right font-mono">₱60.00</td>
+        </tr>
+        <tr style="background: #f0f0f0;">
+          <td colspan="3" class="bold text-right">Subtotal &mdash; Core Electronics Subsystem:</td>
+          <td class="text-right font-mono bold">₱1,000.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Commercial Metal Housing</td>
+          <td>1.2mm Galvanized Iron (GI) Sheet, anti-fishing drop baffle, laser-cut</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱520.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Outdoor Powder Coating</td>
+          <td>Electrostatic anti-rust, UV-resistant weather coating (Matte Charcoal)</td>
+          <td class="text-center">1</td>
+          <td class="text-right font-mono">₱120.00</td>
+        </tr>
+        <tr>
+          <td class="bold">Mechanical Hardware</td>
+          <td>Continuous stainless piano hinge, tamper-proof security screws, gaskets</td>
+          <td class="text-center">1 set</td>
+          <td class="text-right font-mono">₱80.00</td>
+        </tr>
+        <tr style="background: #e5e5e5;">
+          <td colspan="3" class="bold text-right">TOTAL DIRECT MATERIALS (BOM):</td>
+          <td class="text-right font-mono bold" style="font-size: 9.5pt;">₱1,720.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">B. Direct Manpower &bull; Labor Cost Computation</h3>
+    <p>
+      Calculated based on standard Philippine electronics technician and assembly rates of <strong>₱680.00 / 8-hour shift (~₱85.00 / hour)</strong>:
+    </p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 40%;">Assembly / Manufacturing Phase</th>
+          <th style="width: 35%;">Task Scope &amp; Quality Control</th>
+          <th class="text-center" style="width: 10%;">Time</th>
+          <th class="text-right" style="width: 15%;">Cost (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Subsystem Wiring &amp; Soldering</td>
+          <td>Harness crimping, buck converter tuning to 5.0V, pin soldering</td>
+          <td class="text-center">45 mins</td>
+          <td class="text-right font-mono">₱67.50</td>
+        </tr>
+        <tr>
+          <td class="bold">Mechanical Enclosure Integration</td>
+          <td>Solenoid lock alignment, limit switch, sensor &amp; keypad mounting</td>
+          <td class="text-center">45 mins</td>
+          <td class="text-right font-mono">₱67.50</td>
+        </tr>
+        <tr>
+          <td class="bold">Firmware Flash, QA &amp; Cycle Testing</td>
+          <td>ESP32 firmware burning, Wi-Fi pairing test, 10-cycle door lock QA</td>
+          <td class="text-center">30 mins</td>
+          <td class="text-right font-mono">₱45.00</td>
+        </tr>
+        <tr style="background: #e5e5e5;">
+          <td colspan="3" class="bold text-right">TOTAL DIRECT MANPOWER (LABOR) PER UNIT:</td>
+          <td class="text-right font-mono bold">₱180.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Page Break for Clean 2-Page Layout -->
+    <div class="page-break"></div>
+
+    <h3 class="sub-title">C. Manufacturing Overhead &amp; Total Cost of Goods Sold (COGS)</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 50%;">Overhead Category</th>
+          <th style="width: 30%;">Basis &bull; Description</th>
+          <th class="text-right" style="width: 20%;">Cost per Unit (PHP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Packaging, Cushioning &amp; Guide</td>
+          <td>Custom corrugated carton, die-cut EPE foam inserts, quick-start guide</td>
+          <td class="text-right font-mono">₱75.00</td>
+        </tr>
+        <tr>
+          <td>Assembly Consumables</td>
+          <td>Heat shrink tubing, solder wire, zip-ties, acrylic sealant, threadlocker</td>
+          <td class="text-right font-mono">₱35.00</td>
+        </tr>
+        <tr>
+          <td>Tooling Wear &amp; Power Allocation</td>
+          <td>Soldering stations, drill presses, shop electricity allocation</td>
+          <td class="text-right font-mono">₱40.00</td>
+        </tr>
+        <tr style="background: #f0f0f0;">
+          <td colspan="2" class="bold text-right">Total Manufacturing Overhead:</td>
+          <td class="text-right font-mono bold">₱150.00</td>
+        </tr>
+        <tr style="background: #111; color: #fff;">
+          <td colspan="2" class="bold text-right" style="font-size: 9.5pt;">TOTAL COST OF GOODS SOLD (COGS) PER UNIT:</td>
+          <td class="text-right font-mono bold" style="font-size: 10pt; color: #fff;">₱2,050.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Section 3 -->
+    <h2 class="section-title"><span>03</span> Pricing Determination &amp; Margin Analysis</h2>
+    <p>
+      We utilize a <strong>value-based competitive pricing model</strong> benchmarked against imported mechanical drop boxes (₱2,500&ndash;₱4,500 with no IoT capability) and commercial smart lockers (₱80,000+).
+    </p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Product Offering</th>
+          <th class="text-right" style="width: 15%;">Unit COGS</th>
+          <th class="text-right" style="width: 15%;">OPEX Alloc.</th>
+          <th class="text-right" style="width: 15%;">Retail Price</th>
+          <th class="text-right" style="width: 13%;">Gross Profit</th>
+          <th class="text-center" style="width: 14%;">Gross Margin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background: #fff9f9;">
+          <td class="bold">Hulog Core (Standard Turnkey)</td>
+          <td class="text-right font-mono">₱2,050.00</td>
+          <td class="text-right font-mono">₱480.00</td>
+          <td class="text-right font-mono bold" style="color: #b42318;">₱3,499.00</td>
+          <td class="text-right font-mono bold">₱1,449.00</td>
+          <td class="text-center font-mono bold">41.4%</td>
+        </tr>
+        <tr>
+          <td class="bold">Hulog Pro (Battery Backup + Heavy Steel)</td>
+          <td class="text-right font-mono">₱2,450.00</td>
+          <td class="text-right font-mono">₱550.00</td>
+          <td class="text-right font-mono bold">₱4,499.00</td>
+          <td class="text-right font-mono bold">₱2,049.00</td>
+          <td class="text-center font-mono bold">45.5%</td>
+        </tr>
+        <tr>
+          <td class="bold">Multi-Tenant Cloud SaaS</td>
+          <td class="text-right font-mono">₱25.00/mo</td>
+          <td class="text-right font-mono">₱15.00/mo</td>
+          <td class="text-right font-mono bold">₱199.00/mo</td>
+          <td class="text-right font-mono bold">₱174.00/mo</td>
+          <td class="text-center font-mono bold">87.4%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="background: #fdf6e2; border-left: 4px solid #b58900; padding: 6px 10px; margin-bottom: 9px; font-size: 8.5pt;">
+      <strong>The Value Proposition Anchor:</strong> The average order value of stolen e-commerce packages (sneakers, smartphones, health supplements) ranges from <strong>₱3,000.00 to ₱15,000.00+</strong>. Preventing a single stolen parcel pays for the entire lifetime cost of the Hulog vault.
+    </div>
+
+    <!-- Section 4 -->
+    <h2 class="section-title"><span>04</span> Market Sizing: TAM &bull; SAM &bull; SOM Calculations</h2>
+    <p>
+      Calculations follow a standardized Top-Down demographic analysis (Philippine Statistics Authority &amp; Google/Temasek e-Conomy SEA 2024–2025) verified via a Bottom-Up unit multiplier ($\text{Units} \times \text{Base Price ₱3,499}$).
+    </p>
+
+    <!-- TAM Box -->
+    <div class="market-box tam">
+      <div class="title-row">
+        <span>TAM &mdash; Total Addressable Market (Nationwide E-Commerce Households)</span>
+        <span class="font-mono">₱38.84 BILLION (~$693M USD)</span>
+      </div>
+      <div class="desc">
+        <strong>Total Market Universe:</strong> The Philippines comprises ~26.4 million households. Approximately <strong>42% (~11.1 Million households)</strong> actively make regular e-commerce purchases (Shopee, Lazada, TikTok Shop) at least 1–2 times per month.<br>
+        <strong>Formula:</strong> $11,100,000\text{ Households} \times \text{₱3,499.00 (Base Unit Price)} = \mathbf{₱38,838,900,000.00}$
+      </div>
+    </div>
+
+    <!-- SAM Box -->
+    <div class="market-box sam">
+      <div class="title-row">
+        <span>SAM &mdash; Serviceable Addressable Market (Mega Manila &amp; Key Metros)</span>
+        <span class="font-mono">₱5.35 BILLION (~$95.6M USD)</span>
+      </div>
+      <div class="desc">
+        <strong>Filtered Segment:</strong> Filtered by Hulog's direct product requirements:
+        1) <em>Geography:</em> Mega Manila (NCR + Region IV-A CALABARZON) &amp; Metro Cebu/Davao, comprising 70%+ of total national parcel deliveries (~8.5M households).
+        2) <em>Dwelling Structure:</em> Gated residential homes, townhouses, student dormitories, and boarding houses (excluding high-rise condos with front-desk reception): ~30% (~2.55M units).
+        3) <em>Income Class:</em> Middle to upper-middle class (SEC A, B, and C) with home Wi-Fi and regular absent delivery conflicts (~60% of eligible dwellings): <strong>1,530,000 target units</strong>.<br>
+        <strong>Formula:</strong> $1,530,000\text{ Target Dwellings} \times \text{₱3,499.00} = \mathbf{₱5,353,470,000.00}$
+      </div>
+    </div>
+
+    <!-- SOM Box -->
+    <div class="market-box som">
+      <div class="title-row">
+        <span>SOM &mdash; Serviceable Obtainable Market (3-Year Operational Target)</span>
+        <span class="font-mono">₱37.85 MILLION (~$675K USD)</span>
+      </div>
+      <div class="desc">
+        <strong>Conservative 3-Year Penetration:</strong> Capturing <strong>0.65% market share of SAM</strong> (~10,000 cumulative installed units) via early beachhead hubs:
+        <ul style="margin-left: 18px; margin-top: 2px;">
+          <li><em>Year 1 (1,000 units &bull; ₱3.50M):</em> U-Belt &amp; BGC/Makati boarding houses, student dorms, and early-adopter townhouse gates.</li>
+          <li><em>Year 2 (3,500 units &bull; ₱12.25M):</em> Direct online sales (Shopee/Lazada stores) and Homeowners Association (HOA) bulk partnerships (Cavite, Rizal).</li>
+          <li><em>Year 3 (5,500 units &bull; ₱19.24M):</em> Expansion to Metro Cebu &amp; Davao + hardware retail distributor networks.</li>
+        </ul>
+        <strong>Cumulative Financial Breakdown:</strong>
+        <br>&bull; Hardware Revenue: $10,000\text{ units} \times \text{₱3,499.00} = \mathbf{₱34,990,000.00}$
+        <br>&bull; SaaS Subscription Revenue (1,200 boarding houses @ ₱199/mo by Year 3): $\mathbf{₱2,865,600.00\text{/year}}$
+        <br><strong>Total Cumulative 3-Year SOM:</strong> $\mathbf{₱37,855,600.00}$
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <h2 class="section-title"><span>05</span> Panel Defense Inquiries &amp; Strategic Answers</h2>
+    <table class="data-table" style="font-size: 8.2pt;">
+      <tbody>
+        <tr>
+          <td class="bold" style="width: 28%; background: #f7f7f7;">Why will couriers follow this process?</td>
+          <td>Riders face zero friction: no app downloads, no accounts, and no Bluetooth pairing. Entering the 6-digit PIN takes under 3 seconds—faster than waiting at an intercom or writing a missed-delivery slip.</td>
+        </tr>
+        <tr>
+          <td class="bold" style="background: #f7f7f7;">What if the courier enters the PIN but steals the parcel?</td>
+          <td>Dual hardware validation: The optical IR beam sensor detects physical package presence inside the chamber. If the box is opened and closed empty, the system flags an anomaly. Timestamped logs provide indisputable evidence for platform claims.</td>
+        </tr>
+        <tr>
+          <td class="bold" style="background: #f7f7f7;">How does the unit maintain security during blackouts?</td>
+          <td>The 12V solenoid lock is fail-secure (stays mechanically deadlocked without electrical power). An internal rechargeable 12V Li-ion battery backup provides up to 72 hours of uninterrupted operations.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div><strong>Hulog Project Dossier</strong> &bull; University of Makati (CCIS) &bull; Technopreneurship &amp; RTS</div>
+      <div>Page 2 of 2 &bull; Confidential Academic Pitch Document</div>
+    </div>
+
+  </div>
+</body>
+</html>

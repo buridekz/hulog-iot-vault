@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Techno Final Pitching: One-Page Project Proposal — Hulog</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Times New Roman", Times, serif;
+      background: #fff; color: #000; line-height: 1.4; font-size: 9.8pt;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    @page { size: A4 portrait; margin: 10mm 12mm; }
+    .page { width: 100%; max-width: 210mm; margin: 0 auto; }
+    .doc-header { text-align: center; margin-bottom: 6px; border-bottom: 1.5px solid #000; padding-bottom: 4px; }
+    .doc-header h1 { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+    .doc-header .sub-header { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.5pt; }
+    .metadata-block { border: 1px solid #000; padding: 6px 10px; margin-bottom: 6px; font-size: 8.8pt; font-family: "Helvetica Neue", Arial, sans-serif; }
+    .meta-row { display: flex; margin-bottom: 3px; }
+    .meta-row:last-child { margin-bottom: 0; }
+    .meta-label { font-weight: bold; width: 115px; flex-shrink: 0; }
+    .meta-proponents { display: flex; flex-direction: column; gap: 1px; }
+    h2.heading { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.2pt; font-weight: bold; text-transform: uppercase; margin-top: 5px; margin-bottom: 2px; border-bottom: 1px solid #000; padding-bottom: 1px; }
+    .project-title-text { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 9.8pt; font-weight: bold; margin-bottom: 4px; text-align: justify; line-height: 1.3; }
+    p.abstract-body { font-size: 9.4pt; text-align: justify; margin-bottom: 4px; line-height: 1.35; text-indent: 18px; }
+    .detail-item { font-size: 9.1pt; margin-bottom: 3px; text-align: justify; line-height: 1.32; }
+    .detail-item ul { margin-left: 18px; margin-top: 2px; }
+    .detail-item li { margin-bottom: 1.5px; }
+    .page-footer { border-top: 1px solid #000; margin-top: 6px; padding-top: 3px; display: flex; justify-content: space-between; font-size: 8pt; font-family: "Helvetica Neue", Arial, sans-serif; font-style: italic; }
+    @media print { body, .page { margin: 0; padding: 0; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="doc-header">
+      <h1>Techno Final Pitching: One-Page Project Proposal</h1>
+      <div class="sub-header">Course: Technopreneurship &nbsp;|&nbsp; Real-Time Systems (RTS) Course Requirement &nbsp;|&nbsp; Academic Year 2026–2027</div>
+    </div>
+    <div class="metadata-block">
+      <div class="meta-row">
+        <div class="meta-label">Proponents:</div>
+        <div class="meta-proponents">
+          <div><strong>CAMARADOR, Jhorenz S.</strong></div>
+          <div><strong>CORPUZ, Lance Josh M.</strong></div>
+          <div><strong>GOZE, AJ M.</strong></div>
+          <div><strong>LUZANO, Justin Mark D.</strong></div>
+        </div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Course / Prof:</div>
+        <div class="meta-value">
+          Technopreneurship &nbsp;|&nbsp; <strong>Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT</strong> <em>(Founder &amp; CEO, Erovoutika)</em>
+        </div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">Institution / Term:</div>
+        <div class="meta-value">University of Makati — CCIS &nbsp;|&nbsp; AY 2026–2027 Final Project Pitching</div>
+      </div>
+    </div>
+    <h2 class="heading">Project Title</h2>
+    <div class="project-title-text">Hulog: IoT-Enabled Dynamic QR Parcel Drop Vault for Residential Gates and Boarding Houses</div>
+    <h2 class="heading">Abstract</h2>
+    <p class="abstract-body">The rapid growth of e-commerce delivery in the Philippines has made unattended parcel drops a widespread point of vulnerability. Couriers frequently leave packages exposed on gate thresholds, building lobbies, or front porches when recipients are unavailable, leading to frequent theft, weather damage, and lost shipments. Traditional padlocks require physical keys, while static printed QR stickers on drop boxes can be easily photocopied and compromised by unauthorized individuals. <b>Hulog</b> is an autonomous, smart parcel drop vault equipped with an ESP32 microcontroller, a heavy-duty 12V electromagnetic solenoid latch, a door state limit switch, and an integrated OLED screen. When a delivery is scheduled, the owner generates a time-bound, single-use QR access token via their smartphone and forwards it to the courier. The courier scans the dynamic code, triggering a single-cycle unlock. The system verifies door closure, immediately re-latches the vault, and transmits an instant delivery confirmation to the recipient, ensuring secure, contact-free parcel reception.</p>
+    <h2 class="heading">Project Details</h2>
+    <div class="detail-item"><b>Problem:</b> Unattended e-commerce deliveries from Shopee, Lazada, and couriers are routinely left on perimeter gates, dormitory floors, and unmonitored apartment steps. Without an authorized recipient on site, parcels face high risks of theft and rain damage. Asking couriers to reschedule delivery leads to failed drop-offs, return-to-sender penalties, and persistent delivery friction for busy homeowners and students.</div>
+    <div class="detail-item"><b>Solution:</b> Hulog provides a secure, weatherproof drop container installed at exterior gates or entryways. Access is governed by dynamic, single-use QR tokens or one-time alphanumeric PINs displayed on the vault's screen and shared directly with the delivery rider. A physical limit switch verifies that the parcel door has securely latched closed after deposit before resetting the authentication code, preventing unauthorized re-entry and confirming the drop.</div>
+    <div class="detail-item">
+      <strong>Key Features:</strong>
+      <ul><li><b>Dynamic Single-Use QR & PIN Tokens:</b> Generates rolling, time-expiring access codes that invalidate immediately after a single door cycle, eliminating the security flaws of static stickers.</li><li><b>Physical Latch & IR Presence Verification:</b> Integrates an internal limit switch and optical IR presence sensor to verify door closure and package deposit before locking the solenoid and invalidating the token.</li><li><b>Instant Telemetry & Drop Notification:</b> Dispatches instant Telegram and web notifications to the owner upon successful deposit, logging timestamped access and lock-state events.</li><li><b>Failsafe Power & Offline Memory:</b> Features 12V battery backup to maintain latch security during power outages, alongside local SPIFFS event caching that syncs delivery logs once Wi-Fi reconnects.</li></ul>
+    </div>
+    <div class="detail-item"><b>Hardware & Firmware Architecture:</b> Engineered around an ESP32 DevKit V1, 12V heavy-duty electromagnetic solenoid latch controlled via optical relay isolation (GPIO 18), mechanical door limit switch (GPIO 19), optical IR presence sensor (GPIO 5), 0.96-inch I2C OLED display for live QR generation, and an internal 12V step-down power circuit with uninterruptible battery backup. FreeRTOS Core 1 executes instant hardware interrupt handling and solenoid pulse control, while Core 0 handles token validation and cloud messaging.</div>
+    <div class="detail-item"><b>Target Beneficiaries & Market:</b> Residential homeowners, multi-tenant boarding houses, condominium units, neighborhood sari-sari stores acting as community drop points, and frequent online shoppers who cannot be physically present during courier delivery hours.</div>
+    <div class="detail-item"><b>Commercial Feasibility & Unit Economics:</b> Internal electronics bill of materials (BOM) is approximately <b>PHP 820.00</b>, with full metal/reinforced ABS vault units retailing between <b>PHP 3,499.00 and PHP 4,999.00</b> installed. An optional <b>PHP 199.00/month</b> subscription covers automated multi-tenant code dispatch. Preventing the theft of a single smartphone, gadget, or medical delivery instantly justifies the entire unit cost.</div>
+    <div class="page-footer">
+      <div><strong>Hulog</strong> — Technopreneurship Final Pitching Proposal</div>
+      <div>Page 1 of 1</div>
+    </div>
+  </div>
+</body>
+</html>
