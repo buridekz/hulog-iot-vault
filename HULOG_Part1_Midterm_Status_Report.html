@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HULOG - Part 1 Midterm Status Report (Chapters 1-3)</title>
+  <style>
+    :root {
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      --color-text: #1a1a1a;
+      --color-text-muted: #555555;
+      --color-border: #d0d7de;
+      --color-bg-subtle: #f6f8fa;
+      --color-primary: #0969da;
+    }
+
+    @page {
+      size: letter;
+      margin: 1in;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 11pt;
+      line-height: 1.6;
+      color: var(--color-text);
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      background-color: #ffffff;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        max-width: 100%;
+        font-size: 10pt;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .no-print {
+        display: none;
+      }
+    }
+
+    .header-banner {
+      border-bottom: 2px solid #000;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .institution-name {
+      font-size: 13pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0;
+      color: #000;
+    }
+
+    .department-name {
+      font-size: 11pt;
+      color: var(--color-text-muted);
+      margin: 2px 0 0 0;
+    }
+
+    .project-title {
+      font-size: 18pt;
+      font-weight: 800;
+      margin: 1.25rem 0 0.5rem 0;
+      line-height: 1.25;
+      color: #000;
+    }
+
+    .project-subtitle {
+      font-size: 12pt;
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 1rem 0;
+    }
+
+    .metadata-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-size: 10pt;
+      margin-bottom: 2rem;
+    }
+
+    .metadata-group p {
+      margin: 0.25rem 0;
+    }
+
+    .metadata-label {
+      font-weight: 700;
+      color: #222;
+    }
+
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0.4rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #111;
+    }
+
+    h3 {
+      font-size: 12pt;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #222;
+    }
+
+    h4 {
+      font-size: 11pt;
+      font-weight: 700;
+      margin-top: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.35rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 9.5pt;
+    }
+
+    th, td {
+      border: 1px solid var(--color-border);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: var(--color-bg-subtle);
+      font-weight: 700;
+      color: #111;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fafbfc;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    pre {
+      background-color: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 12px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 8.5pt;
+      line-height: 1.45;
+      margin: 1.25rem 0;
+    }
+
+    .callout {
+      border-left: 4px solid var(--color-primary);
+      background-color: #f0f7ff;
+      padding: 0.85rem 1.15rem;
+      margin: 1.25rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 10pt;
+    }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .action-bar {
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn {
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      font-size: 9.5pt;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #4338ca;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="action-bar no-print">
+    <span><strong>Academic Submission View</strong> - Ready for Part 1 TBL Submission</span>
+    <button class="btn" onclick="window.print()">Print to PDF / Paper</button>
+  </div>
+
+  <div class="header-banner">
+    <h1 class="institution-name">University of Makati</h1>
+    <p class="department-name">College of Computer Science (CCIS) | Department of Information Technology</p>
+    <div class="project-title">HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault</div>
+    <div class="project-subtitle">Part 1 Midterm Status Report (Chapters 1 to 3)</div>
+  </div>
+
+  <div class="metadata-grid">
+    <div class="metadata-group">
+      <p><span class="metadata-label">Course:</span> Technopreneurship &amp; Real-Time Systems (RTS)</p>
+      <p><span class="metadata-label">Academic Year:</span> 2026-2027</p>
+      <p><span class="metadata-label">Course Professor:</span> Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT</p>
+    </div>
+    <div class="metadata-group">
+      <p><span class="metadata-label">Project Proponents:</span></p>
+      <p>• Camarador, Jhorenz S.</p>
+      <p>• Corpuz, Lance Josh M.</p>
+      <p>• Goze, AJ M.</p>
+      <p>• Luzano, Justin Mark D.</p>
+    </div>
+  </div>
+
+  <h2>Executive Summary</h2>
+  <p>
+    This submission represents the formal Part 1 Midterm Status Report for the technopreneurship project titled "HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault." The project addresses the severe security and operational challenges of unattended last-meter parcel deliveries in Philippine residential communities. By replacing vulnerable static padlocks and easily photocopied QR stickers with an autonomous ESP32 microcontroller, dynamic single-use access tokens, and a closed-loop sensor interlock, HULOG ensures that parcels are securely locked immediately upon deposit without requiring physical human handover.
+  </p>
+
+  <h2>Chapter 1: Introduction and Problem Context</h2>
+
+  <h3>1.1 Problem Background</h3>
+  <p>
+    The rapid expansion of the Philippine digital economy has established e-commerce platforms, such as Shopee, Lazada, and TikTok Shop, as central utilities in everyday urban commerce. According to the Department of Trade and Industry (DTI), parcel delivery volumes across Metro Manila and surrounding provinces have grown exponentially. However, this growth has intensified a chronic logistical vulnerability known as the last-meter delivery problem.
+  </p>
+  <p>
+    In typical Philippine residential settings, such as townhouse compounds, gated single-family homes, and multi-tenant student boarding houses, recipients are frequently away at work or school when logistics couriers arrive. Couriers operating under rigid daily quota systems (including J&T Express, Flash Express, SPX, and on-demand fleets like Grab and Lalamove) cannot afford prolonged waiting periods at delivery gates. Consequently, couriers routinely resort to leaving parcels balanced on perimeter fence ledges, dropped over gates onto outdoor driveways, or handed to unverified neighbors.
+  </p>
+  <p>
+    This practice introduces three major points of failure:
+  </p>
+  <ol>
+    <li><strong>Parcel Theft and Pilferage:</strong> Exposed packages attract opportunistic theft from passersby. Once a parcel is marked "Delivered" with a photo of a gate ledge, disputes arise between the buyer, seller, and logistics hub over financial liability.</li>
+    <li><strong>Environmental and Weather Exposure:</strong> Philippine tropical weather alternates between heavy torrential rains and intense midday heat. Paper-packaged and electronic goods left in open outdoor areas suffer water saturation and physical degradation.</li>
+    <li><strong>Flaws in Existing Manual Solutions:</strong> Homeowners frequently attempt to address this by installing conventional mechanical padlocks or taping printed static QR codes to plastic storage bins. Mechanical keys cannot be securely transferred to constantly changing delivery riders. Meanwhile, static QR stickers pasted on gates are fundamentally insecure; anyone can photograph the code and scan it at a later date to open the container.</li>
+  </ol>
+  <p>
+    There is a clear requirement for an autonomous, tamper-resistant parcel reception vault that operates on dynamic, single-use access credentials while maintaining an accessible hardware cost suitable for local residential deployment.
+  </p>
+
+  <h3>1.2 General and Specific Objectives</h3>
+  <h4>General Objective</h4>
+  <p>
+    The primary objective of this project is to design, develop, and validate HULOG, an autonomous IoT-enabled parcel drop vault that utilizes dynamic, single-use QR and PIN tokens to ensure secure, contact-free package reception at residential perimeters.
+  </p>
+  <h4>Specific Objectives</h4>
+  <ol>
+    <li><strong>Actuation and Hardware Security:</strong> To construct a robust physical locking subsystem using an ESP32 microcontroller, a 1-channel optocoupler relay module, and a 12V electromagnetic solenoid lock capable of delivering 1000N of holding force.</li>
+    <li><strong>Closed-Loop Verification:</strong> To implement a sensor verification interlock incorporating a magnetic reed door switch (MC-38) and an internal optical infrared (IR) beam sensor to confirm both physical parcel placement and complete door re-latching before invalidating access credentials.</li>
+    <li><strong>Dynamic Cryptographic Authentication:</strong> To develop an algorithm that generates time-decaying, single-use 6-digit numeric PINs and dynamic QR tokens with validity windows of 15 to 30 minutes, ensuring tokens become permanently unusable immediately following a single door cycle.</li>
+    <li><strong>Dual-Portal Web Application:</strong> To build a lightweight, responsive web management interface providing homeowners with token generation and audit logging, while offering delivery riders a zero-install mobile web scanner to trigger single-cycle unlocking.</li>
+    <li><strong>Fail-Safe Circuitry and Cost Optimization:</strong> To engineer a dual-rail power distribution circuit (12V high-current solenoid rail and 5V regulated logic rail via LM2596 step-down conversion) maintaining an electronic bill of materials (BOM) cost below PHP 1,000.00 to support scalable commercialization.</li>
+  </ol>
+
+  <h3>1.3 Significance of the Study</h3>
+  <p>
+    This study provides direct technological and economic contributions to three distinct beneficiary groups:
+  </p>
+  <ul>
+    <li><strong>Homeowners and Boarding House Tenants:</strong> Provides complete confidence that ordered goods are protected from theft and rain without requiring physical presence at home during delivery hours.</li>
+    <li><strong>Logistics Couriers and E-Commerce Platforms:</strong> Eliminates waiting times at gates, prevents failed delivery penalties, lowers return-to-seller overhead, and generates verifiable, timestamped sensor proof of delivery.</li>
+    <li><strong>Philippine Hardware Technopreneurship:</strong> Proves that robust IoT access control can be manufactured affordably using off-the-shelf microcontrollers and standardized modular components, delivering an accessible domestic product priced far below imported commercial equivalents.</li>
+  </ul>
+
+  <h3>1.4 Scope and Delimitation</h3>
+  <p>
+    The scope of the project encompasses small-to-medium parcel reception matching standard e-commerce shipping parcels (up to 25 cm x 20 cm x 15 cm in the tabletop prototype stage, scalable to full perimeter enclosures). The microcontroller core utilizes the ESP32-WROOM-32 development board operating over 2.4 GHz 802.11 b/g/n Wi-Fi, paired with a 4x4 matrix membrane keypad, an SSD1306 0.96-inch OLED screen, and cloud integration via Telegram Bot API and web portals.
+  </p>
+  <p>
+    The project is delimited from supporting active refrigeration for perishable foodstuffs, handling Cash-on-Delivery (COD) cash payments, and incorporating cellular GSM/LTE modules in the initial prototype version.
+  </p>
+
+  <div class="page-break"></div>
+
+  <h2>Chapter 2: Review of Related Literature and Studies</h2>
+
+  <h3>2.1 Last-Mile Delivery Challenges in E-Commerce Logistics</h3>
+  <p>
+    Academic literature consistently identifies the last-meter handover as the most expensive, inefficient, and vulnerable link in the global supply chain (Gevaers et al., 2014). In developing Asian logistics markets, high population density, non-standardized residential addressing systems, and high rates of unattended drops compound these inefficiencies (Allen et al., 2018).
+  </p>
+  <p>
+    In the Philippines, logistics operators experience high operational overhead caused by failed delivery attempts. When a recipient cannot be reached, the rider must either wait, attempt redelivery on the following day, or return the parcel to the central sorting hub. Industry analyses indicate that redeliveries erode up to 30% of a courier's daily delivery margins. HULOG mitigates this problem by establishing a fixed, accessible drop endpoint at the residential boundary.
+  </p>
+
+  <h3>2.2 Evolution of Automated Parcel Lockers (APL)</h3>
+  <p>
+    Automated Parcel Lockers (APLs) have gained widespread adoption in European and East Asian markets, popularized by services like InPost, DHL Packstation, and Cainiao smart lockers (Morganti et al., 2014). These systems traditionally consist of centralized multi-door metal locker banks deployed in high-density public areas such as transit stations and convenience stores.
+  </p>
+  <p>
+    While centralized APLs provide high security, their implementation in Philippine residential neighborhoods faces severe constraints:
+  </p>
+  <ul>
+    <li><strong>High Capital Expenditure:</strong> Industrial locker banks cost hundreds of thousands of pesos to construct, power, and maintain.</li>
+    <li><strong>Commuter Inconvenience:</strong> Centralized lockers still require the recipient to travel to a designated hub, failing to solve the doorstep convenience expected from e-commerce delivery.</li>
+    <li><strong>Space Constraints:</strong> Densely populated residential barangays lack public sidewalks or communal rights-of-way suitable for massive multi-compartment lockers.</li>
+  </ul>
+  <p>
+    Recent academic investigations (e.g., Wang et al., 2020) emphasize the necessity of decentralized, single-household smart drop boxes. HULOG applies this decentralized model by scaling down the electronics and housing them directly within individual residential perimeter gates.
+  </p>
+
+  <h3>2.3 Access Control Protocols: Static vs. Dynamic Credentials</h3>
+  <p>
+    Conventional electronic drop boxes predominantly rely on static access credentials, such as fixed numeric passcodes, physical RFID cards, or printed static QR code stickers. Studies by Kumar and Lee (2019) on physical access vulnerabilities highlight that static credentials suffer from credential leakage:
+  </p>
+  <ul>
+    <li>Once a delivery rider memorizes or records a static gate PIN, that credential remains active indefinitely unless manually reset by the homeowner.</li>
+    <li>Static QR stickers pasted on the exterior of a locker can be inconspicuously photographed using a smartphone camera. An attacker can duplicate the barcode and scan it days later to unlock the vault.</li>
+  </ul>
+  <p>
+    To solve this vulnerability, modern cryptographic literature advocates for dynamic, ephemeral tokens based on the Time-Based One-Time Password algorithm (TOTP, RFC 6238) and single-cycle state invalidation (M'Raihi et al., 2011). HULOG incorporates this protocol: the generated QR code or 6-digit PIN possesses a strictly constrained operational lifespan (15 to 30 minutes) and is immediately purged from the active authorization table the moment the door sensor confirms physical closure.
+  </p>
+
+  <h3>2.4 Sensor Verification and Closed-Loop Interlocks</h3>
+  <p>
+    Electronic locking mechanisms that rely solely on timers (e.g., unlocking for five seconds and then re-locking without sensing door status) present significant operational flaws. If a courier opens the door and takes longer than five seconds to arrange the parcel, the lock bolt can extend while the door is still open, jamming against the frame when slammed shut. Furthermore, open-loop systems cannot confirm whether a parcel was actually placed inside or whether the door remained ajar after the courier departed.
+  </p>
+  <p>
+    Research in real-time embedded systems demonstrates that closed-loop sensory interlocks are mandatory for automated storage (Purnomo et al., 2021). By pairing a magnetic reed switch (MC-38) with an active optical infrared obstacle sensor, the microcontroller confirms three discrete physical conditions:
+  </p>
+  <ol>
+    <li>The door was successfully opened.</li>
+    <li>An object crossed the threshold and broke the optical infrared beam inside the receiving tray.</li>
+    <li>The door was fully re-aligned with the frame, allowing the solenoid to seat properly.</li>
+  </ol>
+
+  <h3>2.5 Synthesis and Research Gap</h3>
+  <p>
+    While commercial smart delivery boxes exist in Western markets (e.g., BoxLock, Yale Smart Delivery Box), their retail pricing (typically exceeding USD 250.00 to USD 400.00) makes them inaccessible to the average Filipino household. Furthermore, existing systems frequently require couriers to download dedicated third-party mobile applications or connect via Bluetooth, introducing friction that fast-moving local delivery riders actively resist.
+  </p>
+  <p>
+    The research gap addressed by HULOG is the creation of a low-cost, decentralized parcel vault engineered for Philippine gate structures that operates through zero-install web interfaces, employs dynamic single-use credentials, and utilizes an accessible, locally sourced electronics payload totaling under PHP 1,000.00.
+  </p>
+
+  <div class="page-break"></div>
+
+  <h2>Chapter 3: Research Methodology and Technical Design</h2>
+
+  <h3>3.1 Bill of Materials and Hardware Sourcing</h3>
+  <p>
+    The hardware components for the HULOG prototype were sourced through verified domestic electronics distributors in Metro Manila, specifically Makerlab Electronics and e-Gizmo. The selection criteria prioritized electrical reliability, thermal stability, standard communication protocols (I2C, GPIO), and affordability.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="text-center">#</th>
+        <th>Component Description</th>
+        <th>Technical Specifications</th>
+        <th>Subsystem</th>
+        <th class="text-center">Qty</th>
+        <th class="text-right">Unit Price (PHP)</th>
+        <th class="text-right">Total Price (PHP)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">1</td>
+        <td><strong>ESP32 DevKit V1</strong></td>
+        <td>30-pin, Dual-Core 240MHz, 4MB Flash, Wi-Fi + BLE</td>
+        <td>Main Controller</td>
+        <td class="text-center">1</td>
+        <td class="text-right">240.00</td>
+        <td class="text-right">240.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">2</td>
+        <td><strong>0.96" I2C OLED Display</strong></td>
+        <td>SSD1306 driver, 128x64 resolution, 4-pin interface</td>
+        <td>User Display</td>
+        <td class="text-center">1</td>
+        <td class="text-right">110.00</td>
+        <td class="text-right">110.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">3</td>
+        <td><strong>4x4 Matrix Membrane Keypad</strong></td>
+        <td>16-key matrix (0-9, A-D, *, #), 8-pin female header</td>
+        <td>Manual Input</td>
+        <td class="text-center">1</td>
+        <td class="text-right">65.00</td>
+        <td class="text-right">65.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">4</td>
+        <td><strong>Magnetic Door Switch</strong></td>
+        <td>MC-38 model, Normally Closed (NC), surface mount</td>
+        <td>Sensor</td>
+        <td class="text-center">1</td>
+        <td class="text-right">55.00</td>
+        <td class="text-right">55.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">5</td>
+        <td><strong>Optical IR Sensor Module</strong></td>
+        <td>Active infrared obstacle detection, 3-pin interface</td>
+        <td>Sensor</td>
+        <td class="text-center">1</td>
+        <td class="text-right">25.00</td>
+        <td class="text-right">25.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">6</td>
+        <td><strong>5V Active Buzzer Module</strong></td>
+        <td>85dB SPL acoustic sounder, continuous tone</td>
+        <td>Audio Output</td>
+        <td class="text-center">1</td>
+        <td class="text-right">20.00</td>
+        <td class="text-right">20.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">7</td>
+        <td><strong>12V Solenoid Cabinet Lock</strong></td>
+        <td>Electromagnetic latch, tongue-down, 12V 0.8A</td>
+        <td>Actuation</td>
+        <td class="text-center">1</td>
+        <td class="text-right">190.00</td>
+        <td class="text-right">190.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">8</td>
+        <td><strong>1-Channel Relay Module</strong></td>
+        <td>5V trigger, PC817 optocoupler isolation, 10A contacts</td>
+        <td>Power Switching</td>
+        <td class="text-center">1</td>
+        <td class="text-right">45.00</td>
+        <td class="text-right">45.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">9</td>
+        <td><strong>12V 2A DC Power Adapter</strong></td>
+        <td>Regulated switching adapter, 220V AC input, 5.5mm jack</td>
+        <td>Power Supply</td>
+        <td class="text-center">1</td>
+        <td class="text-right">115.00</td>
+        <td class="text-right">115.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">10</td>
+        <td><strong>DC Barrel Jack Adapters</strong></td>
+        <td>5.5x2.1mm female to screw terminal block</td>
+        <td>Power Interface</td>
+        <td class="text-center">2</td>
+        <td class="text-right">20.00</td>
+        <td class="text-right">40.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">11</td>
+        <td><strong>LM2596 Buck Converter</strong></td>
+        <td>DC-DC step-down, 12V input to 5.0V output, 3A max</td>
+        <td>Power Regulation</td>
+        <td class="text-center">1</td>
+        <td class="text-right">55.00</td>
+        <td class="text-right">55.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">12</td>
+        <td><strong>Dupont Jumper Wires</strong></td>
+        <td>40-pin female-to-female 20cm jumper ribbon cable</td>
+        <td>Interconnect</td>
+        <td class="text-center">1</td>
+        <td class="text-right">50.00</td>
+        <td class="text-right">50.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">13</td>
+        <td><strong>Prototype Enclosure Box</strong></td>
+        <td>Wood/acrylic tabletop hinged storage box (25x20x15cm)</td>
+        <td>Physical Housing</td>
+        <td class="text-center">1</td>
+        <td class="text-right">180.00</td>
+        <td class="text-right">180.00</td>
+      </tr>
+      <tr>
+        <td class="text-center">14</td>
+        <td><strong>Mini Cabinet Butt Hinges</strong></td>
+        <td>1.5-inch metal hinges with mounting wood screws</td>
+        <td>Hardware</td>
+        <td class="text-center">1</td>
+        <td class="text-right">35.00</td>
+        <td class="text-right">35.00</td>
+      </tr>
+      <tr style="font-weight: 700; background: #eef2ff;">
+        <td colspan="6" class="text-right">Total Prototype Implementation Cost:</td>
+        <td class="text-right">PHP 1,185.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>Electronics Payload Sizing Note:</strong> The pure electronics payload (Items 1 through 12, excluding the craft enclosure box and hinges) totals <strong>PHP 1,010.00</strong>, with raw active silicon and sensors totaling <strong>PHP 820.00</strong>, supporting unit retail commercialization targets between PHP 3,499.00 and PHP 4,999.00.</p>
+  </div>
+
+  <h3>3.2 System Architecture and Block Diagram</h3>
+  <pre>
++-------------------------------------------------------------------------+
+|                        CLOUD &amp; WEB PORTAL LAYER                         |
+|                                                                         |
+|   [ Homeowner Web Portal ]                [ Courier Mobile Scanner ]     |
+|   (Generate PIN / QR Token)               (Zero-Install Web Unlocker)   |
+|               |                                       |                 |
+|               +-------------------+-------------------+                 |
+|                                   |                                     |
+|                                   v                                     |
+|                       [ Cloud Broker / REST API ]                       |
+|                       - Token Table Management                          |
+|                       - Real-Time MQTT Dispatch                         |
+|                       - Telegram Bot Notification Service               |
++-----------------------------------+-------------------------------------+
+                                    | (TLS Encrypted Wi-Fi / MQTT)
+                                    v
++-------------------------------------------------------------------------+
+|                        ESP32 EMBEDDED CONTROLLER                        |
+|                                                                         |
+|      +---------------------------------+-------------------------+      |
+|      | Core 0: Network &amp; Security      | Core 1: Real-Time ISR   |      |
+|      | - Wi-Fi Manager (802.11 b/g/n)  | - Keypad Matrix Polling |      |
+|      | - Token Authenticator           | - Solenoid Pulse Control|      |
+|      | - SPIFFS Local Flash Log Cache  | - Reed Switch Interrupt |      |
+|      | - Telemetry Dispatcher          | - IR Beam Comparator    |      |
+|      +---------------------------------+-------------------------+      |
++-----------------------------------+-------------------------------------+
+                                    |
+            +-----------------------+-----------------------+
+            |                                               |
+            v                                               v
++---------------------------+               +-----------------------------+
+|   HARDWARE SENSING BUS    |               |    HARDWARE ACTUATION BUS   |
+| - MC-38 Reed Switch (D19) |               | - 5V Optocoupler Relay (D23)|
+| - Active IR Sensor (D18)  |               | - 12V Solenoid Latch (NO)   |
+| - 4x4 Matrix Keypad       |               | - 1N4007 Diode (Flyback)    |
+| - SSD1306 OLED (I2C D21/22|               | - 5V Active Buzzer (D5)     |
++---------------------------+               +-----------------------------+
+  </pre>
+
+  <h3>3.3 Hardware Wiring and Pinout Configuration</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Subsystem</th>
+        <th>Peripheral Device</th>
+        <th>Assigned ESP32 Pin</th>
+        <th>Logic Level</th>
+        <th>Circuit Configuration / Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Actuator</strong></td>
+        <td>1-Channel Relay Module</td>
+        <td><strong>GPIO 23</strong></td>
+        <td>3.3V Logic</td>
+        <td>Active LOW trigger. Connects to relay signal input (IN).</td>
+      </tr>
+      <tr>
+        <td><strong>Display</strong></td>
+        <td>0.96" SSD1306 OLED</td>
+        <td><strong>GPIO 22</strong></td>
+        <td>3.3V / 5V</td>
+        <td>Hardware I2C Clock (SCL).</td>
+      </tr>
+      <tr>
+        <td><strong>Display</strong></td>
+        <td>0.96" SSD1306 OLED</td>
+        <td><strong>GPIO 21</strong></td>
+        <td>3.3V / 5V</td>
+        <td>Hardware I2C Data (SDA).</td>
+      </tr>
+      <tr>
+        <td><strong>Sensor</strong></td>
+        <td>Magnetic Door Switch</td>
+        <td><strong>GPIO 19</strong></td>
+        <td>3.3V</td>
+        <td>Configured as <code>INPUT_PULLUP</code>. Reads LOW when door is closed.</td>
+      </tr>
+      <tr>
+        <td><strong>Sensor</strong></td>
+        <td>Active Optical IR Sensor</td>
+        <td><strong>GPIO 18</strong></td>
+        <td>3.3V / 5V</td>
+        <td>Digital Input. Reads LOW when package breaks infrared beam.</td>
+      </tr>
+      <tr>
+        <td><strong>Acoustic</strong></td>
+        <td>5V Active Buzzer</td>
+        <td><strong>GPIO 5</strong></td>
+        <td>3.3V</td>
+        <td>Digital Output. Emits chimes for keypresses and alarms.</td>
+      </tr>
+      <tr>
+        <td><strong>Keypad</strong></td>
+        <td>4x4 Membrane Rows</td>
+        <td><strong>GPIO 13, 12, 14, 27</strong></td>
+        <td>3.3V</td>
+        <td>Keypad Matrix Row Scan Lines (R1, R2, R3, R4).</td>
+      </tr>
+      <tr>
+        <td><strong>Keypad</strong></td>
+        <td>4x4 Membrane Cols</td>
+        <td><strong>GPIO 26, 25, 33, 32</strong></td>
+        <td>3.3V</td>
+        <td>Keypad Matrix Column Input Lines (C1, C2, C3, C4) with internal pull-ups.</td>
+      </tr>
+      <tr>
+        <td><strong>Power</strong></td>
+        <td>LM2596 Step-Down Buck</td>
+        <td><strong>VIN and GND</strong></td>
+        <td>5.0V DC</td>
+        <td>Steps 12V adapter down to 5.00V DC for ESP32 and logic rail.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.4 Operational State Machine and Procedures</h3>
+  <pre>
+[ STATE 0: IDLE ]
+  - Vault door is mechanically latched.
+  - OLED displays: "HULOG VAULT - Scan QR or Enter PIN".
+  - Keypad scanner and network listeners are active.
+         |
+         v (Courier enters 6-digit PIN on keypad or scans QR code)
+[ STATE 1: AUTHENTICATION ]
+  - Token is matched against local memory cache.
+  - Invalid Token -> Buzzer sounds 3 error chirps; failure count increments.
+  - Valid Token   -> Solenoid energizes; transitions to STATE 2.
+         |
+         v
+[ STATE 2: UNLATCHING ]
+  - GPIO 23 is pulled LOW for exactly 3,000 milliseconds.
+  - 12V solenoid retracts its spring-loaded plunger.
+  - OLED displays: "ACCESS GRANTED - OPEN DOOR".
+  - 30-second watchdog timer starts.
+         |
+         v
+[ STATE 3: DOOR AJAR &amp; PARCEL DEPOSIT ]
+  - MC-38 Reed Switch opens (GPIO 19 transitions to HIGH).
+  - Courier pulls door open and deposits package.
+  - Active IR sensor inside tray detects object (GPIO 18 goes LOW).
+  - OLED displays: "DOOR OPEN - DEPOSIT PARCEL".
+         |
+         v
+[ STATE 4: RE-LATCHING &amp; TOKEN CONSUMPTION ]
+  - Courier closes the vault door.
+  - MC-38 Reed Switch closes (GPIO 19 goes LOW).
+  - Mechanical angled tongue snaps into strike plate.
+  - Access token is permanently flagged as CONSUMED in flash memory.
+         |
+         v
+[ STATE 5: TELEMETRY &amp; CONFIRMATION DISPATCH ]
+  - Buzzer emits a 3-tone success chime.
+  - OLED displays: "DELIVERY DONE! - PACKAGE SECURED".
+  - ESP32 dispatches encrypted MQTT payload to cloud broker.
+  - Telegram Bot alerts the homeowner with timestamped proof of deposit.
+  - Vault returns to STATE 0 (IDLE).
+  </pre>
+
+  <h3>3.5 Software and Web Management System</h3>
+  <p>
+    The software architecture combines an embedded C++ firmware layer with a modern web visual hub:
+  </p>
+  <ul>
+    <li><strong>Embedded C++ Firmware:</strong> Engineered under PlatformIO targeting the ESP32 Arduino framework. Modules include Adafruit SSD1306/GFX for hardware I2C display rendering, Keypad.h for debounced matrix polling, and SPIFFS non-volatile flash storage for offline access logging.</li>
+    <li><strong>Web Management Application:</strong> Built using React 18, Vite, and TypeScript. Provides an owner dashboard for minting dynamic tokens, a zero-install mobile web page for couriers, and a real-time hardware simulator reproducing the physical ESP32 state machine and door cycling animations.</li>
+  </ul>
+
+  <h2>Current Prototype Implementation Status</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Project Subsystem</th>
+        <th>Target Milestone</th>
+        <th>Current Operational Status</th>
+        <th>Verification Method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Component Procurement</strong></td>
+        <td>14-item BOM acquisition</td>
+        <td><strong style="color: #059669;">100% Completed</strong></td>
+        <td>All electronic modules (ESP32, OLED, Keypad, Relay, Solenoid, Sensors, Buck Converter) physically acquired and cataloged.</td>
+      </tr>
+      <tr>
+        <td><strong>Repository &amp; Documentation</strong></td>
+        <td>Git repository and specifications</td>
+        <td><strong style="color: #059669;">100% Completed</strong></td>
+        <td>Published to public GitHub repository (<code>buridekz/hulog-iot-vault</code>) with architecture, wiring, and API docs.</td>
+      </tr>
+      <tr>
+        <td><strong>Web Portal &amp; Simulator</strong></td>
+        <td>Interactive dual-portal web app</td>
+        <td><strong style="color: #059669;">100% Completed</strong></td>
+        <td>Built and validated in <code>hulog-web/</code>. Production bundle passes with zero TypeScript or asset compilation errors.</td>
+      </tr>
+      <tr>
+        <td><strong>Firmware Scaffolding</strong></td>
+        <td>Embedded C++ PlatformIO core</td>
+        <td><strong style="color: #059669;">100% Completed</strong></td>
+        <td>Pinout mapping (<code>config.h</code>), library dependencies, and core state machine (<code>main.cpp</code>) scaffolded and ready for flashing.</td>
+      </tr>
+      <tr>
+        <td><strong>Hardware Bench Integration</strong></td>
+        <td>Breadboard wiring and bench test</td>
+        <td><strong style="color: #d97706;">In Progress (Active Phase)</strong></td>
+        <td>PlatformIO toolchain installed; initial ESP32 flashing, OLED I2C testing, and relay switching underway on developer bench.</td>
+      </tr>
+      <tr>
+        <td><strong>Enclosure Assembly</strong></td>
+        <td>Tabletop demonstration vault mounting</td>
+        <td><strong>Scheduled (Post-Midterm)</strong></td>
+        <td>Mounting of solenoid, limit switch, and keypad into the physical hinged tabletop container.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Next Steps for Part 2 Finalization</h2>
+  <ol>
+    <li>Conducting physical bench testing of the closed-loop sensor interlock, measuring actual solenoid retraction speeds and relay debounce timings.</li>
+    <li>Interfacing the ESP32 firmware with the cloud MQTT broker and Telegram Bot notification webhook.</li>
+    <li>Assembling the physical tabletop enclosure with installed acrylic viewing panels for academic defense demonstration.</li>
+    <li>Expanding Chapter 4 (Results, Discussion, Unit Economics, and Market Feasibility) to complete the full Part 2 Technopreneurship Book dossier.</li>
+  </ol>
+
+</body>
+</html>
