@@ -1,31 +1,44 @@
 # UNIVERSITY OF MAKATI
-## COLLEGE OF COMPUTER SCIENCE
-### Department of Information Technology
-
-**TECHNOPRENEURSHIP & REAL-TIME SYSTEMS (RTS)**  
-Academic Year 2026-2027  
-
-**Course Professor:** Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT  
+## COLLEGE OF COMPUTING AND INFORMATION SCIENCES
+### Bachelor of Science in Information Technology
 
 ---
 
 # HULOG: IoT-ENABLED DYNAMIC QR PARCEL DROP VAULT FOR RESIDENTIAL GATES AND BOARDING HOUSES
 
-### PART 1: MIDTERM STATUS REPORT (CHAPTERS 1 TO 3)
+*A Project Research Status Report Submitted to the Faculty of the*  
+*College of Computing and Information Sciences*  
+*University of Makati*  
 
-**Project Proponents:**  
+*In Partial Fulfillment of the Requirements for the Course*  
+**Technopreneurship & Real-Time Systems (RTS)**  
+*Academic Year 2026-2027*  
+
+**Course Professor:**  
+Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT  
+
+**Researchers / Proponents:**  
 Camarador, Jhorenz S.  
 Corpuz, Lance Josh M.  
 Goze, AJ M.  
 Luzano, Justin Mark D.  
 
+**Date:**  
+October 2026  
+
 ---
 
 ## EXECUTIVE SUMMARY
 
-This submission constitutes the formal Part 1 Midterm Status Report for the technopreneurship project titled "HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault." The project addresses the physical security and operational vulnerabilities associated with unattended last-meter parcel deliveries in Philippine residential communities. By replacing conventional static padlocks and easily duplicated QR stickers with an autonomous ESP32 microcontroller, dynamic single-use access tokens, and a closed-loop sensor interlock, HULOG guarantees that deliveries are physically secured upon receipt without requiring physical human handover.
+The rapid expansion of the Philippine digital commerce ecosystem has established daily courier deliveries as an integral utility for urban households. However, this growth has intensified a critical point of vulnerability in the distribution chain: unattended last-meter parcel reception. When e-commerce couriers from Shopee Xpress, J&T Express, Flash Express, and on-demand logistics fleets arrive at residential premises during business hours, recipients are frequently away at school or work. Under strict delivery schedules, couriers routinely leave packages resting on perimeter fences, tossed over gate doors, or entrusted to unverified neighbors, exposing deliveries to opportunistic theft, water saturation from heavy rainfall, and package loss.
 
-This report documents the research and engineering framework across Chapters 1, 2, and 3, including the problem context, academic literature review, itemized bill of materials, system block diagrams, circuit wiring schematics, operational state machine, and the current prototype bench testing status.
+This research project presents the design, development, and technical validation of HULOG, an autonomous IoT-enabled parcel drop vault engineered specifically for residential gates, townhouse compounds, and multi-tenant boarding houses. The system replaces vulnerable mechanical padlocks and easily photocopied static QR stickers with an embedded ESP32 microcontroller architecture, a heavy-duty 12V electromagnetic solenoid lock, and dynamic, single-use access credentials.
+
+Homeowners generate time-decaying 6-digit numeric PINs and dynamic QR tokens via a responsive web portal built with React, Vite, and TypeScript. Tokens possess a strictly limited operational lifespan (15 to 30 minutes) and are communicated to the courier via delivery note or direct messaging. Upon arrival, the delivery rider inputs the code on an integrated 4x4 membrane keypad or scans the dynamic QR code using a zero-install mobile web scanner. The ESP32 validates the token against a local memory table and energizes a 1-channel optocoupler relay module, causing the 12V solenoid lock to retract its spring-loaded plunger.
+
+To prevent the system from remaining unlatched or generating false confirmations, HULOG executes a deterministic closed-loop sensor interlock. An internal optical infrared (IR) beam sensor verifies package entry into the deposit tray, while a magnetic door contact switch (MC-38) confirms physical door re-latching. Only after verified door closure is the active token permanently flagged as consumed in the microcontroller flash memory, preventing reuse. Simultaneously, the ESP32 dispatches encrypted MQTT telemetry to a cloud broker, which triggers an automated delivery receipt with timestamped verification via Telegram Bot API.
+
+The hardware architecture utilizes a dual-rail power distribution circuit powered by a single 12V 2A DC regulated adapter, stepping down to a stable 5.00V DC logic bus through an LM2596 buck converter with 1N4007 inductive flyback clamping. The core electronics bill of materials totals PHP 820.00 (PHP 1,010.00 complete electronics package), supporting commercial retail viability between PHP 3,499.00 and PHP 4,999.00 with gross profit margins exceeding 50%. This status report establishes the research background, literature review, hardware design, and current prototype implementation status.
 
 ---
 

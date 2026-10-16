@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault - Part 1 Midterm Status Report</title>
+  <title>HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault</title>
   <style>
     @page {
       size: letter;
-      margin: 0.65in 0.75in 0.65in 0.75in;
+      margin: 0.75in 0.8in 0.75in 0.8in;
     }
 
     * {
@@ -16,7 +16,7 @@
     body {
       font-family: "Times New Roman", Times, Georgia, serif;
       font-size: 10.5pt;
-      line-height: 1.38;
+      line-height: 1.4;
       color: #000000;
       background-color: #ffffff;
       margin: 0;
@@ -35,12 +35,82 @@
       break-after: avoid;
     }
 
+    /* Cover Page Styling */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 9.3in;
+      text-align: center;
+      padding: 0.5in 0;
+    }
+
+    .cover-top {
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    .inst-name {
+      font-size: 13pt;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .college-name {
+      font-size: 11.5pt;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+
+    .program-name {
+      font-size: 11pt;
+      font-style: italic;
+      text-transform: none;
+    }
+
+    .cover-middle {
+      margin: 2rem 0;
+    }
+
+    .doc-title {
+      font-size: 14pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+
+    .doc-fulfillment {
+      font-size: 10.5pt;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .cover-bottom {
+      font-size: 10.5pt;
+      line-height: 1.4;
+    }
+
+    .proponents-list {
+      margin-top: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 10.5pt;
+      line-height: 1.4;
+    }
+
+    .date-line {
+      font-size: 10.5pt;
+      margin-top: 1rem;
+    }
+
+    /* Standard Headings */
     h2 {
       font-size: 12pt;
       font-weight: bold;
       text-transform: uppercase;
       margin-top: 0;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
       text-align: center;
       page-break-after: avoid;
       break-after: avoid;
@@ -49,8 +119,8 @@
     h3 {
       font-size: 11pt;
       font-weight: bold;
-      margin-top: 0.75rem;
-      margin-bottom: 0.3rem;
+      margin-top: 0.85rem;
+      margin-bottom: 0.35rem;
       text-align: left;
       page-break-after: avoid;
       break-after: avoid;
@@ -60,7 +130,7 @@
       font-size: 10.5pt;
       font-weight: bold;
       font-style: italic;
-      margin-top: 0.6rem;
+      margin-top: 0.65rem;
       margin-bottom: 0.2rem;
       text-align: left;
       page-break-after: avoid;
@@ -69,7 +139,7 @@
 
     p {
       margin-top: 0;
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.7rem;
       text-indent: 0.35in;
     }
 
@@ -79,52 +149,12 @@
 
     ul, ol {
       margin-top: 0;
-      margin-bottom: 0.65rem;
-      padding-left: 1.5rem;
+      margin-bottom: 0.7rem;
+      padding-left: 1.6rem;
     }
 
     li {
       margin-bottom: 0.25rem;
-    }
-
-    /* Title Block */
-    .title-block {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .institution-header {
-      font-size: 11pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      line-height: 1.25;
-      margin-bottom: 1rem;
-    }
-
-    .report-title {
-      font-size: 12.5pt;
-      font-weight: bold;
-      text-transform: uppercase;
-      line-height: 1.3;
-      margin-bottom: 0.35rem;
-    }
-
-    .report-subtitle {
-      font-size: 11pt;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .proponents-block {
-      font-size: 10pt;
-      margin-bottom: 1rem;
-      line-height: 1.3;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #000000;
-      margin: 0.85rem 0;
     }
 
     /* APA 7th Edition Academic Table Format */
@@ -134,6 +164,8 @@
       margin: 0.5rem 0;
       font-size: 8.5pt;
       line-height: 1.2;
+      page-break-inside: avoid;
+      break-inside: avoid;
     }
 
     th, td {
@@ -167,9 +199,12 @@
       text-align: right;
     }
 
+    /* Diagram Styling */
     .diagram-container {
       margin: 0.5rem 0;
       text-align: center;
+      page-break-inside: avoid;
+      break-inside: avoid;
     }
 
     .diagram-caption {
@@ -207,47 +242,73 @@
 <body>
 
   <!-- ======================================================== -->
-  <!-- PAGE 1: TITLE & EXECUTIVE SUMMARY                        -->
+  <!-- PAGE 1: FORMAL COVER PAGE                                -->
   <!-- ======================================================== -->
-  <div class="page">
-    <div class="title-block">
-      <div class="institution-header">
-        University of Makati<br>
-        College of Computer Science<br>
-        Department of Information Technology
+  <div class="page cover-page">
+    <div class="cover-top">
+      <div class="inst-name">University of Makati</div>
+      <div class="college-name">College of Computing and Information Sciences</div>
+      <div class="program-name">Bachelor of Science in Information Technology</div>
+    </div>
+
+    <div class="cover-middle">
+      <div class="doc-title">
+        HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault<br>
+        for Residential Gates and Boarding Houses
       </div>
 
-      <div class="report-title">
-        HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault for Residential Gates and Boarding Houses
+      <div class="doc-fulfillment">
+        A Project Research Status Report Submitted to the Faculty of the<br>
+        College of Computing and Information Sciences<br>
+        University of Makati<br><br>
+        In Partial Fulfillment of the Requirements for the Course<br>
+        <strong>Technopreneurship &amp; Real-Time Systems (RTS)</strong><br>
+        Academic Year 2026-2027
       </div>
-      <div class="report-subtitle">
-        Part 1: Midterm Status Report (Chapters 1 to 3)
-      </div>
+    </div>
 
-      <div class="proponents-block">
-        <strong>Course:</strong> Technopreneurship &amp; Real-Time Systems (RTS) | Academic Year 2026-2027<br>
-        <strong>Course Professor:</strong> Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT<br><br>
-        <strong>Project Proponents:</strong><br>
+    <div class="cover-bottom">
+      <div><strong>Course Professor:</strong></div>
+      <div>Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT</div>
+
+      <div class="proponents-list">
+        <strong>Researchers / Proponents:</strong><br>
         Camarador, Jhorenz S.<br>
         Corpuz, Lance Josh M.<br>
         Goze, AJ M.<br>
         Luzano, Justin Mark D.
       </div>
+
+      <div class="date-line">
+        October 2026
+      </div>
     </div>
+  </div>
 
-    <hr class="divider">
-
+  <!-- ======================================================== -->
+  <!-- PAGE 2: EXECUTIVE SUMMARY                                -->
+  <!-- ======================================================== -->
+  <div class="page">
     <h2>Executive Summary</h2>
     <p>
-      This submission represents the formal Part 1 Midterm Status Report for the technopreneurship project titled "HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault." The project addresses the severe security and operational challenges of unattended last-meter parcel deliveries in Philippine residential communities. By replacing vulnerable static padlocks and easily photocopied QR stickers with an autonomous ESP32 microcontroller, dynamic single-use access tokens, and a closed-loop sensor interlock, HULOG ensures that parcels are securely locked immediately upon deposit without requiring physical human handover.
+      The rapid expansion of the Philippine digital commerce ecosystem has established daily courier deliveries as an integral utility for urban households. However, this growth has intensified a critical point of vulnerability in the distribution chain: unattended last-meter parcel reception. When e-commerce couriers from Shopee Xpress, J&T Express, Flash Express, and on-demand logistics fleets arrive at residential premises during business hours, recipients are frequently away at school or work. Under strict delivery delivery schedules, couriers routinely leave packages resting on perimeter fences, tossed over gate doors, or entrusted to unverified neighbors, exposing deliveries to opportunistic theft, water saturation from heavy rainfall, and package loss.
     </p>
     <p>
-      This document outlines the foundational research framework across Chapters 1, 2, and 3, detailing the problem background, existing academic and industrial literature, technical bill of materials, system block diagrams, software architecture, and the current hardware bench testing status.
+      This research project presents the design, development, and technical validation of HULOG, an autonomous IoT-enabled parcel drop vault engineered specifically for residential gates, townhouse compounds, and multi-tenant boarding houses. The system replaces vulnerable mechanical padlocks and easily photocopied static QR stickers with an embedded ESP32 microcontroller architecture, a heavy-duty 12V electromagnetic solenoid lock, and dynamic, single-use access credentials.
+    </p>
+    <p>
+      Homeowners generate time-decaying 6-digit numeric PINs and dynamic QR tokens via a responsive web portal built with React, Vite, and TypeScript. Tokens possess a strictly limited operational lifespan (15 to 30 minutes) and are communicated to the courier via delivery note or direct messaging. Upon arrival, the delivery rider inputs the code on an integrated 4x4 membrane keypad or scans the dynamic QR code using a zero-install mobile web scanner. The ESP32 validates the token against a local memory table and energizes a 1-channel optocoupler relay module, causing the 12V solenoid lock to retract its spring-loaded plunger.
+    </p>
+    <p>
+      To prevent the system from remaining unlatched or generating false confirmations, HULOG executes a deterministic closed-loop sensor interlock. An internal optical infrared (IR) beam sensor verifies package entry into the deposit tray, while a magnetic door contact switch (MC-38) confirms physical door re-latching. Only after verified door closure is the active token permanently flagged as consumed in the microcontroller flash memory, preventing reuse. Simultaneously, the ESP32 dispatches encrypted MQTT telemetry to a cloud broker, which triggers an automated delivery receipt with timestamped verification via Telegram Bot API.
+    </p>
+    <p>
+      The hardware architecture utilizes a dual-rail power distribution circuit powered by a single 12V 2A DC regulated adapter, stepping down to a stable 5.00V DC logic bus through an LM2596 buck converter with 1N4007 inductive flyback clamping. The core electronics bill of materials totals PHP 820.00 (PHP 1,010.00 complete electronics package), supporting commercial retail viability between PHP 3,499.00 and PHP 4,999.00 with gross profit margins exceeding 50%. This status report establishes the research background, literature review, hardware design, and current prototype implementation status.
     </p>
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 2: CHAPTER 1 - PROBLEM BACKGROUND & GENERAL OBJECTIVE-->
+  <!-- PAGE 3: CHAPTER 1 - PROBLEM BACKGROUND & GENERAL OBJECTIVE-->
   <!-- ======================================================== -->
   <div class="page">
     <h2>Chapter 1: Introduction and Problem Context</h2>
@@ -276,7 +337,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 3: CHAPTER 1 - SPECIFIC OBJECTIVES, SIGNIFICANCE, SCOPE -->
+  <!-- PAGE 4: CHAPTER 1 - SPECIFIC OBJECTIVES, SIGNIFICANCE, SCOPE -->
   <!-- ======================================================== -->
   <div class="page">
     <h3>1.2 Specific Objectives</h3>
@@ -306,7 +367,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 4: CHAPTER 2 - RRL (LAST-MILE & LOCKERS)            -->
+  <!-- PAGE 5: CHAPTER 2 - RRL (LAST-MILE & LOCKERS)            -->
   <!-- ======================================================== -->
   <div class="page">
     <h2>Chapter 2: Review of Related Literature and Studies</h2>
@@ -335,7 +396,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 5: CHAPTER 2 - RRL (ACCESS PROTOCOLS & SYNTHESIS)   -->
+  <!-- PAGE 6: CHAPTER 2 - RRL (ACCESS PROTOCOLS & SYNTHESIS)   -->
   <!-- ======================================================== -->
   <div class="page">
     <h3>2.3 Access Control Protocols: Static vs. Dynamic Credentials</h3>
@@ -368,7 +429,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 6: CHAPTER 3 - BILL OF MATERIALS (TABLE 1)          -->
+  <!-- PAGE 7: CHAPTER 3 - BILL OF MATERIALS (TABLE 1)          -->
   <!-- ======================================================== -->
   <div class="page">
     <h2>Chapter 3: Research Methodology and Technical Design</h2>
@@ -532,7 +593,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 7: SYSTEM ARCHITECTURE (FIGURE 1)                   -->
+  <!-- PAGE 8: SYSTEM ARCHITECTURE (FIGURE 1)                   -->
   <!-- ======================================================== -->
   <div class="page">
     <h3>3.2 System Hardware and Network Architecture</h3>
@@ -582,13 +643,13 @@
 
         <rect x="45" y="188" width="300" height="72" fill="#ffffff" stroke="#000000" stroke-width="1"/>
         <text x="195" y="208" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Core 0: Network &amp; Security Tasks</text>
-        <text x="195" y="226" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• 802.11 b/g/n Wi-Fi &amp; MQTT Protocol Handler</text>
-        <text x="195" y="242" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• Dynamic Token Validator &amp; SPIFFS Flash Cache</text>
+        <text x="195" y="226" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 802.11 b/g/n Wi-Fi &amp; MQTT Protocol Handler</text>
+        <text x="195" y="242" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- Dynamic Token Validator &amp; SPIFFS Flash Cache</text>
 
         <rect x="375" y="188" width="300" height="72" fill="#ffffff" stroke="#000000" stroke-width="1"/>
         <text x="525" y="208" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Core 1: Real-Time Deterministic I/O</text>
-        <text x="525" y="226" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• 4x4 Keypad Polling &amp; OLED Frame Buffer</text>
-        <text x="525" y="242" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• Solenoid Pulse Control &amp; Sensor ISR Interlocks</text>
+        <text x="525" y="226" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 4x4 Keypad Polling &amp; OLED Frame Buffer</text>
+        <text x="525" y="242" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- Solenoid Pulse Control &amp; Sensor ISR Interlocks</text>
 
         <!-- Downward Buses -->
         <line x1="195" y1="275" x2="195" y2="310" stroke="#000000" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -600,22 +661,22 @@
 
         <rect x="35" y="340" width="320" height="68" fill="#ffffff" stroke="#000000" stroke-width="1"/>
         <text x="195" y="358" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Sensing &amp; Manual Interface Bus</text>
-        <text x="195" y="374" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• MC-38 Magnetic Door Switch (GPIO 19, INPUT_PULLUP)</text>
-        <text x="195" y="388" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• Active IR Presence Sensor (GPIO 18, Digital IN)</text>
-        <text x="195" y="402" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• 4x4 Keypad (GPIOs 13,12,14,27,26,25,33,32) &amp; OLED (I2C D21/22)</text>
+        <text x="195" y="374" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- MC-38 Magnetic Door Switch (GPIO 19, INPUT_PULLUP)</text>
+        <text x="195" y="388" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- Active IR Presence Sensor (GPIO 18, Digital IN)</text>
+        <text x="195" y="402" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 4x4 Keypad (GPIOs 13,12,14,27,26,25,33,32) &amp; OLED (I2C D21/22)</text>
 
         <rect x="365" y="340" width="320" height="68" fill="#ffffff" stroke="#000000" stroke-width="1"/>
         <text x="525" y="358" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Actuation &amp; Power Regulation Bus</text>
-        <text x="525" y="374" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• 1-Channel Optocoupler Relay (GPIO 23, Active LOW)</text>
-        <text x="525" y="388" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• 12V 0.8A Electromagnetic Solenoid Lock (1000N holding)</text>
-        <text x="525" y="402" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">• 1N4007 Diode (Flyback Clamp) &amp; LM2596 (12V to 5V Step-Down)</text>
+        <text x="525" y="374" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 1-Channel Optocoupler Relay (GPIO 23, Active LOW)</text>
+        <text x="525" y="388" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 12V 0.8A Electromagnetic Solenoid Lock (1000N holding)</text>
+        <text x="525" y="402" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 1N4007 Diode (Flyback Clamp) &amp; LM2596 (12V to 5V Step-Down)</text>
       </svg>
       <div class="diagram-caption"><strong>Figure 1.</strong> High-Level System Hardware and Network Architecture of the HULOG Drop Vault.</div>
     </div>
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 8: POWER SCHEMATIC (FIGURE 2) & PINOUT (TABLE 2)    -->
+  <!-- PAGE 9: POWER SCHEMATIC (FIGURE 2) & PINOUT (TABLE 2)    -->
   <!-- ======================================================== -->
   <div class="page">
     <h3>3.3 Power Distribution and Circuit Interconnect Schematic</h3>
@@ -740,7 +801,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- PAGE 9: STATE MACHINE (FIGURE 3) & SOFTWARE ARCHITECTURE -->
+  <!-- PAGE 10: STATE MACHINE (FIGURE 3) & SOFTWARE ARCHITECTURE -->
   <!-- ======================================================== -->
   <div class="page">
     <h3>3.5 Closed-Loop Operational State Machine</h3>
@@ -806,7 +867,12 @@
       </pre>
       <div class="diagram-caption"><strong>Figure 3.</strong> Deterministic Closed-Loop Operational State Machine Flowchart.</div>
     </div>
+  </div>
 
+  <!-- ======================================================== -->
+  <!-- PAGE 11: SOFTWARE SYSTEM, STATUS TABLE & NEXT STEPS      -->
+  <!-- ======================================================== -->
+  <div class="page">
     <h3>3.6 Software and Web Management System</h3>
     <p>
       The software architecture combines an embedded C++ firmware layer with a modern web visual hub:
@@ -815,12 +881,7 @@
       <li><strong>Embedded C++ Firmware:</strong> Engineered under PlatformIO targeting the ESP32 Arduino framework. Modules include Adafruit SSD1306/GFX for hardware I2C display rendering, Keypad.h for debounced matrix polling, and SPIFFS non-volatile flash storage for offline access logging.</li>
       <li><strong>Web Management Application:</strong> Built using React 18, Vite, and TypeScript. Provides an owner dashboard for minting dynamic tokens, a zero-install mobile web page for couriers, and a real-time hardware simulator reproducing the physical ESP32 state machine and door cycling animations.</li>
     </ul>
-  </div>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 10: STATUS TABLE (TABLE 3) & NEXT STEPS             -->
-  <!-- ======================================================== -->
-  <div class="page">
     <h2>Current Prototype Implementation Status</h2>
     <p class="no-indent">
       As of October 16, 2026, the project has achieved the following technical milestones across all engineering domains:
