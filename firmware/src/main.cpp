@@ -210,7 +210,7 @@ void runStateMachine() {
             break;
 
         case VAULT_DELIVERY_CONFIRMED:
-            updateDisplay("DELIVERY DONE!", "Package Secured", "Notification Sent");
+            updateDisplay("DELIVERY DONE!", "Package Secured", "Door cycle done");
             beep(3, 100);
             delay(3000);
             currentState = VAULT_IDLE;

@@ -11,7 +11,7 @@
 #define PIN_RELAY_SOLENOID    23   // Active LOW trigger via PC817 Optocoupler
 
 // Sensors & Inputs
-#define PIN_REED_SWITCH       19   // Magnetic Door Switch (INPUT_PULLUP: LOW = Closed)
+#define PIN_REED_SWITCH       19   // Reed NO lead (INPUT_PULLUP: LOW = door closed)
 #define PIN_IR_SENSOR         18   // Optical IR Sensor (LOW = Object Detected)
 
 // Audio Feedback

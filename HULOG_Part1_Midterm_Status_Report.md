@@ -1,376 +1,620 @@
-# UNIVERSITY OF MAKATI
-## COLLEGE OF COMPUTING AND INFORMATION SCIENCES
-### Bachelor of Science in Information Technology
+# HULOG Part 1 Midterm Status Report
 
----
+Plain-text copy of the 16 October 2026 revision. The formatted submission, with the drawn figures, is HULOG_Part1_Midterm_Status_Report.pdf. Edit the HTML file, then reprint that PDF.
 
-# HULOG: IoT-ENABLED DYNAMIC QR PARCEL DROP VAULT FOR RESIDENTIAL GATES AND BOARDING HOUSES
+HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault
 
-*A Project Research Status Report Submitted to the Faculty of the*  
-*College of Computing and Information Sciences*  
-*University of Makati*  
 
-*In Partial Fulfillment of the Requirements for the Course*  
-**Technopreneurship & Real-Time Systems (RTS)**  
-*Academic Year 2026-2027*  
 
-**Course Professor:**  
-Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT  
 
-**Researchers / Proponents:**  
-Camarador, Jhorenz S.  
-Corpuz, Lance Josh M.  
-Goze, AJ M.  
-Luzano, Justin Mark D.  
+      University of Makati
+      College of Computing and Information Sciences
+      Bachelor of Science in Information Technology
 
-**Date:**  
-October 2026  
 
----
 
-## EXECUTIVE SUMMARY
 
-The rapid expansion of the Philippine digital commerce ecosystem has established daily courier deliveries as an integral utility for urban households. However, this growth has intensified a critical point of vulnerability in the distribution chain: unattended last-meter parcel reception. When e-commerce couriers from Shopee Xpress, J&T Express, Flash Express, and on-demand logistics fleets arrive at residential premises during business hours, recipients are frequently away at school or work. Under strict delivery schedules, couriers routinely leave packages resting on perimeter fences, tossed over gate doors, or entrusted to unverified neighbors, exposing deliveries to opportunistic theft, water saturation from heavy rainfall, and package loss.
+        HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault
 
-This research project presents the design, development, and technical validation of HULOG, an autonomous IoT-enabled parcel drop vault engineered specifically for residential gates, townhouse compounds, and multi-tenant boarding houses. The system replaces vulnerable mechanical padlocks and easily photocopied static QR stickers with an embedded ESP32 microcontroller architecture, a heavy-duty 12V electromagnetic solenoid lock, and dynamic, single-use access credentials.
+        for Residential Gates and Boarding Houses
 
-Homeowners generate time-decaying 6-digit numeric PINs and dynamic QR tokens via a responsive web portal built with React, Vite, and TypeScript. Tokens possess a strictly limited operational lifespan (15 to 30 minutes) and are communicated to the courier via delivery note or direct messaging. Upon arrival, the delivery rider inputs the code on an integrated 4x4 membrane keypad or scans the dynamic QR code using a zero-install mobile web scanner. The ESP32 validates the token against a local memory table and energizes a 1-channel optocoupler relay module, causing the 12V solenoid lock to retract its spring-loaded plunger.
 
-To prevent the system from remaining unlatched or generating false confirmations, HULOG executes a deterministic closed-loop sensor interlock. An internal optical infrared (IR) beam sensor verifies package entry into the deposit tray, while a magnetic door contact switch (MC-38) confirms physical door re-latching. Only after verified door closure is the active token permanently flagged as consumed in the microcontroller flash memory, preventing reuse. Simultaneously, the ESP32 dispatches encrypted MQTT telemetry to a cloud broker, which triggers an automated delivery receipt with timestamped verification via Telegram Bot API.
+        A Project Research Status Report Submitted to the Faculty of the
 
-The hardware architecture utilizes a dual-rail power distribution circuit powered by a single 12V 2A DC regulated adapter, stepping down to a stable 5.00V DC logic bus through an LM2596 buck converter with 1N4007 inductive flyback clamping. The core electronics bill of materials totals PHP 820.00 (PHP 1,010.00 complete electronics package), supporting commercial retail viability between PHP 3,499.00 and PHP 4,999.00 with gross profit margins exceeding 50%. This status report establishes the research background, literature review, hardware design, and current prototype implementation status.
+        College of Computing and Information Sciences
 
----
+        University of Makati
 
-## CHAPTER 1: INTRODUCTION AND PROBLEM CONTEXT
+        In Partial Fulfillment of the Requirements for the Course
 
-### 1.1 Problem Background
+        Technopreneurship & Real-Time Systems (RTS)
 
-The rapid growth of the Philippine digital economy has established e-commerce platforms, notably Shopee, Lazada, and TikTok Shop, as essential utilities in everyday commerce. According to reports from the Department of Trade and Industry (DTI), parcel delivery volumes across Metro Manila and surrounding suburban provinces continue to increase significantly each year. However, this volume has exposed a severe vulnerability at the final stage of the logistics chain, commonly known as the last-meter delivery problem.
+        Academic Year 2026-2027
 
-In typical Philippine residential settings, including townhouse developments, perimeter-gated detached homes, and multi-tenant student boarding houses, recipients are routinely away at work or school during standard courier operating hours. Delivery personnel operating under strict delivery quotas (including fleets from J&T Express, Flash Express, SPX, and on-demand services such as Grab and Lalamove) cannot afford prolonged waiting times at residential gates. Consequently, couriers regularly leave packages resting on fence ledges, toss them over perimeter gates onto exposed driveways, or transfer custody to unverified neighbors.
 
-This operational pattern results in three major points of failure:
 
-1. **Parcel Theft and Pilferage:** Packages left unattended on street-facing ledges or gate openings invite opportunistic theft. When a courier uploads a delivery proof photograph showing a parcel resting on an open gate, disputes frequently occur between buyers, merchants, and logistics hubs regarding liability for missing items.
-2. **Environmental and Weather Exposure:** The tropical climate of the Philippines alternates between torrential rain and extreme heat. Cardboard and plastic satchels left outdoors suffer moisture damage, leading to ruined electronics, documents, and apparel.
-3. **Inadequacy of Existing Countermeasures:** Homeowners frequently attempt to address this issue by installing standard mechanical padlocks or affixing printed static QR code stickers to plastic bins. Mechanical keys cannot be transferred securely to constantly rotating delivery riders. Conversely, static QR stickers pasted on exterior gates are inherently insecure, as any individual can capture a photograph of the barcode and scan it days later to gain unauthorized access.
 
-These factors demonstrate the necessity of an autonomous, tamper-resistant parcel reception vault that operates on dynamic, single-use access credentials while maintaining an accessible production cost suitable for local residential deployment.
+      Course Professor:
+      Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT
 
-### 1.2 General and Specific Objectives
+        Researchers / Proponents:
 
-#### General Objective
-The primary objective of this project is to design, develop, and evaluate HULOG, an autonomous IoT-enabled parcel drop vault utilizing dynamic, single-use QR and PIN credentials to provide secure, contact-free package reception at residential perimeters.
+        Camarador, Jhorenz S.
 
-#### Specific Objectives
-1. **Actuation and Hardware Security:** To construct a robust physical locking subsystem utilizing an ESP32 microcontroller, a 1-channel optocoupler relay module, and a 12V electromagnetic solenoid lock capable of exerting 1000N of mechanical holding force.
-2. **Closed-Loop Sensory Verification:** To implement a sensory interlock incorporating a magnetic door contact switch (MC-38) and an active optical infrared (IR) beam sensor to confirm both parcel placement and complete door re-latching before access credentials are invalidated.
-3. **Dynamic Cryptographic Authentication:** To develop an algorithm that generates time-decaying, single-use 6-digit numeric PINs and dynamic QR tokens with operational lifespans of 15 to 30 minutes, ensuring tokens are permanently invalidated immediately after a single door cycle.
-4. **Dual-Portal Web Application:** To develop a responsive web management interface allowing homeowners to mint access tokens and monitor audit logs, while providing delivery riders with a zero-install mobile web scanner to trigger single-cycle unlocking.
-5. **Circuit Protection and Cost Optimization:** To engineer a dual-rail power distribution circuit (12V high-current solenoid rail and 5.0V regulated logic rail via an LM2596 buck converter) maintaining an electronics bill of materials (BOM) cost below PHP 1,000.00 to facilitate domestic commercial scalability.
+        Corpuz, Lance Josh M.
 
-### 1.3 Significance of the Study
+        Goze, AJ M.
 
-This investigation provides practical technological and economic value to three primary stakeholder groups:
+        Luzano, Justin Mark D.
 
-- **Homeowners and Tenants:** Provides a dependable method for receiving e-commerce parcels securely without requiring physical presence at home during delivery attempts.
-- **Logistics Couriers and E-Commerce Platforms:** Eliminates gate waiting delays, reduces failed delivery attempts and return-to-seller overhead, and generates verifiable, timestamped sensor records confirming package deposit.
-- **Domestic IoT Hardware Development:** Demonstrates that enterprise-grade access control does not require expensive imported lockboxes, establishing a reproducible model for localized, cost-effective smart devices built with standard modular components.
+      16 October 2026
 
-### 1.4 Scope and Delimitation
 
-#### Scope
-- The physical prototype focuses on small-to-medium parcel reception matching standard e-commerce deliveries (up to 25 cm x 20 cm x 15 cm in the tabletop testbench, scalable to full exterior gate installations).
-- The central controller utilizes an ESP32-WROOM-32 30-pin microcontroller board communicating over 2.4 GHz 802.11 b/g/n Wi-Fi.
-- Physical interface at the vault is supported through a 4x4 matrix membrane keypad and an SSD1306 0.96-inch monochrome I2C OLED display.
-- Cloud connectivity and remote token generation are handled via a responsive web application built with React, Vite, and TypeScript, with instant delivery alerts dispatched via the Telegram Bot API.
 
-#### Delimitation
-- The prototype does not include active refrigeration or climate control for perishable groceries.
-- Cash-on-Delivery (COD) transactions requiring cash handling are excluded from autonomous vault cycles; the system targets prepaid orders (GCash, Maya, credit/debit card, platform-prepaid checkout).
-- Cellular GSM/LTE modules are excluded from the initial prototype; the device relies on local Wi-Fi connectivity with local time-based one-time password (TOTP) fallback routines during network outages.
 
----
 
-## CHAPTER 2: REVIEW OF RELATED LITERATURE AND STUDIES
+Executive Summary
 
-### 2.1 Last-Mile Delivery Challenges in Urban Logistics
 
-Academic literature consistently identifies the last-meter handover as the most expensive, inefficient, and vulnerable link in the global supply chain (Gevaers et al., 2014). In developing Southeast Asian logistics markets, high population density, non-standardized residential addressing systems, and high rates of unattended drops compound these inefficiencies (Allen et al., 2018).
 
-In the Philippines, logistics operators experience high operational overhead caused by failed delivery attempts. When a recipient cannot be reached, the rider must either wait, attempt redelivery on the following day, or return the parcel to the central sorting hub. Industry analyses indicate that redelivery attempts can erode up to 30% of a courier's daily delivery margins. HULOG mitigates this problem by establishing a fixed, accessible drop endpoint at the residential boundary.
-
-### 2.2 Evolution of Automated Parcel Lockers (APL)
-
-Automated Parcel Lockers (APLs) have gained widespread adoption in European and East Asian markets, popularized by services like InPost, DHL Packstation, and Cainiao smart lockers (Morganti et al., 2014). These systems traditionally consist of centralized multi-door metal locker banks deployed in high-density public areas such as transit stations and convenience stores.
-
-While centralized APLs provide high security, their implementation in Philippine residential neighborhoods faces severe constraints:
-1. **High Capital Expenditure:** Industrial locker banks cost hundreds of thousands of pesos to construct, power, and maintain.
-2. **Commuter Inconvenience:** Centralized lockers still require the recipient to travel to a designated hub, failing to solve the doorstep convenience expected from e-commerce delivery.
-3. **Space Constraints:** Densely populated residential barangays lack public sidewalks or communal rights-of-way suitable for massive multi-compartment lockers.
-
-Recent academic investigations (e.g., Wang et al., 2020) emphasize the necessity of decentralized, single-household smart drop boxes. HULOG applies this decentralized model by scaling down the electronics and housing them directly within individual residential perimeter gates.
-
-### 2.3 Access Control Protocols: Static vs. Dynamic Credentials
-
-Conventional electronic drop boxes predominantly rely on static access credentials, such as fixed numeric passcodes, physical RFID cards, or printed static QR code stickers. Studies by Kumar and Lee (2019) on physical access vulnerabilities highlight that static credentials suffer from credential leakage:
-- Once a delivery rider memorizes or records a static gate PIN, that credential remains active indefinitely unless manually reset by the homeowner.
-- Static QR stickers pasted on the exterior of a locker can be inconspicuously photographed using a smartphone camera. An attacker can duplicate the barcode and scan it days later to unlock the vault.
-
-To solve this vulnerability, modern cryptographic literature advocates for dynamic, ephemeral tokens based on the Time-Based One-Time Password algorithm (TOTP, RFC 6238) and single-cycle state invalidation (M'Raihi et al., 2011). HULOG incorporates this protocol: the generated QR code or 6-digit PIN possesses a strictly constrained operational lifespan (15 to 30 minutes) and is immediately purged from the active authorization table the moment the door sensor confirms physical closure.
-
-### 2.4 Sensor Verification and Closed-Loop Interlocks
-
-Electronic locking mechanisms that rely solely on timers (e.g., unlocking for five seconds and then re-locking without sensing door status) present significant operational flaws. If a courier opens the door and takes longer than five seconds to arrange the parcel, the lock bolt can extend while the door is still open, jamming against the frame when slammed shut. Furthermore, open-loop systems cannot confirm whether a parcel was actually placed inside or whether the door remained ajar after the courier departed.
-
-Research in real-time embedded systems demonstrates that closed-loop sensory interlocks are mandatory for automated storage (Purnomo et al., 2021). By pairing a magnetic reed switch (MC-38) with an active optical infrared obstacle sensor, the microcontroller confirms three discrete physical conditions:
-1. The door was successfully opened.
-2. An object crossed the threshold and broke the optical infrared beam inside the receiving tray.
-3. The door was fully re-aligned with the frame, allowing the solenoid to seat properly.
-
-### 2.5 Synthesis and Research Gap
-
-While commercial smart delivery boxes exist in Western markets (e.g., BoxLock, Yale Smart Delivery Box), their retail pricing (typically exceeding USD 250.00 to USD 400.00) makes them inaccessible to the average Filipino household. Furthermore, existing systems frequently require couriers to download dedicated third-party mobile applications or connect via Bluetooth, introducing friction that fast-moving local delivery riders actively resist.
-
-The research gap addressed by HULOG is the creation of a low-cost, decentralized parcel vault engineered for Philippine gate structures that operates through zero-install web interfaces, employs dynamic single-use credentials, and utilizes an accessible, locally sourced electronics payload totaling under PHP 1,000.00.
-
----
-
-## CHAPTER 3: RESEARCH METHODOLOGY AND TECHNICAL DESIGN
-
-### 3.1 Bill of Materials and Hardware Sourcing
-
-The hardware components for the HULOG prototype were sourced through verified domestic electronics distributors in Metro Manila, specifically Makerlab Electronics and e-Gizmo. The selection criteria prioritized electrical reliability, thermal stability, standard communication protocols (I2C, GPIO), and affordability.
-
-| Item No. | Component Description | Technical Specifications | Subsystem | Quantity | Unit Price (PHP) | Total Price (PHP) |
-| :-: | :--- | :--- | :--- | :-: | :-: | :-: |
-| 1 | ESP32 DevKit V1 | 30-pin, Dual-Core 240MHz, 4MB Flash, Wi-Fi + BLE | Main Controller | 1 | 240.00 | 240.00 |
-| 2 | 0.96" I2C OLED Display | SSD1306 driver, 128x64 resolution, 4-pin interface | User Display | 1 | 110.00 | 110.00 |
-| 3 | 4x4 Matrix Membrane Keypad | 16-key matrix (0-9, A-D, *, #), 8-pin female header | Manual Input | 1 | 65.00 | 65.00 |
-| 4 | Magnetic Door Switch | MC-38 model, Normally Closed (NC), surface mount | Sensor | 1 | 55.00 | 55.00 |
-| 5 | Optical IR Sensor Module | Active infrared obstacle detection, 3-pin interface | Sensor | 1 | 25.00 | 25.00 |
-| 6 | 5V Active Buzzer Module | 85dB SPL acoustic sounder, continuous tone | Audio Output | 1 | 20.00 | 20.00 |
-| 7 | 12V Solenoid Cabinet Lock | Electromagnetic latch, tongue-down, 12V 0.8A | Actuation | 1 | 190.00 | 190.00 |
-| 8 | 1-Channel Relay Module | 5V trigger, PC817 optocoupler isolation, 10A contacts | Power Switching | 1 | 45.00 | 45.00 |
-| 9 | 12V 2A DC Power Adapter | Regulated switching adapter, 220V AC input, 5.5mm jack | Power Supply | 1 | 115.00 | 115.00 |
-| 10 | DC Barrel Jack Adapters | 5.5x2.1mm female to screw terminal block | Power Interface | 2 | 20.00 | 40.00 |
-| 11 | LM2596 Buck Converter | DC-DC step-down, 12V input to 5.0V output, 3A max | Power Regulation | 1 | 55.00 | 55.00 |
-| 12 | Dupont Jumper Wires | 40-pin female-to-female 20cm jumper ribbon cable | Interconnect | 1 | 50.00 | 50.00 |
-| 13 | Prototype Enclosure Box | Wood/acrylic tabletop hinged storage box (25x20x15cm) | Physical Housing | 1 | 180.00 | 180.00 |
-| 14 | Mini Cabinet Butt Hinges | 1.5-inch metal hinges with mounting wood screws | Hardware | 1 | 35.00 | 35.00 |
-| **Total** | **Complete Prototype Implementation Cost** | | | | | **PHP 1,185.00** |
-
-*Note: The pure electronics payload (Items 1 through 12, excluding the craft enclosure box and hinges) totals PHP 1,010.00, with raw active silicon and sensors totaling PHP 820.00.*
-
-### 3.2 System Hardware and Network Architecture Diagram
-
-The system operates across three interconnected layers: the Cloud and Management Layer, the Embedded ESP32 Microcontroller Layer, and the Physical Hardware Bus.
-
-```
-===================================================================================
-                           CLOUD & MANAGEMENT LAYER
-===================================================================================
-
-  +-------------------------------+         +----------------------------------+
-  |    HOMEOWNER WEB DASHBOARD    |         |    COURIER MOBILE WEB SCANNER    |
-  |  - Generate 6-digit OTP / QR  |         |  - Zero-install mobile scanner   |
-  |  - Set token validity period  |         |  - Trigger single-cycle unlatch  |
-  +---------------+---------------+         +-----------------+----------------+
-                  |                                           |
-                  | HTTPS (REST API)                          | HTTPS (REST API)
-                  v                                           v
-  +----------------------------------------------------------------------------+
-  |                        CLOUD BROKER & API GATEWAY                          |
-  |  - Ephemeral token storage and single-use validation table                 |
-  |  - Bidirectional TLS-encrypted MQTT communications broker                  |
-  |  - Automated webhook integration for Telegram Bot delivery notifications   |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        | MQTT over TLS (Port 8883)
-                                        v
-===================================================================================
-                       EMBEDDED CONTROLLER LAYER (ESP32)
-===================================================================================
-
-  +----------------------------------------------------------------------------+
-  |                     ESP32-WROOM-32 DUAL-CORE PROCESSOR                     |
-  |                                                                            |
-  |   +------------------------------------+-------------------------------+   |
-  |   | CORE 0: NETWORK & SECURITY TASKS   | CORE 1: REAL-TIME I/O TASKS    |   |
-  |   | - 802.11 b/g/n Wi-Fi Manager       | - 4x4 Keypad matrix scanner    |   |
-  |   | - Dynamic token validation engine  | - Solenoid relay pulse timer   |   |
-  |   | - SPIFFS non-volatile log storage  | - MC-38 Reed switch ISR        |   |
-  |   | - MQTT telemetry publisher         | - Optical IR presence sensor   |   |
-  |   +------------------------------------+-------------------------------+   |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                     +------------------+------------------+
-                     |                                     |
-                     v                                     v
-===================================================================================
-                       PHYSICAL SENSING & ACTUATION BUS
-===================================================================================
-
-  +-----------------------------------+     +----------------------------------+
-  |       SENSING & INPUT BUS         |     |       ACTUATION & POWER BUS      |
-  |                                   |     |                                  |
-  |  - MC-38 Reed Switch (GPIO 19)    |     |  - 1-Ch Relay Module (GPIO 23)   |
-  |  - Active IR Sensor (GPIO 18)     |     |  - 12V 0.8A Solenoid Cabinet Lock|
-  |  - 4x4 Membrane Keypad (8 GPIOs)  |     |  - 1N4007 Diode (Back-EMF clamp) |
-  |  - SSD1306 OLED Display (I2C)     |     |  - 5V Active Buzzer (GPIO 5)     |
-  |    SDA: GPIO 21 | SCL: GPIO 22    |     |  - LM2596 Buck Converter (12V->5V|
-  +-----------------------------------+     +----------------------------------+
-```
-
-### 3.3 Power Distribution and Circuit Interconnect Schematic
-
-The system uses a dual-rail power topology driven by a single 12V 2A DC regulated wall adapter, ensuring the high-current solenoid lock does not cause voltage drops on the microcontroller logic rail.
-
-```
- 12V 2A DC WALL ADAPTER
-  (+) Positive 12V Rail ───┬───────────────────────────────────> Relay COM Terminal
-                           │
-                           ├───> [LM2596 BUCK IN+]
-                           │     [LM2596 BUCK IN-] ──┐
-  (-) Ground Return (GND) ─┼─────────────────────────┼─────────> SYSTEM COMMON GROUND (GND)
-                           │                         │
-                           │     [LM2596 BUCK OUT+] ─┴─────────> +5.00V DC REGULATED LOGIC BUS
-                           │                                     (ESP32 VIN, Relay VCC,
-                           │                                      IR Sensor VCC, Buzzer VCC)
-                           │
-                           │     [LM2596 BUCK OUT-] ───────────> SYSTEM COMMON GROUND (GND)
-                           │
-                           │
-  RELAY ACTUATION CIRCUIT: │
-                           │
-     ESP32 GPIO 23 ────────┴─> [Relay IN (Active LOW)]
-     Relay NO Contact ────────┬────────────────────────────────> Solenoid Red Wire (+)
-                              │
-                            ┌─┴─┐
-                            ▲   │ 1N4007 Flyback Diode
-                            │   │ (Cathode band facing +12V NO contact)
-                            └─┬─┘
-                              │
-     Common Ground (GND) ─────┴────────────────────────────────> Solenoid Black Wire (-)
-```
-
-### 3.4 Hardware Wiring and Pinout Configuration
-
-All pin mappings on the ESP32 30-pin development board are assigned to avoid strapping pins (GPIO 0, GPIO 2, GPIO 15) and input-only pins (GPIO 34 through 39):
-
-| Subsystem | Peripheral Device | Assigned ESP32 Pin | Logic Level | Circuit Configuration / Purpose |
-| :--- | :--- | :--- | :--- | :--- |
-| **Actuator** | 1-Channel Relay Module | **GPIO 23** | 3.3V Logic | Active LOW trigger. Connects to relay signal input (IN). |
-| **Display** | 0.96" SSD1306 OLED | **GPIO 22** | 3.3V / 5V | Hardware I2C Clock (SCL). |
-| **Display** | 0.96" SSD1306 OLED | **GPIO 21** | 3.3V / 5V | Hardware I2C Data (SDA). |
-| **Sensor** | Magnetic Door Switch | **GPIO 19** | 3.3V | Configured as `INPUT_PULLUP`. Reads LOW when door is closed. |
-| **Sensor** | Active Optical IR Sensor| **GPIO 18** | 3.3V / 5V | Digital Input. Reads LOW when package breaks infrared beam. |
-| **Acoustic** | 5V Active Buzzer | **GPIO 5** | 3.3V | Digital Output. Emits chimes for keypresses and alarms. |
-| **Keypad** | 4x4 Membrane Rows | **GPIO 13, 12, 14, 27**| 3.3V | Keypad Matrix Row Scan Lines (R1, R2, R3, R4). |
-| **Keypad** | 4x4 Membrane Cols | **GPIO 26, 25, 33, 32**| 3.3V | Keypad Matrix Column Input Lines (C1, C2, C3, C4) with internal pull-ups. |
-| **Power** | LM2596 Step-Down Buck | **VIN and GND** | 5.0V DC | Steps 12V adapter down to 5.00V DC for ESP32 and logic rail. |
-
-#### Inductive Spike Protection
-A **1N4007 rectifier diode** is placed in reverse bias directly across the 12V solenoid lock terminals (cathode with the silver stripe connected to the positive 12V relay NO terminal; anode connected to ground). When the relay contact opens, the high-voltage inductive back-EMF spike produced by the collapsing magnetic field is safely dissipated through the diode, preventing microcontroller lockups and contact arcing.
-
-### 3.5 Closed-Loop Operational State Machine
-
-The vault firmware executes a deterministic, closed-loop state machine structured as follows:
-
-```
-  +----------------------------------------------------------------------------+
-  |                             STATE 0: IDLE                                  |
-  |  - Vault door is mechanically latched.                                     |
-  |  - OLED display: "HULOG VAULT - Scan QR or Enter PIN".                     |
-  |  - Keypad scanner and network listeners are active.                        |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v (Courier enters 6-digit PIN on keypad
-                                           or scans QR token via mobile scanner)
-  +-------------------------------------+--------------------------------------+
-  |                       STATE 1: TOKEN AUTHENTICATION                        |
-  |  - Token is matched against local flash cache / pre-shared hash table.     |
-  |  - If Invalid: Buzzer sounds 3 error chirps; failure counter increments.   |
-  |                (3 failed attempts trigger 5-minute lockout).               |
-  |  - If Valid: Solenoid relay energizes; transition to STATE 2.              |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |                          STATE 2: UNLATCHING                               |
-  |  - GPIO 23 pulled LOW for exactly 3,000 milliseconds.                      |
-  |  - 12V solenoid retracts its spring-loaded plunger.                        |
-  |  - OLED display: "ACCESS GRANTED - OPEN DOOR".                             |
-  |  - 30-second watchdog timer starts.                                        |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |                 STATE 3: DOOR AJAR & PARCEL DEPOSIT                        |
-  |  - MC-38 Reed Switch opens (GPIO 19 transitions to HIGH).                  |
-  |  - Courier pulls door open and deposits package.                           |
-  |  - Active IR sensor inside tray detects object (GPIO 18 goes LOW).         |
-  |  - OLED display: "DOOR OPEN - DEPOSIT PARCEL".                             |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |             STATE 4: RE-LATCHING & TOKEN CONSUMPTION                       |
-  |  - Courier closes the vault door.                                          |
-  |  - MC-38 Reed Switch closes (GPIO 19 goes LOW).                            |
-  |  - Mechanical angled tongue snaps into strike plate.                       |
-  |  - Access token is permanently flagged as CONSUMED in flash memory.        |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |               STATE 5: TELEMETRY & CONFIRMATION DISPATCH                   |
-  |  - Buzzer emits a 3-tone success chime.                                    |
-  |  - OLED display: "DELIVERY DONE! - PACKAGE SECURED".                       |
-  |  - ESP32 dispatches encrypted MQTT payload to cloud broker.                |
-  |  - Telegram Bot alerts homeowner with timestamped proof of deposit.        |
-  |  - Vault returns to STATE 0 (IDLE).                                        |
-  +----------------------------------------------------------------------------+
-```
-
-### 3.6 Software and Web Management System
-
-The software architecture combines an embedded C++ firmware layer with a modern web visual hub:
-
-1. **Embedded C++ Firmware (`firmware/`):**
-   - Developed using the Arduino Core framework under the PlatformIO IDE ecosystem.
-   - Utilizes `Adafruit_SSD1306` and `Adafruit_GFX` for hardware I2C display rendering.
-   - Uses `Keypad.h` for debounced non-blocking matrix scanning.
-   - Manages non-volatile flash logging through the ESP32 SPIFFS filesystem to ensure transaction persistence across power interruptions.
-
-2. **Web Application Visual Hub (`hulog-web/`):**
-   - Built with **React 18**, **Vite**, and **TypeScript**, with styling rendered via Vanilla CSS design tokens.
-   - **Recipient Management Portal:** Allows the homeowner to mint dynamic delivery passes with selectable validity durations (15, 30, or 60 minutes), generate single-use QR tokens, and review historical delivery logs.
-   - **Courier Web Interface:** A zero-install mobile web page reachable via link or QR scan that authenticates the rider's physical presence and transmits an authorized unlock trigger to the vault.
-   - **Interactive Hardware Simulator:** An integrated virtual testbench replicating the ESP32 dual-core state machine, OLED display state transitions, and door opening animations for demonstration and defense presentation.
-
----
-
-## CURRENT PROTOTYPE IMPLEMENTATION STATUS
-
-As of October 16, 2026, the project has achieved the following technical milestones:
-
-| Project Subsystem | Target Milestone | Current Operational Status | Verification Method |
-| :--- | :--- | :--- | :--- |
-| **Component Procurement** | 14-item BOM acquisition | **100% Completed** | All electronic modules (ESP32, OLED, Keypad, Relay, Solenoid, Sensors, Buck Converter) physically acquired and cataloged. |
-| **Repository & Documentation** | Git repository and specifications | **100% Completed** | Published to public GitHub repository (`buridekz/hulog-iot-vault`) with architecture, wiring, and API docs. |
-| **Web Portal & Simulator** | Interactive dual-portal web app | **100% Completed** | Built and validated in `hulog-web/`. Production bundle passes with zero TypeScript or asset compilation errors. |
-| **Firmware Scaffolding** | Embedded C++ PlatformIO core | **100% Completed** | Pinout mapping (`config.h`), library dependencies, and core state machine (`main.cpp`) scaffolded and ready for flashing. |
-| **Hardware Bench Integration**| Breadboard wiring and bench test | **In Progress (Active Phase)**| PlatformIO toolchain installed; initial ESP32 flashing, OLED I2C testing, and relay switching underway on developer bench. |
-| **Enclosure Assembly** | Tabletop demonstration vault mounting | **Scheduled (Post-Midterm)**| Mounting of solenoid, limit switch, and keypad into the physical hinged tabletop container. |
-
----
-
-## NEXT STEPS FOR PART 2 FINALIZATION
-
-Following the submission of this Part 1 Midterm Status Report, the engineering team will proceed with:
-1. Conducting physical bench testing of the closed-loop sensor interlock, measuring actual solenoid retraction speeds and relay debounce timings.
-2. Interfacing the ESP32 firmware with the cloud MQTT broker and Telegram Bot notification webhook.
-3. Assembling the physical tabletop enclosure with installed acrylic viewing panels for academic defense demonstration.
-4. Expanding Chapter 4 (Results, Discussion, Unit Economics, and Market Feasibility) to complete the full Part 2 Technopreneurship Book dossier.
+    Daily courier stops have become part of household life in Philippine cities, and the fragile moment is the last one: the rider at a gate when nobody is home. Parcels are left on a fence ledge, dropped over the gate, or passed to a neighbor. Rain, heat, and theft sit on the other side of that habit. A padlock cannot be lent to a different rider every afternoon. A QR sticker on a bin can be photographed once and reused later.
+
+
+
+    HULOG is a drop vault for a house gate or a boarding-house entrance. The owner creates a 6-digit PIN and a matching QR pass from a web page. The pass is designed to live for 15 or 30 minutes and to die after one completed door cycle. The rider types the PIN on a keypad, or opens the pass in the phone browser, and does not install an app. A 12 V door solenoid, switched by a relay, releases the latch. A magnetic reed switch and an infrared proximity sensor are there to confirm that the door opened, that a parcel is in the bay, and that the door shut again.
+
+
+
+    As of 16 October 2026 the purchased parts are in hand, the web portal and the hardware simulator run, and the ESP32 sketch on the bench already reads the keypad, the reed switch, and the proximity sensor, drives the OLED, and pulses the relay. That sketch still accepts a fixed test PIN. Wi-Fi, the expiring pass, and the Telegram notice are specified and are not in the flashed program yet. Six completed checkouts for the lock, sensors, power, display, and wire came to PHP 1,185.00. The listed product prices inside those orders sum to PHP 1,124.00. The ESP32 board, its GPIO expansion board, and the keypad were already on hand and are outside both figures.
+
+
+
+
+Chapter 1: Introduction and Problem Context
+
+
+
+1.1 Problem Background
+
+
+
+    The Department of Trade and Industry, in the logistics section of the E-Commerce Philippines 2022 Roadmap, treats last-mile delivery as a constraint on online trade. The roadmap names a shortage of motorcycle couriers, worsening traffic, and the extra risk riders carry when they must collect cash on delivery (Department of Trade and Industry, 2022). Those are system problems. The failure this project is built for is smaller and closer to the door.
+
+
+
+    In a gated house, a townhouse, or a student boarding house, the recipient is often at work or in class during the hours when Shopee Xpress, J&T Express, Flash Express, Grab, and Lalamove riders are on the street. The rider is on a quota and will not wait. The usual fixes fail for mechanical reasons. A key cannot be passed safely to a rotating set of riders. A static PIN, once seen, stays valid until someone remembers to change it. A printed QR code is only an image: whoever photographs it can present it again.
+
+
+
+    What the household needs is a box at the gate that a stranger can open once, for a short time, without an account in a courier app, and that can show the owner the door was shut on a parcel. The box also has to be buildable from parts sold in Metro Manila.
+
+
+
+
+1.2 Objectives
+
+
+
+The project will design, build, and evaluate HULOG, a household parcel vault that accepts one delivery through a short-lived PIN or QR pass while the recipient is away.
+
+
+- Lock drive. Switch a 12 V door solenoid from an ESP32 through a 1-channel optocoupler relay, so the microcontroller pin never carries the lock current.
+
+- Door and parcel check. Use the normally open lead of a magnetic reed set, and an infrared proximity module aimed at the bay, before a pass is treated as spent.
+
+- Single-use pass. Issue a 6-digit PIN and a QR symbol with a life of 15 or 30 minutes, and invalidate that pass after one completed door cycle. This is the design target. The bench sketch does not enforce it yet.
+
+- Two web pages. Give the owner a page that mints passes, and give the rider a browser page that needs no installed app.
+
+- One adapter, two rails, real prices. Feed the lock from a 12 V 2 A adapter and the logic from an LM2596 set to 5 V, and report the cost from the receipts rather than from a catalog guess.
+
+
+
+
+1.3 Significance of the Study
+
+
+
+- Households and boarding-house tenants get a place to receive a prepaid parcel when they are not at the gate.
+
+- Riders and sellers get a stop that can end without a wait, plus a door-and-sensor record that a porch photo does not provide.
+
+- Local builders get a worked example of a gate box made from modules sold in Manila, with the peso amounts taken from completed orders.
+
+
+
+
+1.4 Scope and Delimitation
+
+
+
+    The prototype is a tabletop vault for a small or medium prepaid parcel. The controller is an ESP32 development board seated on a GPIO expansion board. The expansion board does not create new GPIO numbers. It brings the existing pins out to headers that are easier to wire, which is why the kit includes both female-to-female and female-to-male jumpers. The door carries a 4x4 membrane keypad and a 0.96-inch SSD1306 OLED (128x64, blue). The owner's page and the rider's page are a React, Vite, and TypeScript application. Telegram is the planned notice channel.
+
+
+
+    The vault does not cool food. Cash-on-delivery is outside the cycle, because the box cannot take money. There is no GSM radio. The intended link is household Wi-Fi. The program on the bench today does not join that network yet. The wooden or acrylic enclosure is not on the receipts and is scheduled after this report.
+
+
+
+
+Chapter 2: Review of Related Literature and Studies
+
+
+
+2.1 The Last Mile, and the Philippine Constraint
+
+
+
+    Gevaers, Van de Voorde, and Vanelslander (2014) describe the last mile of business-to-consumer delivery as one of the more expensive, least efficient, and most polluting stretches of the whole chain. Their point is about cost and wasted trips, not about a specific city. It still names the stretch this project sits on: the final handoff, where a failed meeting between rider and recipient turns into another attempt.
+
+
+
+    The Philippine policy document that speaks directly to that stretch is the Department of Trade and Industry's E-Commerce Philippines 2022 Roadmap. Its logistics page says e-fulfillment and last-mile service are held back by a lack of motorcycle couriers, by traffic congestion, and by the risk cash-on-delivery places on the rider (Department of Trade and Industry, 2022). The roadmap does not publish a count of parcels left on gates. That local picture, in Section 1.1, is the setting the proponents are designing for. The roadmap is used here only for the constraints it actually states.
+
+
+
+
+2.2 Lockers, Pickup Points, and a Box at the House
+
+
+
+    Morganti, Seidel, Blanquart, Dablanc, and Lenz (2014) compare two European answers to home delivery: a pickup counter inside a shop, and an automated locker bank. They note that shoppers still prefer delivery to the door, and that this preference breaks parcel flow into many small urban stops. Iwan, Kijewska, and Lemke (2016) study InPost lockers in Poland and treat the locker as a way to make the courier's round more productive. In both studies the household still has to travel to a shared machine. A locker on a petrol-station forecourt does not solve a boarding house whose residents are in class, and a dense barangay often has no sidewalk wide enough for a bank of steel doors.
+
+
+
+    Punakivi, Yrjola, and Holmstrom (2001) move the box to the house. They compare a reception box installed at the home with a carrier-owned delivery box. In their grocery simulation, unattended reception cut home-delivery transport cost by up to 60 percent against attended delivery. They also show the limit of that result. The saving depended on the resident paying for and keeping a box, and the reception box they modeled was often refrigerated. HULOG keeps the idea that the secure point is at the home, and drops the cold box. A shirt or a phone case does not need refrigeration, and Section 1.4 excludes groceries for that reason. What the 2001 study does not give is a way for a rotating set of local riders to open the door without a key and without a dedicated courier application.
+
+
+
+
+2.3 A Code That Must Expire
+
+
+
+    Focardi, Luccio, and Wahsheh (2019) show that an ordinary QR symbol has no standard proof of who created it or whether it is still the symbol the owner issued. People scan what is in front of them. For a parcel box, that finding has a direct physical form: a sticker that never changes can be copied with a camera and shown again on another day. A fixed keypad PIN has the same shape of failure. Once a rider has seen it, it remains valid until a person changes it.
+
+
+
+    M'Raihi, Machani, Pei, and Rydell (2011), in RFC 6238, specify the time-based one-time password. The code is valid only inside a short time step, so a value someone has already seen does not stay useful. HULOG's design follows that limit and adds a stricter one. The pass should also be marked used when the door cycle finishes, so it cannot be replayed inside the time window. The bench sketch does not compute RFC 6238. It compares the keys with a fixed test PIN. Section 3.7 states that gap in the open, because a status report that hides it would describe a different machine from the one on the bench.
+
+
+
+
+2.4 Why the Lock Is Not on a Timer Alone
+
+
+
+    A solenoid that releases for a few seconds and then drives again, with no knowledge of the door, can extend the bolt while the door is still open. The next slam seats the bolt against the frame instead of into the strike. A notice sent at the moment the PIN is accepted can also report a delivery that never entered the box. The reed switch answers a yes-or-no question about the door: it left the frame, and it returned. The proximity module answers a different question: an object is in front of the sensor, in the bay. The purchased module is a reflective infrared sensor, not a separate lamp and detector across the opening. It has to be aimed at the spot where the parcel sits. The pass should be spent only after both answers have arrived, in that order. That rule is the design. The bench sketch already reads both sensors. It does not yet retire a minted pass, because it does not yet hold one.
+
+
+
+
+2.5 Synthesis and Research Gap
+
+
+
+    The literature supports three separate claims, and it does not assemble them into one device. The last mile is costly and, in the Philippines, operationally tight (Gevaers et al., 2014; Department of Trade and Industry, 2022). Shared lockers help the courier and still ask the resident to travel (Morganti et al., 2014; Iwan et al., 2016). A box at the house can remove that trip, at the resident's expense, and the studied version was aimed at cold groceries (Punakivi et al., 2001). A visible QR code is easy to copy because the symbol itself carries no proof of origin (Focardi et al., 2019), and a time-step password is the standard remedy for a code that must die (M'Raihi et al., 2011).
+
+
+
+    The gap HULOG is built to fill is a non-refrigerated box at a Philippine gate or boarding-house door, opened by a pass the rider already has in a message, with no courier application, using the modules in Table 1. The cost claim in this report is the receipt total, not a retail price. Selling price, labor, and the enclosure belong in Chapter 4, after those costs exist.
+
+
+
+
+Chapter 3: Methodology and Technical Design
+
+
+
+3.1 Parts Actually in Hand
+
+
+
+    Table 1 lists the parts from six completed orders, plus the controller and the keypad, which were already with the group. Sellers are MakerLab, Tool Corner, and ENG LAB.ph. The peso amounts in the Unit and Line columns are the product prices shown on those orders. They are not catalog estimates from an earlier draft.
+
+
+
+
+Table 1
+
+
+Purchased parts and parts already on hand
+
+
+
+
+         | No.
+         | Component
+         | Seller
+         | Qty
+         | Unit (PHP)
+         | Line (PHP)
+
+
+
+
+
+         | 1
+         | Active buzzer driver moduleHigh-current module, blue board
+         | MakerLab
+         | 1
+         | 35.00
+         | 35.00
+
+
+
+         | 2
+         | LM2596 buck converterDC-DC step-down module
+         | MakerLab
+         | 1
+         | 49.00
+         | 49.00
+
+
+
+         | 3
+         | Dupont jumpers, female-to-female20 cm set
+         | MakerLab
+         | 1
+         | 59.00
+         | 59.00
+
+
+
+         | 4
+         | Dupont jumpers, female-to-male20 cm set
+         | MakerLab
+         | 2
+         | 59.00
+         | 118.00
+
+
+
+         | 5
+         | Solenoid door lock12 V DC, for doors
+         | MakerLab
+         | 1
+         | 310.00
+         | 310.00
+
+
+
+         | 6
+         | Relay module1-channel, 5 V coil, optocoupler
+         | MakerLab
+         | 1
+         | 49.00
+         | 49.00
+
+
+
+         | 7
+         | DC power adapter12 V, 2 A
+         | MakerLab
+         | 1
+         | 145.00
+         | 145.00
+
+
+
+         | 8
+         | Infrared proximity moduleReflective obstacle sensor
+         | MakerLab
+         | 1
+         | 28.00
+         | 28.00
+
+
+
+         | 9
+         | DC barrel jack, female5.5 x 2.1 mm, screw terminals
+         | Tool Corner
+         | 3
+         | 7.00
+         | 21.00
+
+
+
+         | 10
+         | OLED display0.96 in, SSD1306, 128x64, blue, I2C
+         | ENG LAB.ph
+         | 1
+         | 145.00
+         | 145.00
+
+
+
+         | 11
+         | Magnetic door reed setNO and NC leads, with magnet
+         | MakerLab
+         | 1
+         | 165.00
+         | 165.00
+
+
+
+         |
+         | Listed product prices, items 1-11
+         | 1,124.00
+
+
+
+         | 12
+         | ESP32 development boardSeated on a GPIO expansion board. Already on hand. No receipt in this set.
+         | On hand
+         | 1
+         | -
+         | -
+
+
+
+         | 13
+         | Membrane keypad4x4, already on hand. No receipt in this set.
+         | On hand
+         | 1
+         | -
+         | -
+
+
+
+
+
+
+    The six checkout totals were PHP 583.00 (buzzer, buck, both jumper sets, and solenoid), PHP 202.00 (relay and adapter), PHP 28.00 (proximity module), PHP 53.00 (three jacks), PHP 145.00 (OLED), and PHP 174.00 (reed set). Those payments sum to PHP 1,185.00. The PHP 61.00 difference from the listed product prices is shipping and other checkout charges, mostly on the jack order, whose shelf price was PHP 7.00 each after a discount from PHP 25.00. Items 12 and 13 are omitted from both totals because this report has no receipt for them. The enclosure, hinges, and the 1N4007 flyback diode are not in the orders. The diode is specified in Figure 2 and should be fitted before the coil is pulsed repeatedly.
+
+
+
+
+3.2 How a Drop Is Arranged
+
+
+
+    Figure 1 is the arrangement, not a claim that every arrow is already live. The owner's page and the rider's page exist. The link from the vault to Telegram does not. The ESP32 drawn at the side of the box is the board on the expansion headers. The keypad and the OLED are on the outside of the door, where the rider can reach them. The reed set sits on the door gap. The proximity module looks into the bay. The solenoid sits at the strike.
+
+
+
+
+[Figure drawn in the PDF]
+
+    Figure 1. People, pass, and part placement for one drop. The Telegram link in step 2 is drawn as a plan. It is not in the flashed sketch.
+
+
+
+
+3.3 Power and Lock Circuit
+
+
+
+    One 12 V 2 A adapter feeds two rails, drawn in Figure 2. The red rail is the lock. It goes to the relay's common contact, through the normally open contact, and through the solenoid coil to ground. The blue rail is logic. An LM2596 module steps 12 V down to 5 V for the ESP32 VIN pin, the relay-module supply, and the buzzer module. The OLED and the proximity module take 3.3 V from the ESP32, so their outputs cannot rise above the pin rating. GPIO 23 goes only to the relay input. It is an active-low signal. It does not join the red wire.
+
+
+
+    The LM2596 often ships with its output set near the input voltage. The output is measured and set to 5.0 V before the ESP32 is connected. The solenoid's coil current is not printed on the receipt. It will be measured on the bench before long pulses, against the 2 A rating of the adapter. A 1N4007 is drawn across the coil, band toward the 12 V side, so the spike from the collapsing field has a path that is not the relay contact. That diode was not in the orders.
+
+
+
+
+[Figure drawn in the PDF]
+
+    Figure 2. Dual-rail supply and lock circuit. The optocoupler keeps the ESP32 pin on the logic side of the relay. The flyback diode is specified and was not on the receipts.
+
+
+
+
+3.4 Pin Map
+
+
+
+    Table 2 is the map in the bench sketch. GPIO 0, GPIO 2, and GPIO 15 are left free because they are sampled at boot. GPIO 12 is also a boot pin, and the keypad does use it as row 2. That row must sit low while the board starts. If it is pulled high at reset, the ESP32 can fail to boot. The reed set sold to the group has both a normally open lead and a normally closed lead. The sketch uses the normally open lead with the internal pull-up, so GPIO 19 reads low when the magnet is against the switch, which is the shut door. The normally closed lead is left unconnected.
+
+
+
+
+Table 2
+
+
+ESP32 GPIO map used by the bench sketch
+
+
+
+
+         | Device
+         | ESP32 pin
+         | What the wire does
+
+
+
+
+
+         | Relay input
+         | GPIO 23
+         | Output, active low. Signal into the optocoupler only.
+
+
+
+         | OLED SDA / SCL
+         | GPIO 21 / GPIO 22
+         | I2C. Power the display from the 3.3 V pin.
+
+
+
+         | Reed switch, NO lead
+         | GPIO 19
+         | Input with pull-up. Low means the door is shut.
+
+
+
+         | IR proximity output
+         | GPIO 18
+         | Input. Low means an object is in front of the sensor. Power the module from 3.3 V.
+
+
+
+         | Buzzer module input
+         | GPIO 5
+         | Output. High sounds the module. Module supply is the 5 V rail.
+
+
+
+         | Keypad rows
+         | GPIO 13, 12, 14, 27
+         | Row scan. GPIO 12 must not be high at boot.
+
+
+
+         | Keypad columns
+         | GPIO 26, 25, 33, 32
+         | Column inputs with internal pull-ups.
+
+
+
+         | LM2596 output
+         | VIN and GND
+         | 5.0 V into the board's 5 V input, after the meter check. Not into a GPIO pin.
+
+
+
+
+
+
+    If the proximity module will not detect at 3.3 V on the bench, it may be powered from 5 V only with a resistor divider on its output before GPIO 18. A 5 V high straight into an ESP32 pin is outside the pin rating.
+
+
+
+
+3.5 What the Bench Sketch Actually Does
+
+
+
+    Figure 3 follows *firmware/src/main.cpp* as it stands. Solid boxes run today. The dashed box is the design target from Section 1.2 and is not in the flashed loop. A 30-second timeout returns the vault to idle if the door cycle is not finished. If the door shuts and the infrared sensor never saw a parcel, the sketch returns to idle and does not treat the cycle as a delivery. The confirmation screen says the door cycle is done. It does not say that a Telegram message was sent.
+
+
+
+
+[Figure drawn in the PDF]
+
+    Figure 3. Door cycle in the current firmware. Expiring passes and Telegram are specified beside it and are not executed by this loop.
+
+
+
+
+3.6 Software Beside the Sketch
+
+
+
+    The web application in *hulog-web/* is the owner's page, the rider's browser page, and a simulator of the vault. It is built with React 18, Vite, and TypeScript. The design target for a pass is 15 or 30 minutes. The simulator still uses a longer demonstration lifetime, so a defense demo of the page is not yet proof that the 15-minute rule is enforced. The firmware is an Arduino-framework sketch under PlatformIO. It uses the SSD1306 library for the display and the keypad library for the matrix. It does not open Wi-Fi, it does not write a pass to flash, and it does not call Telegram.
+
+
+
+
+
+3.7 Implementation Status
+
+
+
+Table 3 is the status on 16 October 2026. A row marked designed is a specification, not a finished test.
+
+
+Table 3
+
+
+What is done, what is only specified
+
+
+
+
+         | Piece
+         | Standing
+         | Evidence
+
+
+
+
+
+         | Receipt parts, items 1-11
+         | Purchased
+         | Six completed orders, PHP 1,185.00 paid.
+
+
+
+         | ESP32, expansion board, keypad
+         | On hand
+         | Used by the bench sketch. Prices are not in this receipt set.
+
+
+
+         | Repository and notes
+         | In use
+         | Public repository *buridekz/hulog-iot-vault*, with wiring and architecture notes.
+
+
+
+         | Web portal and simulator
+         | Built
+         | *hulog-web/*. The simulator lifetime is still a demo window.
+
+
+
+         | Bench sketch
+         | Running its loop
+         | Keypad, OLED, reed, IR, 3-second relay pulse, 5-minute lockout, fixed test PIN.
+
+
+
+         | Wi-Fi, minted pass, Telegram
+         | Designed
+         | No network calls in the flashed sketch. Figure 3 marks this box as dashed.
+
+
+
+         | Flyback diode
+         | Specified
+         | Not on the receipts. Fit a 1N4007 before repeated coil pulses.
+
+
+
+         | Enclosure
+         | Not started
+         | No box or hinges on the receipts. Scheduled after this report.
+
+
+
+
+
+
+
+
+3.8 Next Steps for Part 2
+
+
+
+- Set the LM2596 to 5.0 V with a meter, then wire the expansion board, relay, reed (NO lead), proximity module, OLED, buzzer, and solenoid as in Figure 2 and Table 2.
+
+- Fit the 1N4007 across the coil. Measure the coil current. Confirm that GPIO 12 is low at boot.
+
+- Run the door cycle on the bench: good PIN, bad PIN three times, door shut with no parcel, door shut with the IR covered, and the 30-second timeout.
+
+- Replace the fixed test PIN with the minted 15- or 30-minute pass, then send the Telegram notice only after the door-and-parcel check.
+
+- Build the tabletop enclosure and write Chapter 4 from the receipt totals in Table 1, plus the ESP32, the keypad, the enclosure, and labor. Do not price the product from the electronics lines alone.
+
+
+
+
+References
+
+
+
+- Department of Trade and Industry. (2022). *E-Commerce Philippines 2022 roadmap: Logistics*. https://ecommerce.dti.gov.ph/madali/logistics.html
+
+- Focardi, R., Luccio, F. L., & Wahsheh, H. A. M. (2019). Usable security for QR code. *Journal of Information Security and Applications, 48*, Article 102369. https://doi.org/10.1016/j.jisa.2019.102369
+
+- Gevaers, R., Van de Voorde, E., & Vanelslander, T. (2014). Cost modelling and simulation of last-mile characteristics in an innovative B2C supply chain environment with implications on urban areas and cities. *Procedia - Social and Behavioral Sciences, 125*, 398-411. https://doi.org/10.1016/j.sbspro.2014.01.1483
+
+- Iwan, S., Kijewska, K., & Lemke, J. (2016). Analysis of parcel lockers' efficiency as the last mile delivery solution - The results of the research in Poland. *Transportation Research Procedia, 12*, 644-655. https://doi.org/10.1016/j.trpro.2016.02.018
+
+- M'Raihi, D., Machani, S., Pei, M., & Rydell, J. (2011). *TOTP: Time-based one-time password algorithm* (RFC 6238). Internet Engineering Task Force. https://doi.org/10.17487/RFC6238
+
+- Morganti, E., Seidel, S., Blanquart, C., Dablanc, L., & Lenz, B. (2014). The impact of e-commerce on final deliveries: Alternative parcel delivery services in France and Germany. *Transportation Research Procedia, 4*, 178-190. https://doi.org/10.1016/j.trpro.2014.11.014
+
+- Punakivi, M., Yrjola, H., & Holmstrom, J. (2001). Solving the last mile issue: Reception box or delivery box? *International Journal of Physical Distribution & Logistics Management, 31*(6), 427-439. https://doi.org/10.1108/09600030110399423

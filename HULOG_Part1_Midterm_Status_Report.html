@@ -6,257 +6,195 @@
   <style>
     @page {
       size: letter;
-      margin: 0.75in 0.8in 0.75in 0.8in;
+      margin: 0.7in 0.72in 0.62in 0.72in;
+      @bottom-center {
+        content: counter(page);
+        font-family: "Times New Roman", Times, serif;
+        font-size: 10pt;
+      }
     }
 
-    * {
-      box-sizing: border-box;
+    @page:first {
+      margin-top: 0.75in;
+      @bottom-center { content: none; }
     }
 
-    body {
-      font-family: "Times New Roman", Times, Georgia, serif;
-      font-size: 10.5pt;
-      line-height: 1.4;
-      color: #000000;
-      background-color: #ffffff;
+    * { box-sizing: border-box; }
+
+    html, body {
       margin: 0;
       padding: 0;
+      background: #fff;
+      color: #111;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 11pt;
+      line-height: 1.38;
       text-align: justify;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
 
-    .page {
-      page-break-after: always;
-      break-after: page;
-      position: relative;
-    }
-
-    .page:last-child {
-      page-break-after: avoid;
-      break-after: avoid;
-    }
-
-    /* Cover Page Styling */
-    .cover-page {
+    .cover {
+      min-height: 9.15in;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 9.3in;
       text-align: center;
-      padding: 0.5in 0;
+      page-break-after: always;
+      break-after: page;
     }
 
-    .cover-top {
-      text-transform: uppercase;
-      line-height: 1.4;
-    }
-
-    .inst-name {
-      font-size: 13pt;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.25rem;
-    }
-
-    .college-name {
-      font-size: 11.5pt;
-      font-weight: bold;
-      margin-bottom: 0.25rem;
-    }
-
-    .program-name {
-      font-size: 11pt;
-      font-style: italic;
-      text-transform: none;
-    }
-
-    .cover-middle {
-      margin: 2rem 0;
-    }
+    .inst-name { font-size: 13pt; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .college-name { font-size: 12pt; font-weight: 700; margin-top: 0.15rem; text-transform: uppercase; }
+    .program-name { font-size: 11.5pt; font-style: italic; margin-top: 0.2rem; }
 
     .doc-title {
-      font-size: 14pt;
-      font-weight: bold;
+      font-size: 14.5pt;
+      font-weight: 700;
       text-transform: uppercase;
-      line-height: 1.4;
-      margin-bottom: 1.5rem;
+      line-height: 1.35;
+      margin: 0 0.4in 0.9rem;
     }
 
-    .doc-fulfillment {
-      font-size: 10.5pt;
-      line-height: 1.4;
-      font-style: italic;
-    }
+    .doc-fulfillment { font-size: 11pt; font-style: italic; line-height: 1.45; }
+    .cover-bottom { font-size: 11pt; line-height: 1.45; }
+    .proponents { margin: 0.7rem 0 0.9rem; }
 
-    .cover-bottom {
-      font-size: 10.5pt;
-      line-height: 1.4;
-    }
-
-    .proponents-list {
-      margin-top: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 10.5pt;
-      line-height: 1.4;
-    }
-
-    .date-line {
-      font-size: 10.5pt;
-      margin-top: 1rem;
-    }
-
-    /* Standard Headings */
     h2 {
-      font-size: 12pt;
-      font-weight: bold;
+      font-size: 12.5pt;
+      font-weight: 700;
       text-transform: uppercase;
-      margin-top: 0;
-      margin-bottom: 0.6rem;
       text-align: center;
-      page-break-after: avoid;
+      margin: 0 0 0.65rem;
       break-after: avoid;
+      page-break-after: avoid;
     }
 
     h3 {
-      font-size: 11pt;
-      font-weight: bold;
-      margin-top: 0.85rem;
-      margin-bottom: 0.35rem;
+      font-size: 11.5pt;
+      font-weight: 700;
       text-align: left;
-      page-break-after: avoid;
+      margin: 0.85rem 0 0.3rem;
       break-after: avoid;
-    }
-
-    h4 {
-      font-size: 10.5pt;
-      font-weight: bold;
-      font-style: italic;
-      margin-top: 0.65rem;
-      margin-bottom: 0.2rem;
-      text-align: left;
       page-break-after: avoid;
-      break-after: avoid;
     }
 
-    p {
-      margin-top: 0;
-      margin-bottom: 0.7rem;
-      text-indent: 0.35in;
-    }
+    p { margin: 0 0 0.55rem; text-indent: 0.3in; }
+    p.lead, p.note, .figure-caption, h3 + p { text-indent: 0; }
 
-    p.no-indent {
-      text-indent: 0;
-    }
+    ul, ol { margin: 0.15rem 0 0.6rem; padding-left: 1.35rem; }
+    li { margin-bottom: 0.28rem; }
+    li strong { font-weight: 700; }
 
-    ul, ol {
-      margin-top: 0;
-      margin-bottom: 0.7rem;
-      padding-left: 1.6rem;
-    }
-
-    li {
-      margin-bottom: 0.25rem;
-    }
-
-    /* APA 7th Edition Academic Table Format */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0.5rem 0;
-      font-size: 8.5pt;
-      line-height: 1.2;
-      page-break-inside: avoid;
-      break-inside: avoid;
+      margin: 0.35rem 0 0.45rem;
+      font-size: 9.5pt;
+      line-height: 1.25;
+      text-align: left;
     }
 
     th, td {
-      padding: 3.5px 5px;
+      padding: 4px 6px;
       vertical-align: top;
       border: none;
     }
 
-    thead tr:first-child th {
-      border-top: 1.5pt solid #000000;
-      border-bottom: 1pt solid #000000;
-      font-weight: bold;
+    thead { display: table-header-group; }
+
+    thead th {
+      border-top: 1.5pt solid #111;
+      border-bottom: 0.75pt solid #111;
+      font-weight: 700;
       text-align: left;
     }
 
-    tbody tr:last-child td {
-      border-bottom: 1.5pt solid #000000;
+    tbody tr:last-child td { border-bottom: 1.5pt solid #111; }
+    tr { break-inside: avoid; page-break-inside: avoid; }
+
+    tr.total td {
+      border-top: 0.75pt solid #111;
+      border-bottom: 1.5pt solid #111;
+      font-weight: 700;
     }
 
-    tr.total-row td {
-      border-top: 1pt solid #000000;
-      border-bottom: 1.5pt solid #000000;
-      font-weight: bold;
-    }
+    td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .spec { display: block; font-size: 8.5pt; color: #222; font-weight: 400; }
 
-    .text-center {
-      text-align: center;
-    }
-
-    .text-right {
-      text-align: right;
-    }
-
-    /* Diagram Styling */
-    .diagram-container {
-      margin: 0.5rem 0;
-      text-align: center;
-      page-break-inside: avoid;
+    .figure {
+      margin: 0.35rem 0 0.55rem;
       break-inside: avoid;
+      page-break-inside: avoid;
     }
 
-    .diagram-caption {
-      font-size: 9pt;
-      font-style: italic;
-      text-align: center;
-      margin-top: 0.35rem;
-      margin-bottom: 0.5rem;
-    }
-
-    pre.diagram-box {
-      font-family: "Courier New", Courier, monospace;
-      font-size: 7.2pt;
-      line-height: 1.15;
-      text-align: left;
-      border: 1pt solid #000000;
-      padding: 6px;
-      margin: 0.4rem 0;
-      background: #ffffff;
-      color: #000000;
-      overflow-x: auto;
-      white-space: pre;
-    }
-
-    svg.academic-diagram {
+    .figure svg {
       width: 100%;
       height: auto;
-      border: 1pt solid #000000;
-      background: #ffffff;
       display: block;
-      margin: 0 auto;
+    }
+
+    .figure-caption {
+      font-size: 10pt;
+      text-align: center;
+      margin: 0.28rem 0.2in 0;
+    }
+
+    .note {
+      font-size: 10pt;
+      margin-top: 0.15rem;
+    }
+
+    ol.refs {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .topic {
+      display: block;
+      width: 100%;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+    }
+
+    .chapter {
+      break-before: page;
+      page-break-before: always;
+    }
+
+    .keep-block {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    ol.refs { font-size: 10.5pt; }
+
+    ol.refs li {
+      padding-left: 0.4in;
+      text-indent: -0.4in;
+      margin: 0 0 0.28rem;
+      text-align: left;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
   </style>
 </head>
 <body>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 1: FORMAL COVER PAGE                                -->
-  <!-- ======================================================== -->
-  <div class="page cover-page">
-    <div class="cover-top">
+  <section class="cover">
+    <div>
       <div class="inst-name">University of Makati</div>
       <div class="college-name">College of Computing and Information Sciences</div>
       <div class="program-name">Bachelor of Science in Information Technology</div>
     </div>
 
-    <div class="cover-middle">
+    <div>
       <div class="doc-title">
         HULOG: IoT-Enabled Dynamic QR Parcel Drop Vault<br>
         for Residential Gates and Boarding Houses
       </div>
-
       <div class="doc-fulfillment">
         A Project Research Status Report Submitted to the Faculty of the<br>
         College of Computing and Information Sciences<br>
@@ -270,685 +208,736 @@
     <div class="cover-bottom">
       <div><strong>Course Professor:</strong></div>
       <div>Engr. Bhai Nhuraisha I. Deplomo, PECE, MSEcE, MSCIT</div>
-
-      <div class="proponents-list">
+      <div class="proponents">
         <strong>Researchers / Proponents:</strong><br>
         Camarador, Jhorenz S.<br>
         Corpuz, Lance Josh M.<br>
         Goze, AJ M.<br>
         Luzano, Justin Mark D.
       </div>
-
-      <div class="date-line">
-        October 2026
-      </div>
+      <div>16 October 2026</div>
     </div>
-  </div>
+  </section>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 2: EXECUTIVE SUMMARY                                -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h2>Executive Summary</h2>
-    <p>
-      The rapid expansion of the Philippine digital commerce ecosystem has established daily courier deliveries as an integral utility for urban households. However, this growth has intensified a critical point of vulnerability in the distribution chain: unattended last-meter parcel reception. When e-commerce couriers from Shopee Xpress, J&T Express, Flash Express, and on-demand logistics fleets arrive at residential premises during business hours, recipients are frequently away at school or work. Under strict delivery delivery schedules, couriers routinely leave packages resting on perimeter fences, tossed over gate doors, or entrusted to unverified neighbors, exposing deliveries to opportunistic theft, water saturation from heavy rainfall, and package loss.
-    </p>
-    <p>
-      This research project presents the design, development, and technical validation of HULOG, an autonomous IoT-enabled parcel drop vault engineered specifically for residential gates, townhouse compounds, and multi-tenant boarding houses. The system replaces vulnerable mechanical padlocks and easily photocopied static QR stickers with an embedded ESP32 microcontroller architecture, a heavy-duty 12V electromagnetic solenoid lock, and dynamic, single-use access credentials.
-    </p>
-    <p>
-      Homeowners generate time-decaying 6-digit numeric PINs and dynamic QR tokens via a responsive web portal built with React, Vite, and TypeScript. Tokens possess a strictly limited operational lifespan (15 to 30 minutes) and are communicated to the courier via delivery note or direct messaging. Upon arrival, the delivery rider inputs the code on an integrated 4x4 membrane keypad or scans the dynamic QR code using a zero-install mobile web scanner. The ESP32 validates the token against a local memory table and energizes a 1-channel optocoupler relay module, causing the 12V solenoid lock to retract its spring-loaded plunger.
-    </p>
-    <p>
-      To prevent the system from remaining unlatched or generating false confirmations, HULOG executes a deterministic closed-loop sensor interlock. An internal optical infrared (IR) beam sensor verifies package entry into the deposit tray, while a magnetic door contact switch (MC-38) confirms physical door re-latching. Only after verified door closure is the active token permanently flagged as consumed in the microcontroller flash memory, preventing reuse. Simultaneously, the ESP32 dispatches encrypted MQTT telemetry to a cloud broker, which triggers an automated delivery receipt with timestamped verification via Telegram Bot API.
-    </p>
-    <p>
-      The hardware architecture utilizes a dual-rail power distribution circuit powered by a single 12V 2A DC regulated adapter, stepping down to a stable 5.00V DC logic bus through an LM2596 buck converter with 1N4007 inductive flyback clamping. The core electronics bill of materials totals PHP 820.00 (PHP 1,010.00 complete electronics package), supporting commercial retail viability between PHP 3,499.00 and PHP 4,999.00 with gross profit margins exceeding 50%. This status report establishes the research background, literature review, hardware design, and current prototype implementation status.
-    </p>
-  </div>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 3: CHAPTER 1 - PROBLEM BACKGROUND & GENERAL OBJECTIVE-->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h2>Chapter 1: Introduction and Problem Context</h2>
+  <section class="topic">  <h2>Executive Summary</h2>
+  <p>
+    Daily courier stops have become part of household life in Philippine cities, and the fragile moment is the last one: the rider at a gate when nobody is home. Parcels are left on a fence ledge, dropped over the gate, or passed to a neighbor. Rain, heat, and theft sit on the other side of that habit. A padlock cannot be lent to a different rider every afternoon. A QR sticker on a bin can be photographed once and reused later.
+  </p>
+  <p>
+    HULOG is a drop vault for a house gate or a boarding-house entrance. The owner creates a 6-digit PIN and a matching QR pass from a web page. The pass is designed to live for 15 or 30 minutes and to die after one completed door cycle. The rider types the PIN on a keypad, or opens the pass in the phone browser, and does not install an app. A 12 V door solenoid, switched by a relay, releases the latch. A magnetic reed switch and an infrared proximity sensor are there to confirm that the door opened, that a parcel is in the bay, and that the door shut again.
+  </p>
+  <p>
+    As of 16 October 2026 the purchased parts are in hand, the web portal and the hardware simulator run, and the ESP32 sketch on the bench already reads the keypad, the reed switch, and the proximity sensor, drives the OLED, and pulses the relay. That sketch still accepts a fixed test PIN. Wi-Fi, the expiring pass, and the Telegram notice are specified and are not in the flashed program yet. Six completed checkouts for the lock, sensors, power, display, and wire came to PHP 1,185.00. The listed product prices inside those orders sum to PHP 1,124.00. The ESP32 development board, the GPIO expansion board, and the 4x4 membrane keypad are parts to buy at PHP 350.00, PHP 119.00, and PHP 50.00. The listed product prices for all fourteen parts come to PHP 1,643.00.
+  </p>
+  </section>
 
-    <h3>1.1 Problem Background</h3>
-    <p>
-      The rapid expansion of the Philippine digital economy has established e-commerce platforms, such as Shopee, Lazada, and TikTok Shop, as central utilities in everyday urban commerce. According to the Department of Trade and Industry (DTI), parcel delivery volumes across Metro Manila and surrounding provinces have grown exponentially. However, this growth has intensified a chronic logistical vulnerability known as the last-meter delivery problem.
-    </p>
-    <p>
-      In typical Philippine residential settings, such as townhouse compounds, gated single-family homes, and multi-tenant student boarding houses, recipients are frequently away at work or school when logistics couriers arrive. Couriers operating under rigid daily quota systems (including J&T Express, Flash Express, SPX, and on-demand fleets like Grab and Lalamove) cannot afford prolonged waiting periods at delivery gates. Consequently, couriers routinely resort to leaving parcels balanced on perimeter fence ledges, dropped over gates onto outdoor driveways, or handed to unverified neighbors.
-    </p>
-    <p class="no-indent"><strong>This practice introduces three major points of failure:</strong></p>
-    <ol>
-      <li><strong>Parcel Theft and Pilferage:</strong> Exposed packages attract opportunistic theft from passersby. Once a parcel is marked "Delivered" with a photo of a gate ledge, disputes arise between the buyer, seller, and logistics hub over financial liability.</li>
-      <li><strong>Environmental and Weather Exposure:</strong> Philippine tropical weather alternates between heavy torrential rains and intense midday heat. Paper-packaged and electronic goods left in open outdoor areas suffer water saturation and physical degradation.</li>
-      <li><strong>Flaws in Existing Manual Solutions:</strong> Homeowners frequently attempt to address this by installing conventional mechanical padlocks or taping printed static QR codes to plastic storage bins. Mechanical keys cannot be securely transferred to constantly changing delivery riders. Meanwhile, static QR stickers pasted on gates are fundamentally insecure; anyone can photograph the code and scan it at a later date to open the container.</li>
-    </ol>
-    <p>
-      There is a clear requirement for an autonomous, tamper-resistant parcel reception vault that operates on dynamic, single-use access credentials while maintaining an accessible hardware cost suitable for local residential deployment.
-    </p>
+  <section class="topic chapter">
+  <h2>Chapter 1: Introduction and Problem Context</h2>
+  <h3>1.1 Problem Background</h3>
+  <p>
+    The Department of Trade and Industry, in the logistics section of the E-Commerce Philippines 2022 Roadmap, treats last-mile delivery as a constraint on online trade. The roadmap names a shortage of motorcycle couriers, worsening traffic, and the extra risk riders carry when they must collect cash on delivery (Department of Trade and Industry, 2022). Those are system problems. The failure this project is built for is smaller and closer to the door.
+  </p>
+  <p>
+    In a gated house, a townhouse, or a student boarding house, the recipient is often at work or in class during the hours when Shopee Xpress, J&amp;T Express, Flash Express, Grab, and Lalamove riders are on the street. The rider is on a quota and will not wait. The usual fixes fail for mechanical reasons. A key cannot be passed safely to a rotating set of riders. A static PIN, once seen, stays valid until someone remembers to change it. A printed QR code is only an image: whoever photographs it can present it again.
+  </p>
+  <p>
+    What the household needs is a box at the gate that a stranger can open once, for a short time, without an account in a courier app, and that can show the owner the door was shut on a parcel. The box also has to be buildable from parts sold in Metro Manila.
+  </p>
+  </section>
 
-    <h3>1.2 General Objective</h3>
-    <p>
-      The primary objective of this project is to design, develop, and validate HULOG, an autonomous IoT-enabled parcel drop vault that utilizes dynamic, single-use QR and PIN tokens to ensure secure, contact-free package reception at residential perimeters.
-    </p>
-  </div>
+  <section class="topic">
+  <h3>1.2 Objectives</h3>
+  <p class="lead">The project will design, build, and evaluate HULOG, a household parcel vault that accepts one delivery through a short-lived PIN or QR pass while the recipient is away.</p>
+  <ol>
+    <li><strong>Lock drive.</strong> Switch a 12 V door solenoid from an ESP32 through a 1-channel optocoupler relay, so the microcontroller pin never carries the lock current.</li>
+    <li><strong>Door and parcel check.</strong> Use the normally open lead of a magnetic reed set, and an infrared proximity module aimed at the bay, before a pass is treated as spent.</li>
+    <li><strong>Single-use pass.</strong> Issue a 6-digit PIN and a QR symbol with a life of 15 or 30 minutes, and invalidate that pass after one completed door cycle. This is the design target. The bench sketch does not enforce it yet.</li>
+    <li><strong>Two web pages.</strong> Give the owner a page that mints passes, and give the rider a browser page that needs no installed app.</li>
+    <li><strong>One adapter, two rails, real prices.</strong> Feed the lock from a 12 V 2 A adapter and the logic from an LM2596 set to 5 V, and report the cost from the receipts rather than from a catalog guess.</li>
+  </ol>
+  </section>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 4: CHAPTER 1 - SPECIFIC OBJECTIVES, SIGNIFICANCE, SCOPE -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h3>1.2 Specific Objectives</h3>
-    <ol>
-      <li><strong>Actuation and Hardware Security:</strong> To construct a robust physical locking subsystem using an ESP32 microcontroller, a 1-channel optocoupler relay module, and a 12V electromagnetic solenoid lock capable of delivering 1000N of holding force.</li>
-      <li><strong>Closed-Loop Verification:</strong> To implement a sensor verification interlock incorporating a magnetic reed door switch (MC-38) and an internal optical infrared (IR) beam sensor to confirm both physical parcel placement and complete door re-latching before invalidating access credentials.</li>
-      <li><strong>Dynamic Cryptographic Authentication:</strong> To develop an algorithm that generates time-decaying, single-use 6-digit numeric PINs and dynamic QR tokens with validity windows of 15 to 30 minutes, ensuring tokens become permanently unusable immediately following a single door cycle.</li>
-      <li><strong>Dual-Portal Web Application:</strong> To build a lightweight, responsive web management interface providing homeowners with token generation and audit logging, while offering delivery riders a zero-install mobile web scanner to trigger single-cycle unlocking.</li>
-      <li><strong>Fail-Safe Circuitry and Cost Optimization:</strong> To engineer a dual-rail power distribution circuit (12V high-current solenoid rail and 5V regulated logic rail via LM2596 step-down conversion) maintaining an electronic bill of materials (BOM) cost below PHP 1,000.00 to support scalable commercialization.</li>
-    </ol>
+  <section class="topic">
+  <h3>1.3 Significance of the Study</h3>
+  <ul>
+    <li><strong>Households and boarding-house tenants</strong> get a place to receive a prepaid parcel when they are not at the gate.</li>
+    <li><strong>Riders and sellers</strong> get a stop that can end without a wait, plus a door-and-sensor record that a porch photo does not provide.</li>
+    <li><strong>Local builders</strong> get a worked example of a gate box made from modules sold in Manila, with the peso amounts taken from completed orders.</li>
+  </ul>
+  </section>
 
-    <h3>1.3 Significance of the Study</h3>
-    <p class="no-indent">This study provides direct technological and economic contributions to three distinct beneficiary groups:</p>
-    <ul>
-      <li><strong>Homeowners and Boarding House Tenants:</strong> Provides complete confidence that ordered goods are protected from theft and rain without requiring physical presence at home during delivery hours.</li>
-      <li><strong>Logistics Couriers and E-Commerce Platforms:</strong> Eliminates waiting times at gates, prevents failed delivery penalties, lowers return-to-seller overhead, and generates verifiable, timestamped sensor proof of delivery.</li>
-      <li><strong>Philippine Hardware Technopreneurship:</strong> Proves that robust IoT access control can be manufactured affordably using off-the-shelf microcontrollers and standardized modular components, delivering an accessible domestic product priced far below imported commercial equivalents.</li>
-    </ul>
+  <section class="topic">
+  <h3>1.4 Scope and Delimitation</h3>
+  <p>
+    The prototype is a tabletop vault for a small or medium prepaid parcel. The controller is an ESP32 development board seated on a GPIO expansion board. The expansion board does not create new GPIO numbers. It brings the existing pins out to headers that are easier to wire, which is why the kit includes both female-to-female and female-to-male jumpers. The door carries a 4x4 membrane keypad and a 0.96-inch SSD1306 OLED (128x64, blue). The owner's page and the rider's page are a React, Vite, and TypeScript application. Telegram is the planned notice channel.
+  </p>
+  <p>
+    The vault does not cool food. Cash-on-delivery is outside the cycle, because the box cannot take money. There is no GSM radio. The intended link is household Wi-Fi. The program on the bench today does not join that network yet. The wooden or acrylic enclosure is not on the receipts and is scheduled after this report.
+  </p>
+  </section>
 
-    <h3>1.4 Scope and Delimitation</h3>
-    <p>
-      The scope of the project encompasses small-to-medium parcel reception matching standard e-commerce shipping parcels (up to 25 cm x 20 cm x 15 cm in the tabletop prototype stage, scalable to full perimeter enclosures). The microcontroller core utilizes the ESP32-WROOM-32 development board operating over 2.4 GHz 802.11 b/g/n Wi-Fi, paired with a 4x4 matrix membrane keypad, an SSD1306 0.96-inch OLED screen, and cloud integration via Telegram Bot API and web portals.
-    </p>
-    <p>
-      The project is delimited from supporting active refrigeration for perishable foodstuffs, handling Cash-on-Delivery (COD) cash payments, and incorporating cellular GSM/LTE modules in the initial prototype version.
-    </p>
-  </div>
+  <section class="topic chapter">
+  <h2>Chapter 2: Review of Related Literature and Studies</h2>
+  <h3>2.1 The Last Mile, and the Philippine Constraint</h3>
+  <p>
+    Gevaers, Van de Voorde, and Vanelslander (2014) describe the last mile of business-to-consumer delivery as one of the more expensive, least efficient, and most polluting stretches of the whole chain. Their point is about cost and wasted trips, not about a specific city. It still names the stretch this project sits on: the final handoff, where a failed meeting between rider and recipient turns into another attempt.
+  </p>
+  <p>
+    The Philippine policy document that speaks directly to that stretch is the Department of Trade and Industry's E-Commerce Philippines 2022 Roadmap. Its logistics page says e-fulfillment and last-mile service are held back by a lack of motorcycle couriers, by traffic congestion, and by the risk cash-on-delivery places on the rider (Department of Trade and Industry, 2022). The roadmap does not publish a count of parcels left on gates. That local picture, in Section 1.1, is the setting the proponents are designing for. The roadmap is used here only for the constraints it actually states.
+  </p>
+  </section>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 5: CHAPTER 2 - RRL (LAST-MILE & LOCKERS)            -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h2>Chapter 2: Review of Related Literature and Studies</h2>
+  <section class="topic">
+  <h3>2.2 Lockers, Pickup Points, and a Box at the House</h3>
+  <p>
+    Morganti, Seidel, Blanquart, Dablanc, and Lenz (2014) compare two European answers to home delivery: a pickup counter inside a shop, and an automated locker bank. They note that shoppers still prefer delivery to the door, and that this preference breaks parcel flow into many small urban stops. Iwan, Kijewska, and Lemke (2016) study InPost lockers in Poland and treat the locker as a way to make the courier's round more productive. In both studies the household still has to travel to a shared machine. A locker on a petrol-station forecourt does not solve a boarding house whose residents are in class, and a dense barangay often has no sidewalk wide enough for a bank of steel doors.
+  </p>
+  <p>
+    Punakivi, Yrjola, and Holmstrom (2001) move the box to the house. They compare a reception box installed at the home with a carrier-owned delivery box. In their grocery simulation, unattended reception cut home-delivery transport cost by up to 60 percent against attended delivery. They also show the limit of that result. The saving depended on the resident paying for and keeping a box, and the reception box they modeled was often refrigerated. HULOG keeps the idea that the secure point is at the home, and drops the cold box. A shirt or a phone case does not need refrigeration, and Section 1.4 excludes groceries for that reason. What the 2001 study does not give is a way for a rotating set of local riders to open the door without a key and without a dedicated courier application.
+  </p>
+  </section>
 
-    <h3>2.1 Last-Mile Delivery Challenges in E-Commerce Logistics</h3>
-    <p>
-      Academic literature consistently identifies the last-meter handover as the most expensive, inefficient, and vulnerable link in the global supply chain (Gevaers et al., 2014). In developing Asian logistics markets, high population density, non-standardized residential addressing systems, and high rates of unattended drops compound these inefficiencies (Allen et al., 2018).
-    </p>
-    <p>
-      In the Philippines, logistics operators experience high operational overhead caused by failed delivery attempts. When a recipient cannot be reached, the rider must either wait, attempt redelivery on the following day, or return the parcel to the central sorting hub. Industry analyses indicate that redeliveries erode up to 30% of a courier's daily delivery margins. HULOG mitigates this problem by establishing a fixed, accessible drop endpoint at the residential boundary.
-    </p>
+  <section class="topic">
+  <h3>2.3 A Code That Must Expire</h3>
+  <p>
+    Focardi, Luccio, and Wahsheh (2019) show that an ordinary QR symbol has no standard proof of who created it or whether it is still the symbol the owner issued. People scan what is in front of them. For a parcel box, that finding has a direct physical form: a sticker that never changes can be copied with a camera and shown again on another day. A fixed keypad PIN has the same shape of failure. Once a rider has seen it, it remains valid until a person changes it.
+  </p>
+  <p>
+    M'Raihi, Machani, Pei, and Rydell (2011), in RFC 6238, specify the time-based one-time password. The code is valid only inside a short time step, so a value someone has already seen does not stay useful. HULOG's design follows that limit and adds a stricter one. The pass should also be marked used when the door cycle finishes, so it cannot be replayed inside the time window. The bench sketch does not compute RFC 6238. It compares the keys with a fixed test PIN. Section 3.7 states that gap in the open, because a status report that hides it would describe a different machine from the one on the bench.
+  </p>
+  </section>
 
-    <h3>2.2 Evolution of Automated Parcel Lockers (APL)</h3>
-    <p>
-      Automated Parcel Lockers (APLs) have gained widespread adoption in European and East Asian markets, popularized by services like InPost, DHL Packstation, and Cainiao smart lockers (Morganti et al., 2014). These systems traditionally consist of centralized multi-door metal locker banks deployed in high-density public areas such as transit stations and convenience stores.
-    </p>
-    <p class="no-indent">While centralized APLs provide high security, their implementation in Philippine residential neighborhoods faces severe constraints:</p>
-    <ul>
-      <li><strong>High Capital Expenditure:</strong> Industrial locker banks cost hundreds of thousands of pesos to construct, power, and maintain.</li>
-      <li><strong>Commuter Inconvenience:</strong> Centralized lockers still require the recipient to travel to a designated hub, failing to solve the doorstep convenience expected from e-commerce delivery.</li>
-      <li><strong>Space Constraints:</strong> Densely populated residential barangays lack public sidewalks or communal rights-of-way suitable for massive multi-compartment lockers.</li>
-    </ul>
-    <p>
-      Recent academic investigations (e.g., Wang et al., 2020) emphasize the necessity of decentralized, single-household smart drop boxes. HULOG applies this decentralized model by scaling down the electronics and housing them directly within individual residential perimeter gates.
-    </p>
-  </div>
+  <section class="topic">
+  <h3>2.4 Why the Lock Is Not on a Timer Alone</h3>
+  <p>
+    A solenoid that releases for a few seconds and then drives again, with no knowledge of the door, can extend the bolt while the door is still open. The next slam seats the bolt against the frame instead of into the strike. A notice sent at the moment the PIN is accepted can also report a delivery that never entered the box. The reed switch answers a yes-or-no question about the door: it left the frame, and it returned. The proximity module answers a different question: an object is in front of the sensor, in the bay. The purchased module is a reflective infrared sensor, not a separate lamp and detector across the opening. It has to be aimed at the spot where the parcel sits. The pass should be spent only after both answers have arrived, in that order. That rule is the design. The bench sketch already reads both sensors. It does not yet retire a minted pass, because it does not yet hold one.
+  </p>
+  </section>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 6: CHAPTER 2 - RRL (ACCESS PROTOCOLS & SYNTHESIS)   -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h3>2.3 Access Control Protocols: Static vs. Dynamic Credentials</h3>
-    <p>
-      Conventional electronic drop boxes predominantly rely on static access credentials, such as fixed numeric passcodes, physical RFID cards, or printed static QR code stickers. Studies by Kumar and Lee (2019) on physical access vulnerabilities highlight that static credentials suffer from credential leakage:
-    </p>
-    <ul>
-      <li>Once a delivery rider memorizes or records a static gate PIN, that credential remains active indefinitely unless manually reset by the homeowner.</li>
-      <li>Static QR stickers pasted on the exterior of a locker can be inconspicuously photographed using a smartphone camera. An attacker can duplicate the barcode and scan it days later to unlock the vault.</li>
-    </ul>
-    <p>
-      To solve this vulnerability, modern cryptographic literature advocates for dynamic, ephemeral tokens based on the Time-Based One-Time Password algorithm (TOTP, RFC 6238) and single-cycle state invalidation (M'Raihi et al., 2011). HULOG incorporates this protocol: the generated QR code or 6-digit PIN possesses a strictly constrained operational lifespan (15 to 30 minutes) and is immediately purged from the active authorization table the moment the door sensor confirms physical closure.
-    </p>
+  <section class="topic">
+  <h3>2.5 Synthesis and Research Gap</h3>
+  <p>
+    The literature supports three separate claims, and it does not assemble them into one device. The last mile is costly and, in the Philippines, operationally tight (Gevaers et al., 2014; Department of Trade and Industry, 2022). Shared lockers help the courier and still ask the resident to travel (Morganti et al., 2014; Iwan et al., 2016). A box at the house can remove that trip, at the resident's expense, and the studied version was aimed at cold groceries (Punakivi et al., 2001). A visible QR code is easy to copy because the symbol itself carries no proof of origin (Focardi et al., 2019), and a time-step password is the standard remedy for a code that must die (M'Raihi et al., 2011).
+  </p>
+  <p>
+    The gap HULOG is built to fill is a non-refrigerated box at a Philippine gate or boarding-house door, opened by a pass the rider already has in a message, with no courier application, using the modules in Table 1. The cost claim in this report is the listed product prices in Table 1, PHP 1,643.00. Selling price, labor, and the enclosure belong in Chapter 4, after those costs exist.
+  </p>
+  </section>
 
-    <h3>2.4 Sensor Verification and Closed-Loop Interlocks</h3>
-    <p>
-      Electronic locking mechanisms that rely solely on timers (e.g., unlocking for five seconds and then re-locking without sensing door status) present significant operational flaws. If a courier opens the door and takes longer than five seconds to arrange the parcel, the lock bolt can extend while the door is still open, jamming against the frame when slammed shut. Furthermore, open-loop systems cannot confirm whether a parcel was actually placed inside or whether the door remained ajar after the courier departed.
-    </p>
-    <p>
-      Research in real-time embedded systems demonstrates that closed-loop sensory interlocks are mandatory for automated storage (Purnomo et al., 2021). By pairing a magnetic reed switch (MC-38) with an active optical infrared obstacle sensor, the microcontroller confirms three discrete physical conditions: (1) the door was opened, (2) an object crossed into the receiving tray, and (3) the door fully re-aligned with the frame.
-    </p>
+  <section class="topic chapter">
+  <h2>Chapter 3: Methodology and Technical Design</h2>
+  <h3>3.1 Parts to Buy</h3>
+  <p>
+    Table 1 is the parts list to buy. Sellers are MakerLab, Tool Corner, and ENG LAB.ph. Items 1-11 are the product prices on the completed orders. Items 12-14 are the ESP32 development board, the GPIO expansion board, and the 4x4 membrane keypad, at the MakerLab price. The listed product prices for items 1-14 come to PHP 1,643.00.
+  </p>
 
-    <h3>2.5 Synthesis and Research Gap</h3>
-    <p>
-      While commercial smart delivery boxes exist in Western markets (e.g., BoxLock, Yale Smart Delivery Box), their retail pricing (typically exceeding USD 250.00 to USD 400.00) makes them inaccessible to the average Filipino household. Furthermore, existing systems frequently require couriers to download dedicated third-party mobile applications or connect via Bluetooth, introducing friction that fast-moving local delivery riders actively resist.
-    </p>
-    <p>
-      The research gap addressed by HULOG is the creation of a low-cost, decentralized parcel vault engineered for Philippine gate structures that operates through zero-install web interfaces, employs dynamic single-use credentials, and utilizes an accessible, locally sourced electronics payload totaling under PHP 1,000.00.
-    </p>
-  </div>
+  <p class="lead"><strong>Table 1</strong></p>
+  <p class="lead" style="font-style: italic; margin-bottom: 0.25rem;">Parts to buy</p>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">No.</th>
+        <th>Component</th>
+        <th>Seller</th>
+        <th class="num">Qty</th>
+        <th class="num">Unit (PHP)</th>
+        <th class="num">Line (PHP)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">1</td>
+        <td>Active buzzer driver module<span class="spec">High-current module, blue board</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">35.00</td>
+        <td class="num">35.00</td>
+      </tr>
+      <tr>
+        <td class="num">2</td>
+        <td>LM2596 buck converter<span class="spec">DC-DC step-down module</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">49.00</td>
+        <td class="num">49.00</td>
+      </tr>
+      <tr>
+        <td class="num">3</td>
+        <td>Dupont jumpers, female-to-female<span class="spec">20 cm set</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">59.00</td>
+        <td class="num">59.00</td>
+      </tr>
+      <tr>
+        <td class="num">4</td>
+        <td>Dupont jumpers, female-to-male<span class="spec">20 cm set</span></td>
+        <td>MakerLab</td>
+        <td class="num">2</td>
+        <td class="num">59.00</td>
+        <td class="num">118.00</td>
+      </tr>
+      <tr>
+        <td class="num">5</td>
+        <td>Solenoid door lock<span class="spec">12 V DC, for doors</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">310.00</td>
+        <td class="num">310.00</td>
+      </tr>
+      <tr>
+        <td class="num">6</td>
+        <td>Relay module<span class="spec">1-channel, 5 V coil, optocoupler</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">49.00</td>
+        <td class="num">49.00</td>
+      </tr>
+      <tr>
+        <td class="num">7</td>
+        <td>DC power adapter<span class="spec">12 V, 2 A</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">145.00</td>
+        <td class="num">145.00</td>
+      </tr>
+      <tr>
+        <td class="num">8</td>
+        <td>Infrared proximity module<span class="spec">Reflective obstacle sensor</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">28.00</td>
+        <td class="num">28.00</td>
+      </tr>
+      <tr>
+        <td class="num">9</td>
+        <td>DC barrel jack, female<span class="spec">5.5 x 2.1 mm, screw terminals</span></td>
+        <td>Tool Corner</td>
+        <td class="num">3</td>
+        <td class="num">7.00</td>
+        <td class="num">21.00</td>
+      </tr>
+      <tr>
+        <td class="num">10</td>
+        <td>OLED display<span class="spec">0.96 in, SSD1306, 128x64, blue, I2C</span></td>
+        <td>ENG LAB.ph</td>
+        <td class="num">1</td>
+        <td class="num">145.00</td>
+        <td class="num">145.00</td>
+      </tr>
+      <tr>
+        <td class="num">11</td>
+        <td>Magnetic door reed set<span class="spec">NO and NC leads, with magnet</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">165.00</td>
+        <td class="num">165.00</td>
+      </tr>
+      <tr>
+        <td class="num">12</td>
+        <td>ESP32 development board<span class="spec">30-pin or 38-pin Wi-Fi board</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">350.00</td>
+        <td class="num">350.00</td>
+      </tr>
+      <tr>
+        <td class="num">13</td>
+        <td>GPIO expansion board<span class="spec">Terminal board for the 30-pin or 38-pin ESP32. Brings the existing pins out to headers.</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">119.00</td>
+        <td class="num">119.00</td>
+      </tr>
+      <tr>
+        <td class="num">14</td>
+        <td>Membrane keypad<span class="spec">4x4, 16 keys</span></td>
+        <td>MakerLab</td>
+        <td class="num">1</td>
+        <td class="num">50.00</td>
+        <td class="num">50.00</td>
+      </tr>
+      <tr class="total">
+        <td></td>
+        <td colspan="4">Listed product prices, items 1-14</td>
+        <td class="num">1,643.00</td>
+      </tr>
+    </tbody>
+  </table>
+  </section>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 7: CHAPTER 3 - BILL OF MATERIALS (TABLE 1)          -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h2>Chapter 3: Research Methodology and Technical Design</h2>
+  <section class="topic">
+  <p class="note">
+    The listed product prices for items 1-14 come to PHP 1,643.00. Six completed checkouts for items 1-11 were PHP 583.00 (buzzer, buck, both jumper sets, and solenoid), PHP 202.00 (relay and adapter), PHP 28.00 (proximity module), PHP 53.00 (three jacks), PHP 145.00 (OLED), and PHP 174.00 (reed set). Those payments sum to PHP 1,185.00. The PHP 61.00 difference from the PHP 1,124.00 product prices on those orders is shipping and other checkout charges, mostly on the jack order, whose price was PHP 7.00 each after a discount from PHP 25.00. Items 12-14, the ESP32, the GPIO expansion board, and the keypad, are included in the PHP 1,643.00 at the MakerLab prices in the table. The enclosure, hinges, and the 1N4007 flyback diode are not in this list. The diode is specified in Figure 2 and should be fitted before the coil is pulsed repeatedly.
+  </p>
+  </section>
 
-    <h3>3.1 Bill of Materials and Hardware Sourcing</h3>
-    <p>
-      The hardware components for the HULOG prototype were sourced through verified domestic electronics distributors in Metro Manila, specifically Makerlab Electronics and e-Gizmo. The selection criteria prioritized electrical reliability, thermal stability, standard communication protocols (I2C, GPIO), and affordability.
-    </p>
+  <section class="topic">
+  <h3>3.2 How a Drop Is Arranged</h3>
+  <p>
+    Figure 1 is the arrangement, not a claim that every arrow is already live. The owner's page and the rider's page exist. The link from the vault to Telegram does not. The ESP32 drawn at the side of the box is the board on the expansion headers. The keypad and the OLED are on the outside of the door, where the rider can reach them. The reed set sits on the door gap. The proximity module looks into the bay. The solenoid sits at the strike.
+  </p>
 
-    <p class="no-indent"><strong>Table 1</strong><br><em>Itemized Bill of Materials and Procurement Costing</em></p>
+  <figure class="figure">
+    <svg viewBox="0 0 720 556" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig1title">
+      <title id="fig1title">How a HULOG drop is arranged</title>
+      <rect width="720" height="548" fill="#f6f3ee"/>
+      <text x="16" y="22" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="15" font-weight="700">A. Who takes part</text>
 
-    <table>
-      <thead>
-        <tr>
-          <th class="text-center">No.</th>
-          <th>Component Description</th>
-          <th>Technical Specifications</th>
-          <th>Subsystem</th>
-          <th class="text-center">Qty</th>
-          <th class="text-right">Unit Price (PHP)</th>
-          <th class="text-right">Total Price (PHP)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-center">1</td>
-          <td>ESP32 DevKit V1</td>
-          <td>30-pin, Dual-Core 240MHz, 4MB Flash, Wi-Fi + BLE</td>
-          <td>Main Controller</td>
-          <td class="text-center">1</td>
-          <td class="text-right">240.00</td>
-          <td class="text-right">240.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">2</td>
-          <td>0.96" I2C OLED Display</td>
-          <td>SSD1306 driver, 128x64 resolution, 4-pin interface</td>
-          <td>User Display</td>
-          <td class="text-center">1</td>
-          <td class="text-right">110.00</td>
-          <td class="text-right">110.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">3</td>
-          <td>4x4 Matrix Membrane Keypad</td>
-          <td>16-key matrix (0-9, A-D, *, #), 8-pin female header</td>
-          <td>Manual Input</td>
-          <td class="text-center">1</td>
-          <td class="text-right">65.00</td>
-          <td class="text-right">65.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">4</td>
-          <td>Magnetic Door Switch</td>
-          <td>MC-38 model, Normally Closed (NC), surface mount</td>
-          <td>Sensor</td>
-          <td class="text-center">1</td>
-          <td class="text-right">55.00</td>
-          <td class="text-right">55.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">5</td>
-          <td>Optical IR Sensor Module</td>
-          <td>Active infrared obstacle detection, 3-pin interface</td>
-          <td>Sensor</td>
-          <td class="text-center">1</td>
-          <td class="text-right">25.00</td>
-          <td class="text-right">25.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">6</td>
-          <td>5V Active Buzzer Module</td>
-          <td>85dB SPL acoustic sounder, continuous tone</td>
-          <td>Audio Output</td>
-          <td class="text-center">1</td>
-          <td class="text-right">20.00</td>
-          <td class="text-right">20.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">7</td>
-          <td>12V Solenoid Cabinet Lock</td>
-          <td>Electromagnetic latch, tongue-down, 12V 0.8A</td>
-          <td>Actuation</td>
-          <td class="text-center">1</td>
-          <td class="text-right">190.00</td>
-          <td class="text-right">190.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">8</td>
-          <td>1-Channel Relay Module</td>
-          <td>5V trigger, PC817 optocoupler isolation, 10A contacts</td>
-          <td>Power Switching</td>
-          <td class="text-center">1</td>
-          <td class="text-right">45.00</td>
-          <td class="text-right">45.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">9</td>
-          <td>12V 2A DC Power Adapter</td>
-          <td>Regulated switching adapter, 220V AC input, 5.5mm jack</td>
-          <td>Power Supply</td>
-          <td class="text-center">1</td>
-          <td class="text-right">115.00</td>
-          <td class="text-right">115.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">10</td>
-          <td>DC Barrel Jack Adapters</td>
-          <td>5.5x2.1mm female to screw terminal block</td>
-          <td>Power Interface</td>
-          <td class="text-center">2</td>
-          <td class="text-right">20.00</td>
-          <td class="text-right">40.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">11</td>
-          <td>LM2596 Buck Converter</td>
-          <td>DC-DC step-down, 12V input to 5.0V output, 3A max</td>
-          <td>Power Regulation</td>
-          <td class="text-center">1</td>
-          <td class="text-right">55.00</td>
-          <td class="text-right">55.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">12</td>
-          <td>Dupont Jumper Wires</td>
-          <td>40-pin female-to-female 20cm jumper ribbon cable</td>
-          <td>Interconnect</td>
-          <td class="text-center">1</td>
-          <td class="text-right">50.00</td>
-          <td class="text-right">50.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">13</td>
-          <td>Prototype Enclosure Box</td>
-          <td>Wood/acrylic tabletop hinged storage box (25x20x15cm)</td>
-          <td>Physical Housing</td>
-          <td class="text-center">1</td>
-          <td class="text-right">180.00</td>
-          <td class="text-right">180.00</td>
-        </tr>
-        <tr>
-          <td class="text-center">14</td>
-          <td>Mini Cabinet Butt Hinges</td>
-          <td>1.5-inch metal hinges with mounting wood screws</td>
-          <td>Hardware</td>
-          <td class="text-center">1</td>
-          <td class="text-right">35.00</td>
-          <td class="text-right">35.00</td>
-        </tr>
-        <tr class="total-row">
-          <td colspan="6" class="text-right">Total Prototype Implementation Cost:</td>
-          <td class="text-right">PHP 1,185.00</td>
-        </tr>
-      </tbody>
-    </table>
+      <rect x="12" y="36" width="150" height="128" rx="8" fill="#fff" stroke="#1c1917" stroke-width="1.4"/>
+      <circle cx="87" cy="62" r="11" fill="none" stroke="#1c1917" stroke-width="1.6"/>
+      <path d="M70 94c4-12 30-12 34 0" fill="none" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="87" y="116" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">1. Owner</text>
+      <text x="87" y="134" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Mints PIN and QR</text>
+      <text x="87" y="150" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Life: 15 or 30 min</text>
 
-    <p>
-      <em>Note:</em> The pure electronics payload (Items 1 through 12, excluding the craft enclosure box and hinges) totals PHP 1,010.00, with raw active silicon and sensors totaling PHP 820.00, supporting unit retail commercialization targets between PHP 3,499.00 and PHP 4,999.00.
-    </p>
-  </div>
+      <line x1="164" y1="100" x2="186" y2="100" stroke="#1c1917" stroke-width="1.4"/>
+      <polygon points="188,100 178,95 178,105" fill="#1c1917"/>
+      <text x="176" y="90" text-anchor="middle" fill="#1d4e89" font-family="Calibri, Arial, sans-serif" font-size="10">HTTPS</text>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 8: SYSTEM ARCHITECTURE (FIGURE 1)                   -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h3>3.2 System Hardware and Network Architecture</h3>
-    <p>
-      The system operates across three interconnected functional layers: the Cloud and Management Layer, the Embedded Controller Layer (ESP32), and the Physical Sensing and Actuation Bus. Figure 1 outlines the complete architectural topology.
-    </p>
+      <rect x="192" y="36" width="150" height="128" rx="8" fill="#fff" stroke="#1c1917" stroke-width="1.4"/>
+      <rect x="234" y="50" width="66" height="40" rx="3" fill="none" stroke="#1d4e89" stroke-width="1.6"/>
+      <line x1="234" y1="62" x2="300" y2="62" stroke="#1d4e89" stroke-width="1.2"/>
+      <text x="267" y="116" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">2. Web page</text>
+      <text x="267" y="134" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Holds the pass</text>
+      <text x="267" y="150" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Telegram not wired</text>
 
-    <div class="diagram-container">
-      <svg class="academic-diagram" viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#000000" />
-          </marker>
-        </defs>
+      <line x1="344" y1="100" x2="366" y2="100" stroke="#1c1917" stroke-width="1.4"/>
+      <polygon points="368,100 358,95 358,105" fill="#1c1917"/>
+      <text x="356" y="90" text-anchor="middle" fill="#1d4e89" font-family="Calibri, Arial, sans-serif" font-size="10">link</text>
 
-        <!-- Section Outlines -->
-        <rect x="15" y="15" width="690" height="110" fill="none" stroke="#000000" stroke-width="1.2" stroke-dasharray="4 2"/>
-        <text x="30" y="32" font-family="Times New Roman" font-size="11pt" font-weight="bold">CLOUD &amp; REMOTE MANAGEMENT LAYER</text>
+      <rect x="372" y="36" width="150" height="128" rx="8" fill="#fff" stroke="#1c1917" stroke-width="1.4"/>
+      <rect x="428" y="48" width="36" height="54" rx="4" fill="none" stroke="#1c1917" stroke-width="1.6"/>
+      <circle cx="446" cy="94" r="2" fill="#1c1917"/>
+      <text x="447" y="122" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">3. Rider</text>
+      <text x="447" y="140" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Browser only</text>
+      <text x="447" y="154" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">No app to install</text>
 
-        <!-- Cloud Blocks -->
-        <rect x="35" y="45" width="200" height="65" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
-        <text x="135" y="68" font-family="Times New Roman" font-size="10pt" font-weight="bold" text-anchor="middle">Homeowner Web Portal</text>
-        <text x="135" y="86" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">Token Minting &amp; Expiry Mgmt</text>
-        <text x="135" y="100" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">(React 18 / Vite / TS)</text>
+      <line x1="524" y1="100" x2="546" y2="100" stroke="#1c1917" stroke-width="1.4"/>
+      <polygon points="548,100 538,95 538,105" fill="#1c1917"/>
+      <text x="536" y="90" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="10">PIN</text>
 
-        <rect x="260" y="45" width="200" height="65" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
-        <text x="360" y="68" font-family="Times New Roman" font-size="10pt" font-weight="bold" text-anchor="middle">Cloud Broker &amp; API</text>
-        <text x="360" y="86" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">MQTT / TLS Broker (Port 8883)</text>
-        <text x="360" y="100" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">Telegram Bot Alert Service</text>
+      <rect x="552" y="36" width="152" height="128" rx="8" fill="#fff" stroke="#1c1917" stroke-width="1.4"/>
+      <rect x="600" y="50" width="56" height="38" fill="none" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="628" y="116" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">4. Vault</text>
+      <text x="628" y="134" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">One door cycle</text>
+      <text x="628" y="150" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Then the pass is spent</text>
 
-        <rect x="485" y="45" width="200" height="65" fill="#ffffff" stroke="#000000" stroke-width="1.2"/>
-        <text x="585" y="68" font-family="Times New Roman" font-size="10pt" font-weight="bold" text-anchor="middle">Courier Mobile Web</text>
-        <text x="585" y="86" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">Zero-Install Mobile Scanner</text>
-        <text x="585" y="100" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">QR Scan &amp; Single Unlatch</text>
+      <text x="16" y="190" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="15" font-weight="700">B. Where the parts sit, side cutaway</text>
 
-        <!-- Cloud Interconnect Arrows -->
-        <line x1="235" y1="77" x2="260" y2="77" stroke="#000000" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <line x1="485" y1="77" x2="460" y2="77" stroke="#000000" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <!-- open door -->
+      <polygon points="78,230 28,268 28,470 78,446" fill="#e7d7bc" stroke="#3f3428" stroke-width="1.8"/>
+      <text x="42" y="300" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="11" transform="rotate(-8 42 300)">door</text>
+      <!-- keypad on door -->
+      <g transform="rotate(-8 48 360)">
+        <rect x="34" y="328" width="28" height="36" fill="#f7f1e6" stroke="#1c1917" stroke-width="1"/>
+        <g fill="#1c1917">
+          <circle cx="40" cy="336" r="1.3"/><circle cx="48" cy="336" r="1.3"/><circle cx="56" cy="336" r="1.3"/>
+          <circle cx="40" cy="344" r="1.3"/><circle cx="48" cy="344" r="1.3"/><circle cx="56" cy="344" r="1.3"/>
+          <circle cx="40" cy="352" r="1.3"/><circle cx="48" cy="352" r="1.3"/><circle cx="56" cy="352" r="1.3"/>
+        </g>
+      </g>
+      <!-- OLED on door -->
+      <g transform="rotate(-8 50 300)">
+        <rect x="36" y="286" width="26" height="16" fill="#111" stroke="#1c1917"/>
+        <text x="49" y="297" text-anchor="middle" fill="#9fefb0" font-family="Consolas, monospace" font-size="7">PIN</text>
+      </g>
 
-        <!-- Cloud to ESP32 Arrow -->
-        <line x1="360" y1="110" x2="360" y2="155" stroke="#000000" stroke-width="1.5" marker-end="url(#arrow)"/>
-        <text x="368" y="138" font-family="Times New Roman" font-size="8.5pt" font-style="italic">TLS Encrypted Wi-Fi</text>
+      <!-- vault body -->
+      <path d="M78 214 H430 V490 H78 V446" fill="#f3eadc" stroke="#3f3428" stroke-width="2"/>
+      <line x1="78" y1="446" x2="78" y2="230" stroke="#3f3428" stroke-width="2"/>
+      <!-- floor -->
+      <line x1="90" y1="458" x2="410" y2="458" stroke="#3f3428" stroke-width="1.4"/>
+      <!-- parcel -->
+      <rect x="168" y="400" width="92" height="58" fill="#d7c4a3" stroke="#3f3428" stroke-width="1.4"/>
+      <line x1="168" y1="418" x2="260" y2="418" stroke="#3f3428" stroke-width="1"/>
+      <text x="214" y="442" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">parcel</text>
 
-        <!-- ESP32 Controller Section -->
-        <rect x="15" y="155" width="690" height="120" fill="none" stroke="#000000" stroke-width="1.2"/>
-        <text x="30" y="174" font-family="Times New Roman" font-size="11pt" font-weight="bold">EMBEDDED CONTROLLER LAYER: ESP32-WROOM-32 (DUAL-CORE XTENSA LX6 @ 240MHz)</text>
+      <!-- IR -->
+      <rect x="196" y="228" width="36" height="16" rx="2" fill="#1d4e89"/>
+      <text x="214" y="239" text-anchor="middle" fill="#fff" font-family="Calibri, Arial, sans-serif" font-size="10">IR</text>
+      <path d="M202 244 L190 390 L238 390 Z" fill="#1d4e89" opacity="0.13" stroke="#1d4e89" stroke-dasharray="3 3"/>
 
-        <rect x="45" y="188" width="300" height="72" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-        <text x="195" y="208" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Core 0: Network &amp; Security Tasks</text>
-        <text x="195" y="226" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 802.11 b/g/n Wi-Fi &amp; MQTT Protocol Handler</text>
-        <text x="195" y="242" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- Dynamic Token Validator &amp; SPIFFS Flash Cache</text>
+      <!-- solenoid -->
+      <rect x="360" y="248" width="52" height="22" rx="3" fill="#c8c2b8" stroke="#1c1917" stroke-width="1.4"/>
+      <rect x="348" y="254" width="16" height="10" fill="#6b655c" stroke="#1c1917"/>
+      <text x="386" y="263" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="10">bolt</text>
 
-        <rect x="375" y="188" width="300" height="72" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-        <text x="525" y="208" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Core 1: Real-Time Deterministic I/O</text>
-        <text x="525" y="226" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 4x4 Keypad Polling &amp; OLED Frame Buffer</text>
-        <text x="525" y="242" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- Solenoid Pulse Control &amp; Sensor ISR Interlocks</text>
+      <!-- reed -->
+      <rect x="70" y="360" width="8" height="22" fill="#8a5a12"/>
+      <rect x="82" y="360" width="8" height="22" fill="#d9d3c7" stroke="#1c1917"/>
 
-        <!-- Downward Buses -->
-        <line x1="195" y1="275" x2="195" y2="310" stroke="#000000" stroke-width="1.5" marker-end="url(#arrow)"/>
-        <line x1="525" y1="275" x2="525" y2="310" stroke="#000000" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <!-- ESP32 expansion -->
+      <rect x="500" y="250" width="190" height="150" rx="6" fill="#e7f3ea" stroke="#1f6b45" stroke-width="1.6"/>
+      <rect x="548" y="278" width="96" height="58" rx="3" fill="#1f6b45"/>
+      <text x="596" y="304" text-anchor="middle" fill="#fff" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">ESP32</text>
+      <text x="596" y="322" text-anchor="middle" fill="#fff" font-family="Calibri, Arial, sans-serif" font-size="11">on expansion</text>
+      <g fill="#1c1917">
+        <circle cx="522" cy="292" r="2.2"/><circle cx="522" cy="304" r="2.2"/><circle cx="522" cy="316" r="2.2"/><circle cx="522" cy="328" r="2.2"/>
+        <circle cx="668" cy="292" r="2.2"/><circle cx="668" cy="304" r="2.2"/><circle cx="668" cy="316" r="2.2"/><circle cx="668" cy="328" r="2.2"/>
+      </g>
+      <text x="595" y="368" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">GPIO headers</text>
+      <path d="M500 320 C460 320, 450 300, 412 270" fill="none" stroke="#1f6b45" stroke-width="1.6"/>
 
-        <!-- Physical Layer Section -->
-        <rect x="15" y="310" width="690" height="110" fill="none" stroke="#000000" stroke-width="1.2" stroke-dasharray="4 2"/>
-        <text x="30" y="328" font-family="Times New Roman" font-size="11pt" font-weight="bold">PHYSICAL SENSING &amp; ACTUATION BUS</text>
+      <!-- callout bubbles -->
+      <g font-family="Calibri, Arial, sans-serif" font-size="12" fill="#1c1917">
+        <circle cx="62" cy="292" r="9" fill="#fff" stroke="#1c1917"/>
+        <text x="62" y="296" text-anchor="middle" font-weight="700">1</text>
+        <circle cx="40" cy="346" r="9" fill="#fff" stroke="#1c1917"/>
+        <text x="40" y="350" text-anchor="middle" font-weight="700">2</text>
+        <circle cx="96" cy="348" r="9" fill="#fff" stroke="#1c1917"/>
+        <text x="96" y="352" text-anchor="middle" font-weight="700">3</text>
+        <circle cx="250" cy="226" r="9" fill="#fff" stroke="#1c1917"/>
+        <text x="250" y="230" text-anchor="middle" font-weight="700">4</text>
+        <circle cx="430" cy="246" r="9" fill="#fff" stroke="#1c1917"/>
+        <text x="430" y="250" text-anchor="middle" font-weight="700">5</text>
+        <circle cx="520" cy="268" r="9" fill="#fff" stroke="#1c1917"/>
+        <text x="520" y="272" text-anchor="middle" font-weight="700">6</text>
+      </g>
 
-        <rect x="35" y="340" width="320" height="68" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-        <text x="195" y="358" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Sensing &amp; Manual Interface Bus</text>
-        <text x="195" y="374" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- MC-38 Magnetic Door Switch (GPIO 19, INPUT_PULLUP)</text>
-        <text x="195" y="388" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- Active IR Presence Sensor (GPIO 18, Digital IN)</text>
-        <text x="195" y="402" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 4x4 Keypad (GPIOs 13,12,14,27,26,25,33,32) &amp; OLED (I2C D21/22)</text>
+      <g font-family="Calibri, Arial, sans-serif" font-size="12" fill="#1c1917">
+        <text x="16" y="516">1  OLED on the door</text>
+        <text x="250" y="516">2  Keypad on the door</text>
+        <text x="490" y="516">3  Reed, NO lead, at the gap</text>
+        <text x="16" y="536">4  IR aimed at the parcel</text>
+        <text x="250" y="536">5  Solenoid at the strike</text>
+        <text x="490" y="536">6  ESP32 on expansion board</text>
+      </g>
+    </svg>
+    <figcaption class="figure-caption"><strong>Figure 1.</strong> People, pass, and part placement for one drop. The Telegram link in step 2 is drawn as a plan. It is not in the flashed sketch.</figcaption>
+  </figure>
+  </section>
 
-        <rect x="365" y="340" width="320" height="68" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-        <text x="525" y="358" font-family="Times New Roman" font-size="9.5pt" font-weight="bold" text-anchor="middle">Actuation &amp; Power Regulation Bus</text>
-        <text x="525" y="374" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 1-Channel Optocoupler Relay (GPIO 23, Active LOW)</text>
-        <text x="525" y="388" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 12V 0.8A Electromagnetic Solenoid Lock (1000N holding)</text>
-        <text x="525" y="402" font-family="Times New Roman" font-size="8.5pt" text-anchor="middle">- 1N4007 Diode (Flyback Clamp) &amp; LM2596 (12V to 5V Step-Down)</text>
-      </svg>
-      <div class="diagram-caption"><strong>Figure 1.</strong> High-Level System Hardware and Network Architecture of the HULOG Drop Vault.</div>
-    </div>
-  </div>
+  <section class="topic">
+  <h3>3.3 Power and Lock Circuit</h3>
+  <p>
+    One 12 V 2 A adapter feeds two rails, drawn in Figure 2. The red rail is the lock. It goes to the relay's common contact, through the normally open contact, and through the solenoid coil to ground. The blue rail is logic. An LM2596 module steps 12 V down to 5 V for the ESP32 VIN pin, the relay-module supply, and the buzzer module. The OLED and the proximity module take 3.3 V from the ESP32, so their outputs cannot rise above the pin rating. GPIO 23 goes only to the relay input. It is an active-low signal. It does not join the red wire.
+  </p>
+  <p>
+    The LM2596 often ships with its output set near the input voltage. The output is measured and set to 5.0 V before the ESP32 is connected. The solenoid's coil current is not printed on the receipt. It will be measured on the bench before long pulses, against the 2 A rating of the adapter. A 1N4007 is drawn across the coil, band toward the 12 V side, so the spike from the collapsing field has a path that is not the relay contact. That diode was not in the orders.
+  </p>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 9: POWER SCHEMATIC (FIGURE 2) & PINOUT (TABLE 2)    -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h3>3.3 Power Distribution and Circuit Interconnect Schematic</h3>
-    <p>
-      The electrical design utilizes a dual-rail power distribution bus driven by a single 12V 2A DC switching power adapter. The 12V rail drives the high-current solenoid lock directly through the relay contacts (NO/COM), bypassing the microcontroller logic. An LM2596 DC-DC buck converter steps the 12V down to a stable 5.00V DC rail to power the ESP32 and logic peripherals. Figure 2 illustrates the power distribution and back-EMF protection topology.
-    </p>
+  <figure class="figure">
+    <svg viewBox="0 0 720 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig2title">
+      <title id="fig2title">HULOG power and lock circuit</title>
+      <rect width="720" height="470" fill="#f6f3ee"/>
+      <rect x="300" y="28" width="400" height="150" rx="8" fill="#f8e8e6"/>
+      <rect x="230" y="188" width="470" height="200" rx="8" fill="#e7f0f8"/>
+      <text x="308" y="46" fill="#9f2d2d" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">12 V LOCK CIRCUIT</text>
+      <text x="238" y="206" fill="#1d4e89" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">5 V AND 3.3 V LOGIC</text>
 
-    <div class="diagram-container">
-      <pre class="diagram-box">
- 12V 2A DC REGULATED POWER SUPPLY
-  [ +12V DC ] ────────┬────────────────────────────────────────────> Relay COM Terminal
-                      │
-                      ├───> [ LM2596 BUCK CONVERTER IN+ ]
-                      │     [ LM2596 BUCK CONVERTER IN- ] ────┐
-  [  GND    ] ────────┼───────────────────────────────────────┼────> SYSTEM COMMON GROUND (GND)
-                      │                                       │
-                      │     [ LM2596 BUCK CONVERTER OUT+ ] ───┴────> +5.00V DC REGULATED LOGIC RAIL
-                      │                                              (ESP32 VIN, Relay VCC,
-                      │                                               IR Sensor VCC, Buzzer VCC)
-                      │
-                      │     [ LM2596 BUCK CONVERTER OUT- ] ────────> SYSTEM COMMON GROUND (GND)
-                      │
-                      │
-  RELAY ACTUATION:    │
-                      │
-   ESP32 GPIO 23 ─────┴───> [ Relay IN (PC817 Optocoupler Active LOW) ]
-   Relay NO Contact ──────┬────────────────────────────────────────> Solenoid Red Wire (+)
-                          │
-                        ┌─┴─┐
-                        ▲   │ 1N4007 Flyback Rectifier Diode
-                        │   │ (Cathode silver band faces +12V NO contact)
-                        └─┬─┘
-                          │
-   Common Ground (GND) ───┴────────────────────────────────────────> Solenoid Black Wire (-)
-      </pre>
-      <div class="diagram-caption"><strong>Figure 2.</strong> Dual-Rail Power Distribution Circuit and Inductive Flyback Diode Clamping Schematic.</div>
-    </div>
+      <!-- adapter -->
+      <rect x="18" y="78" width="78" height="58" rx="6" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="57" y="100" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">Adapter</text>
+      <text x="57" y="116" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">12 V  2 A</text>
+      <text x="108" y="74" fill="#9f2d2d" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">+12 V</text>
+      <text x="108" y="156" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">GND</text>
 
-    <h3>3.4 Hardware Wiring and Pinout Configuration</h3>
-    <p>
-      All microcontroller pin connections are assigned to safe general-purpose input/output (GPIO) pins on the ESP32 30-pin board, avoiding strapping pins (GPIO 0, GPIO 2, GPIO 15) and input-only pins (GPIO 34 to 39). Table 2 documents the complete pin mapping and circuit roles.
-    </p>
+      <!-- 12V bus -->
+      <line x1="96" y1="88" x2="640" y2="88" stroke="#9f2d2d" stroke-width="3"/>
+      <!-- ground bus -->
+      <line x1="40" y1="420" x2="680" y2="420" stroke="#1c1917" stroke-width="3"/>
+      <text x="16" y="424" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">GND</text>
+      <line x1="57" y1="136" x2="57" y2="420" stroke="#1c1917" stroke-width="1.6"/>
 
-    <p class="no-indent"><strong>Table 2</strong><br><em>ESP32 Microcontroller GPIO Allocation and Pin Configuration</em></p>
+      <!-- buck -->
+      <line x1="150" y1="88" x2="150" y2="128" stroke="#9f2d2d" stroke-width="2"/>
+      <circle cx="150" cy="88" r="3.5" fill="#9f2d2d"/>
+      <rect x="112" y="128" width="120" height="78" rx="4" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="172" y="152" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">LM2596</text>
+      <text x="172" y="170" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">set to 5.0 V</text>
+      <text x="172" y="188" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="11">meter it first</text>
+      <line x1="172" y1="206" x2="172" y2="420" stroke="#1c1917" stroke-width="1.6"/>
+      <circle cx="172" cy="420" r="3.5" fill="#1c1917"/>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Subsystem</th>
-          <th>Peripheral Device</th>
-          <th>Assigned ESP32 Pin</th>
-          <th>Logic Level</th>
-          <th>Circuit Configuration / Purpose</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Actuator</td>
-          <td>1-Channel Relay Module</td>
-          <td>GPIO 23</td>
-          <td>3.3V Logic</td>
-          <td>Active LOW trigger. Connects to relay signal input (IN).</td>
-        </tr>
-        <tr>
-          <td>Display</td>
-          <td>0.96" SSD1306 OLED</td>
-          <td>GPIO 22</td>
-          <td>3.3V / 5V</td>
-          <td>Hardware I2C Clock (SCL).</td>
-        </tr>
-        <tr>
-          <td>Display</td>
-          <td>0.96" SSD1306 OLED</td>
-          <td>GPIO 21</td>
-          <td>3.3V / 5V</td>
-          <td>Hardware I2C Data (SDA).</td>
-        </tr>
-        <tr>
-          <td>Sensor</td>
-          <td>Magnetic Door Switch</td>
-          <td>GPIO 19</td>
-          <td>3.3V</td>
-          <td>Configured as INPUT_PULLUP. Reads LOW when door is closed.</td>
-        </tr>
-        <tr>
-          <td>Sensor</td>
-          <td>Active Optical IR Sensor</td>
-          <td>GPIO 18</td>
-          <td>3.3V / 5V</td>
-          <td>Digital Input. Reads LOW when package breaks infrared beam.</td>
-        </tr>
-        <tr>
-          <td>Acoustic</td>
-          <td>5V Active Buzzer</td>
-          <td>GPIO 5</td>
-          <td>3.3V</td>
-          <td>Digital Output. Emits chimes for keypresses and alarms.</td>
-        </tr>
-        <tr>
-          <td>Keypad</td>
-          <td>4x4 Membrane Rows</td>
-          <td>GPIO 13, 12, 14, 27</td>
-          <td>3.3V</td>
-          <td>Keypad Matrix Row Scan Lines (R1, R2, R3, R4).</td>
-        </tr>
-        <tr>
-          <td>Keypad</td>
-          <td>4x4 Membrane Cols</td>
-          <td>GPIO 26, 25, 33, 32</td>
-          <td>3.3V</td>
-          <td>Keypad Matrix Column Input Lines (C1, C2, C3, C4) with internal pull-ups.</td>
-        </tr>
-        <tr>
-          <td>Power</td>
-          <td>LM2596 Step-Down Buck</td>
-          <td>VIN and GND</td>
-          <td>5.0V DC</td>
-          <td>Steps 12V adapter down to 5.00V DC for ESP32 and logic rail.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <!-- 5V bus -->
+      <line x1="232" y1="168" x2="620" y2="168" stroke="#1d4e89" stroke-width="3"/>
+      <text x="240" y="160" fill="#1d4e89" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">5 V</text>
+      <circle cx="232" cy="168" r="3.5" fill="#1d4e89"/>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 10: STATE MACHINE (FIGURE 3) & SOFTWARE ARCHITECTURE -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h3>3.5 Closed-Loop Operational State Machine</h3>
-    <p>
-      The embedded firmware follows a deterministic, closed-loop state machine ensuring that access tokens cannot be reused and that the vault does not remain unlatched indefinitely. Figure 3 illustrates the state transition workflow from idle status through parcel deposit, latch re-engagement, and cloud notification.
-    </p>
+      <!-- ESP32 -->
+      <line x1="330" y1="168" x2="330" y2="236" stroke="#1d4e89" stroke-width="2"/>
+      <circle cx="330" cy="168" r="3.5" fill="#1d4e89"/>
+      <rect x="250" y="236" width="180" height="128" rx="6" fill="#fff" stroke="#1f6b45" stroke-width="1.8"/>
+      <text x="340" y="258" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">ESP32 + expansion</text>
+      <text x="262" y="280" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">VIN <- 5 V</text>
+      <text x="262" y="298" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">3.3 V -> OLED and IR</text>
+      <text x="262" y="316" fill="#1f6b45" font-family="Calibri, Arial, sans-serif" font-size="12">GPIO 23 -> relay IN</text>
+      <text x="262" y="334" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">active LOW, signal only</text>
+      <text x="262" y="352" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">GND -> ground bus</text>
+      <line x1="340" y1="364" x2="340" y2="420" stroke="#1c1917" stroke-width="1.6"/>
+      <circle cx="340" cy="420" r="3.5" fill="#1c1917"/>
 
-    <div class="diagram-container">
-      <pre class="diagram-box">
-  +----------------------------------------------------------------------------+
-  |                             STATE 0: IDLE                                  |
-  |  - Vault door is mechanically latched.                                     |
-  |  - OLED display: "HULOG VAULT - Scan QR or Enter PIN".                     |
-  |  - Keypad scanner and network listeners are active.                        |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v (Courier enters 6-digit PIN on keypad
-                                           or scans QR token via mobile scanner)
-  +-------------------------------------+--------------------------------------+
-  |                       STATE 1: TOKEN AUTHENTICATION                        |
-  |  - Token is matched against local flash cache / pre-shared hash table.     |
-  |  - If Invalid: Buzzer sounds 3 error chirps; failure counter increments.   |
-  |                (3 failed attempts trigger 5-minute lockout).               |
-  |  - If Valid: Solenoid relay energizes; transition to STATE 2.              |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |                          STATE 2: UNLATCHING                               |
-  |  - GPIO 23 pulled LOW for exactly 3,000 milliseconds.                      |
-  |  - 12V solenoid retracts its spring-loaded plunger.                        |
-  |  - OLED display: "ACCESS GRANTED - OPEN DOOR".                             |
-  |  - 30-second watchdog timer starts.                                        |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |                 STATE 3: DOOR AJAR &amp; PARCEL DEPOSIT                        |
-  |  - MC-38 Reed Switch opens (GPIO 19 transitions to HIGH).                  |
-  |  - Courier pulls door open and deposits package.                           |
-  |  - Active IR sensor inside tray detects object (GPIO 18 goes LOW).         |
-  |  - OLED display: "DOOR OPEN - DEPOSIT PARCEL".                             |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |             STATE 4: RE-LATCHING &amp; TOKEN CONSUMPTION                       |
-  |  - Courier closes the vault door.                                          |
-  |  - MC-38 Reed Switch closes (GPIO 19 goes LOW).                            |
-  |  - Mechanical angled tongue snaps into strike plate.                       |
-  |  - Access token is permanently flagged as CONSUMED in flash memory.        |
-  +-------------------------------------+--------------------------------------+
-                                        |
-                                        v
-  +-------------------------------------+--------------------------------------+
-  |               STATE 5: TELEMETRY &amp; CONFIRMATION DISPATCH                   |
-  |  - Buzzer emits a 3-tone success chime.                                    |
-  |  - OLED display: "DELIVERY DONE! - PACKAGE SECURED".                       |
-  |  - ESP32 dispatches encrypted MQTT payload to cloud broker.                |
-  |  - Telegram Bot alerts homeowner with timestamped proof of deposit.        |
-  |  - Vault returns to STATE 0 (IDLE).                                        |
-  +----------------------------------------------------------------------------+
-      </pre>
-      <div class="diagram-caption"><strong>Figure 3.</strong> Deterministic Closed-Loop Operational State Machine Flowchart.</div>
-    </div>
-  </div>
+      <!-- green GPIO -->
+      <line x1="430" y1="308" x2="470" y2="308" stroke="#1f6b45" stroke-width="2" stroke-dasharray="5 3"/>
+      <polygon points="478,308 468,303 468,313" fill="#1f6b45"/>
 
-  <!-- ======================================================== -->
-  <!-- PAGE 11: SOFTWARE SYSTEM, STATUS TABLE & NEXT STEPS      -->
-  <!-- ======================================================== -->
-  <div class="page">
-    <h3>3.6 Software and Web Management System</h3>
-    <p>
-      The software architecture combines an embedded C++ firmware layer with a modern web visual hub:
-    </p>
-    <ul>
-      <li><strong>Embedded C++ Firmware:</strong> Engineered under PlatformIO targeting the ESP32 Arduino framework. Modules include Adafruit SSD1306/GFX for hardware I2C display rendering, Keypad.h for debounced matrix polling, and SPIFFS non-volatile flash storage for offline access logging.</li>
-      <li><strong>Web Management Application:</strong> Built using React 18, Vite, and TypeScript. Provides an owner dashboard for minting dynamic tokens, a zero-install mobile web page for couriers, and a real-time hardware simulator reproducing the physical ESP32 state machine and door cycling animations.</li>
-    </ul>
+      <!-- relay logic -->
+      <line x1="520" y1="168" x2="520" y2="248" stroke="#1d4e89" stroke-width="2"/>
+      <circle cx="520" cy="168" r="3.5" fill="#1d4e89"/>
+      <rect x="478" y="248" width="130" height="100" rx="6" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="543" y="272" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">Relay logic</text>
+      <text x="543" y="292" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">VCC from 5 V</text>
+      <text x="543" y="310" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">IN from GPIO 23</text>
+      <text x="543" y="328" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">PC817 optocoupler</text>
+      <line x1="543" y1="348" x2="543" y2="420" stroke="#1c1917" stroke-width="1.6"/>
+      <circle cx="543" cy="420" r="3.5" fill="#1c1917"/>
 
-    <h2>Current Prototype Implementation Status</h2>
-    <p class="no-indent">
-      As of October 16, 2026, the project has achieved the following technical milestones across all engineering domains:
-    </p>
+      <!-- relay contact -->
+      <rect x="470" y="96" width="110" height="52" rx="4" fill="#fff" stroke="#9f2d2d" stroke-width="1.6"/>
+      <text x="525" y="116" text-anchor="middle" fill="#9f2d2d" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">Relay contact</text>
+      <text x="525" y="134" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">COM -> NO</text>
+      <line x1="500" y1="88" x2="500" y2="96" stroke="#9f2d2d" stroke-width="2"/>
+      <circle cx="500" cy="88" r="3.5" fill="#9f2d2d"/>
+      <line x1="580" y1="122" x2="630" y2="122" stroke="#9f2d2d" stroke-width="2"/>
 
-    <p class="no-indent"><strong>Table 3</strong><br><em>HULOG Subsystem Implementation and Verification Status</em></p>
+      <!-- solenoid coil -->
+      <path d="M648 122
+               C648 112, 668 112, 668 122
+               C668 132, 648 132, 648 142
+               C648 152, 668 152, 668 162
+               C668 172, 648 172, 648 182
+               C648 192, 668 192, 668 202" fill="none" stroke="#1c1917" stroke-width="1.8"/>
+      <line x1="668" y1="202" x2="668" y2="420" stroke="#1c1917" stroke-width="1.6"/>
+      <circle cx="668" cy="420" r="3.5" fill="#1c1917"/>
+      <text x="676" y="160" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">solenoid</text>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Project Subsystem</th>
-          <th>Target Milestone</th>
-          <th>Current Operational Status</th>
-          <th>Verification Method</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Component Procurement</td>
-          <td>14-item BOM acquisition</td>
-          <td>100% Completed</td>
-          <td>All electronic modules (ESP32, OLED, Keypad, Relay, Solenoid, Sensors, Buck Converter) physically acquired and cataloged.</td>
-        </tr>
-        <tr>
-          <td>Repository &amp; Documentation</td>
-          <td>Git repository and specifications</td>
-          <td>100% Completed</td>
-          <td>Published to public GitHub repository (buridekz/hulog-iot-vault) with architecture, wiring, and API docs.</td>
-        </tr>
-        <tr>
-          <td>Web Portal &amp; Simulator</td>
-          <td>Interactive dual-portal web app</td>
-          <td>100% Completed</td>
-          <td>Built and validated in hulog-web/. Production bundle passes with zero TypeScript or asset compilation errors.</td>
-        </tr>
-        <tr>
-          <td>Firmware Scaffolding</td>
-          <td>Embedded C++ PlatformIO core</td>
-          <td>100% Completed</td>
-          <td>Pinout mapping (config.h), library dependencies, and core state machine (main.cpp) scaffolded and ready for flashing.</td>
-        </tr>
-        <tr>
-          <td>Hardware Bench Integration</td>
-          <td>Breadboard wiring and bench test</td>
-          <td>In Progress (Active Phase)</td>
-          <td>PlatformIO toolchain installed; initial ESP32 flashing, OLED I2C testing, and relay switching underway on developer bench.</td>
-        </tr>
-        <tr>
-          <td>Enclosure Assembly</td>
-          <td>Tabletop demonstration vault mounting</td>
-          <td>Scheduled (Post-Midterm)</td>
-          <td>Mounting of solenoid, limit switch, and keypad into the physical hinged tabletop container.</td>
-        </tr>
-      </tbody>
-    </table>
+      <!-- diode, cathode (bar) at top / +12 side -->
+      <line x1="630" y1="122" x2="630" y2="132" stroke="#1c1917" stroke-width="1.4"/>
+      <line x1="618" y1="132" x2="642" y2="132" stroke="#1c1917" stroke-width="2"/>
+      <polygon points="630,136 616,162 644,162" fill="none" stroke="#1c1917" stroke-width="1.6"/>
+      <line x1="630" y1="162" x2="630" y2="202" stroke="#1c1917" stroke-width="1.4"/>
+      <line x1="630" y1="202" x2="668" y2="202" stroke="#1c1917" stroke-width="1.4"/>
+      <text x="500" y="214" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="11">1N4007, band at +12 V</text>
 
-    <h2>Next Steps for Part 2 Finalization</h2>
-    <p class="no-indent">
-      Following the submission of this Part 1 Midterm Status Report, the engineering team will execute the following technical objectives:
-    </p>
-    <ol>
-      <li>Conducting physical bench testing of the closed-loop sensor interlock, measuring actual solenoid retraction speeds and relay debounce timings.</li>
-      <li>Interfacing the ESP32 firmware with the cloud MQTT broker and Telegram Bot notification webhook.</li>
-      <li>Assembling the physical tabletop enclosure with installed acrylic viewing panels for academic defense demonstration.</li>
-      <li>Expanding Chapter 4 (Results, Discussion, Unit Economics, and Market Feasibility) to complete the full Part 2 Technopreneurship Book dossier.</li>
-    </ol>
-  </div>
+      <text x="16" y="456" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="13">GPIO 23 ends at the relay input and does not touch the red rail. The buzzer module also takes 5 V from the blue rail.</text>
+    </svg>
+    <figcaption class="figure-caption"><strong>Figure 2.</strong> Dual-rail supply and lock circuit. The optocoupler keeps the ESP32 pin on the logic side of the relay. The flyback diode is specified and was not on the receipts.</figcaption>
+  </figure>
+  </section>
 
+  <section class="topic">
+  <h3>3.4 Pin Map</h3>
+  <p>
+    Table 2 is the map in the bench sketch. GPIO 0, GPIO 2, and GPIO 15 are left free because they are sampled at boot. GPIO 12 is also a boot pin, and the keypad does use it as row 2. That row must sit low while the board starts. If it is pulled high at reset, the ESP32 can fail to boot. The reed set sold to the group has both a normally open lead and a normally closed lead. The sketch uses the normally open lead with the internal pull-up, so GPIO 19 reads low when the magnet is against the switch, which is the shut door. The normally closed lead is left unconnected.
+  </p>
+
+  <p class="lead"><strong>Table 2</strong></p>
+  <p class="lead" style="font-style: italic; margin-bottom: 0.25rem;">ESP32 GPIO map used by the bench sketch</p>
+  <table class="keep">
+    <thead>
+      <tr>
+        <th>Device</th>
+        <th>ESP32 pin</th>
+        <th>What the wire does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Relay input</td>
+        <td>GPIO 23</td>
+        <td>Output, active low. Signal into the optocoupler only.</td>
+      </tr>
+      <tr>
+        <td>OLED SDA / SCL</td>
+        <td>GPIO 21 / GPIO 22</td>
+        <td>I2C. Power the display from the 3.3 V pin.</td>
+      </tr>
+      <tr>
+        <td>Reed switch, NO lead</td>
+        <td>GPIO 19</td>
+        <td>Input with pull-up. Low means the door is shut.</td>
+      </tr>
+      <tr>
+        <td>IR proximity output</td>
+        <td>GPIO 18</td>
+        <td>Input. Low means an object is in front of the sensor. Power the module from 3.3 V.</td>
+      </tr>
+      <tr>
+        <td>Buzzer module input</td>
+        <td>GPIO 5</td>
+        <td>Output. High sounds the module. Module supply is the 5 V rail.</td>
+      </tr>
+      <tr>
+        <td>Keypad rows</td>
+        <td>GPIO 13, 12, 14, 27</td>
+        <td>Row scan. GPIO 12 must not be high at boot.</td>
+      </tr>
+      <tr>
+        <td>Keypad columns</td>
+        <td>GPIO 26, 25, 33, 32</td>
+        <td>Column inputs with internal pull-ups.</td>
+      </tr>
+      <tr>
+        <td>LM2596 output</td>
+        <td>VIN and GND</td>
+        <td>5.0 V into the board's 5 V input, after the meter check. Not into a GPIO pin.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="note">
+    If the proximity module will not detect at 3.3 V on the bench, it may be powered from 5 V only with a resistor divider on its output before GPIO 18. A 5 V high straight into an ESP32 pin is outside the pin rating.
+  </p>
+  </section>
+
+  <section class="topic">
+  <h3>3.5 What the Bench Sketch Actually Does</h3>
+  <p>
+    Figure 3 follows <em>firmware/src/main.cpp</em> as it stands. Solid boxes run today. The dashed box is the design target from Section 1.2 and is not in the flashed loop. A 30-second timeout returns the vault to idle if the door cycle is not finished. If the door shuts and the infrared sensor never saw a parcel, the sketch returns to idle and does not treat the cycle as a delivery. The confirmation screen says the door cycle is done. It does not say that a Telegram message was sent.
+  </p>
+
+  <figure class="figure">
+    <svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig3title">
+      <title id="fig3title">Bench state cycle and the design target still missing</title>
+      <rect width="720" height="500" fill="#f6f3ee"/>
+
+      <rect x="210" y="16" width="300" height="52" rx="10" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="360" y="38" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">IDLE</text>
+      <text x="360" y="56" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Door latched. OLED asks for a PIN.</text>
+      <line x1="360" y1="68" x2="360" y2="86" stroke="#1c1917" stroke-width="1.5"/>
+      <polygon points="360,94 354,84 366,84" fill="#1c1917"/>
+
+      <polygon points="360,96 470,146 360,196 250,146" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="360" y="142" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">Test PIN</text>
+      <text x="360" y="158" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">accepted?</text>
+
+      <!-- no branch -->
+      <line x1="250" y1="146" x2="150" y2="146" stroke="#1c1917" stroke-width="1.5"/>
+      <polygon points="150,146 160,140 160,152" fill="#1c1917"/>
+      <text x="200" y="138" text-anchor="middle" fill="#9f2d2d" font-family="Calibri, Arial, sans-serif" font-size="12">no</text>
+      <rect x="16" y="168" width="168" height="64" rx="8" fill="#fff" stroke="#9f2d2d" stroke-width="1.5"/>
+      <text x="100" y="192" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">Three short chirps</text>
+      <text x="100" y="210" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Count the miss.</text>
+      <line x1="100" y1="232" x2="100" y2="250" stroke="#1c1917" stroke-width="1.4"/>
+      <polygon points="100,258 94,248 106,248" fill="#1c1917"/>
+      <rect x="16" y="258" width="168" height="72" rx="8" fill="#fff" stroke="#9f2d2d" stroke-width="1.5"/>
+      <text x="100" y="282" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700">Third miss</text>
+      <text x="100" y="300" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Keypad off for</text>
+      <text x="100" y="316" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">5 minutes, then idle.</text>
+
+      <!-- yes branch -->
+      <line x1="360" y1="196" x2="360" y2="214" stroke="#1c1917" stroke-width="1.5"/>
+      <polygon points="360,222 354,212 366,212" fill="#1c1917"/>
+      <text x="378" y="212" fill="#1f6b45" font-family="Calibri, Arial, sans-serif" font-size="12">yes</text>
+
+      <rect x="210" y="222" width="300" height="52" rx="10" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="360" y="244" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">UNLATCH, 3 seconds</text>
+      <text x="360" y="262" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">GPIO 23 low. Then the coil is released.</text>
+      <line x1="360" y1="274" x2="360" y2="292" stroke="#1c1917" stroke-width="1.5"/>
+      <polygon points="360,300 354,290 366,290" fill="#1c1917"/>
+
+      <rect x="210" y="300" width="300" height="52" rx="10" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="360" y="322" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">DOOR OPEN, WATCH THE BAY</text>
+      <text x="360" y="340" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Reed high. IR low means a parcel is there.</text>
+      <line x1="360" y1="352" x2="360" y2="368" stroke="#1c1917" stroke-width="1.5"/>
+      <polygon points="360,376 354,366 366,366" fill="#1c1917"/>
+
+      <rect x="210" y="376" width="300" height="44" rx="10" fill="#fff" stroke="#1c1917" stroke-width="1.6"/>
+      <text x="360" y="396" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="14" font-weight="700">DOOR SHUT</text>
+      <text x="360" y="412" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Reed low. OLED: package secured.</text>
+
+      <!-- dashed target -->
+      <rect x="530" y="300" width="174" height="120" rx="8" fill="#fff" stroke="#1d4e89" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="617" y="324" text-anchor="middle" fill="#1d4e89" font-family="Calibri, Arial, sans-serif" font-size="13" font-weight="700">Not in the sketch</text>
+      <text x="617" y="346" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Check a minted pass</text>
+      <text x="617" y="364" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">instead of the test PIN.</text>
+      <text x="617" y="382" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Mark the pass used.</text>
+      <text x="617" y="400" text-anchor="middle" fill="#1c1917" font-family="Calibri, Arial, sans-serif" font-size="12">Then send Telegram.</text>
+      <line x1="510" y1="360" x2="530" y2="360" stroke="#1d4e89" stroke-width="1.4" stroke-dasharray="4 3"/>
+
+    </svg>
+    <figcaption class="figure-caption"><strong>Figure 3.</strong> Door cycle in the current firmware. Expiring passes and Telegram are specified beside it and are not executed by this loop.</figcaption>
+  </figure>
+  </section>
+
+  <section class="topic">
+  <h3>3.6 Software Beside the Sketch</h3>
+  <p>
+    The web application in <em>hulog-web/</em> is the owner's page, the rider's browser page, and a simulator of the vault. It is built with React 18, Vite, and TypeScript. The design target for a pass is 15 or 30 minutes. The simulator still uses a longer demonstration lifetime, so a defense demo of the page is not yet proof that the 15-minute rule is enforced. The firmware is an Arduino-framework sketch under PlatformIO. It uses the SSD1306 library for the display and the keypad library for the matrix. It does not open Wi-Fi, it does not write a pass to flash, and it does not call Telegram.
+  </p>
+  </section>
+
+  <section class="topic">
+  <h3>3.7 Implementation Status</h3>
+  <p class="lead">Table 3 is the status on 16 October 2026. A row marked designed is a specification, not a finished test.</p>
+  <p class="lead"><strong>Table 3</strong></p>
+  <p class="lead" style="font-style: italic; margin-bottom: 0.25rem;">What is done, what is only specified</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Piece</th>
+        <th>Standing</th>
+        <th>Evidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Receipt parts, items 1-11</td>
+        <td>Purchased</td>
+        <td>Six completed orders, PHP 1,185.00 paid.</td>
+      </tr>
+      <tr>
+        <td>ESP32, expansion board, keypad</td>
+        <td>To buy</td>
+        <td>Listed in Table 1 at PHP 350.00, PHP 119.00, and PHP 50.00. The bench sketch is written for this board, expansion, and keypad.</td>
+      </tr>
+      <tr>
+        <td>Repository and notes</td>
+        <td>In use</td>
+        <td>Public repository <em>buridekz/hulog-iot-vault</em>, with wiring and architecture notes.</td>
+      </tr>
+      <tr>
+        <td>Web portal and simulator</td>
+        <td>Built</td>
+        <td><em>hulog-web/</em>. The simulator lifetime is still a demo window.</td>
+      </tr>
+      <tr>
+        <td>Bench sketch</td>
+        <td>Running its loop</td>
+        <td>Keypad, OLED, reed, IR, 3-second relay pulse, 5-minute lockout, fixed test PIN.</td>
+      </tr>
+      <tr>
+        <td>Wi-Fi, minted pass, Telegram</td>
+        <td>Designed</td>
+        <td>No network calls in the flashed sketch. Figure 3 marks this box as dashed.</td>
+      </tr>
+      <tr>
+        <td>Flyback diode</td>
+        <td>Specified</td>
+        <td>Not on the receipts. Fit a 1N4007 before repeated coil pulses.</td>
+      </tr>
+      <tr>
+        <td>Enclosure</td>
+        <td>Not started</td>
+        <td>No box or hinges on the receipts. Scheduled after this report.</td>
+      </tr>
+    </tbody>
+  </table>
+  </section>
+
+  <section class="topic">
+  <h3>3.8 Next Steps for Part 2</h3>
+  <ol>
+    <li>Set the LM2596 to 5.0 V with a meter, then wire the expansion board, relay, reed (NO lead), proximity module, OLED, buzzer, and solenoid as in Figure 2 and Table 2.</li>
+    <li>Fit the 1N4007 across the coil. Measure the coil current. Confirm that GPIO 12 is low at boot.</li>
+    <li>Run the door cycle on the bench: good PIN, bad PIN three times, door shut with no parcel, door shut with the IR covered, and the 30-second timeout.</li>
+    <li>Replace the fixed test PIN with the minted 15- or 30-minute pass, then send the Telegram notice only after the door-and-parcel check.</li>
+    <li>Build the tabletop enclosure and write Chapter 4 from the PHP 1,643.00 listed in Table 1, plus the enclosure and labor. Do not price the product from the electronics lines alone.</li>
+  </ol>
+  </section>
+
+  <section class="topic">
+  <h2 style="break-before: page; page-break-before: always;">References</h2>
+  <ol class="refs">
+    <li>Department of Trade and Industry. (2022). <em>E-Commerce Philippines 2022 roadmap: Logistics</em>. https://ecommerce.dti.gov.ph/madali/logistics.html</li>
+    <li>Focardi, R., Luccio, F. L., &amp; Wahsheh, H. A. M. (2019). Usable security for QR code. <em>Journal of Information Security and Applications, 48</em>, Article 102369. https://doi.org/10.1016/j.jisa.2019.102369</li>
+    <li>Gevaers, R., Van de Voorde, E., &amp; Vanelslander, T. (2014). Cost modelling and simulation of last-mile characteristics in an innovative B2C supply chain environment with implications on urban areas and cities. <em>Procedia - Social and Behavioral Sciences, 125</em>, 398-411. https://doi.org/10.1016/j.sbspro.2014.01.1483</li>
+    <li>Iwan, S., Kijewska, K., &amp; Lemke, J. (2016). Analysis of parcel lockers' efficiency as the last mile delivery solution - The results of the research in Poland. <em>Transportation Research Procedia, 12</em>, 644-655. https://doi.org/10.1016/j.trpro.2016.02.018</li>
+    <li>M'Raihi, D., Machani, S., Pei, M., &amp; Rydell, J. (2011). <em>TOTP: Time-based one-time password algorithm</em> (RFC 6238). Internet Engineering Task Force. https://doi.org/10.17487/RFC6238</li>
+    <li>Morganti, E., Seidel, S., Blanquart, C., Dablanc, L., &amp; Lenz, B. (2014). The impact of e-commerce on final deliveries: Alternative parcel delivery services in France and Germany. <em>Transportation Research Procedia, 4</em>, 178-190. https://doi.org/10.1016/j.trpro.2014.11.014</li>
+    <li>Punakivi, M., Yrjola, H., &amp; Holmstrom, J. (2001). Solving the last mile issue: Reception box or delivery box? <em>International Journal of Physical Distribution &amp; Logistics Management, 31</em>(6), 427-439. https://doi.org/10.1108/09600030110399423</li>
+  </ol>
+  </section>
 </body>
 </html>
