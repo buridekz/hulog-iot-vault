@@ -9,11 +9,15 @@
  */
 
 #include <Arduino.h>
+#include <WiFi.h>
+#include <WebServer.h>
+#include <ArduinoJson.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Keypad.h>
 #include "config.h"
+#include "secrets.h"
 
 // OLED Display Instance
 Adafruit_SSD1306 display(OLED_SCREEN_WIDTH, OLED_SCREEN_HEIGHT, &Wire, OLED_RESET_PIN);
@@ -37,8 +41,19 @@ unsigned long stateTimer = 0;
 bool parcelDetectedInCycle = false;
 int failedAttemptCount = 0;
 
+WebServer server(80);
+String livePin = "";
+bool pinActive = false;
+bool wifiReady = false;
+
 // Forward Declarations
 void updateDisplay(const String &title, const String &line1, const String &line2);
+void sendCors();
+void handleGetPin();
+void handlePostPin();
+void handleOptions();
+void connectWifi();
+bool pinAccepted(const String &pin);
 void beep(int count, int durationMs);
 void triggerUnlock();
 void handleKeypadInput(char key);
@@ -72,11 +87,14 @@ void setup() {
         updateDisplay("HULOG VAULT", "System Online", "Ready for Drop");
     }
 
+    connectWifi();
     beep(2, 80);
     Serial.println(F("[OK] Hardware Initialization Completed. Entering VAULT_IDLE."));
 }
 
 void loop() {
+    if (wifiReady) server.handleClient();
+
     // 1. Scan Keypad Matrix
     char key = keypad.getKey();
     if (key) {
@@ -105,8 +123,7 @@ void handleKeypadInput(char key) {
             Serial.print(F("[AUTH] Validating PIN: "));
             Serial.println(enteredPin);
             
-            // DEMO / TEST PIN: 482915 (or '1234' for quick bench testing)
-            if (enteredPin == "482915" || enteredPin == "1234") {
+            if (pinAccepted(enteredPin)) {
                 Serial.println(F("[AUTH] Success! Access Granted."));
                 failedAttemptCount = 0;
                 triggerUnlock();
@@ -164,7 +181,8 @@ void runStateMachine() {
         case VAULT_IDLE:
             // Display default screen if enteredPin is empty
             if (enteredPin.length() == 0 && millis() - stateTimer > 5000) {
-                updateDisplay("HULOG VAULT", "Scan QR Code", "or Enter PIN #");
+                String line2 = wifiReady ? WiFi.localIP().toString() : "No Wi-Fi";
+                updateDisplay("HULOG VAULT", pinActive ? "Code ready" : "Enter PIN #", line2);
                 stateTimer = millis();
             }
             break;
@@ -210,6 +228,10 @@ void runStateMachine() {
             break;
 
         case VAULT_DELIVERY_CONFIRMED:
+            if (pinActive) {
+                pinActive = false;
+                Serial.println(F("[AUTH] Synced code consumed."));
+            }
             updateDisplay("DELIVERY DONE!", "Package Secured", "Door cycle done");
             beep(3, 100);
             delay(3000);
@@ -250,6 +272,87 @@ void updateDisplay(const String &title, const String &line1, const String &line2
     display.println(line2);
 
     display.display();
+}
+
+void sendCors() {
+    server.sendHeader("Access-Control-Allow-Origin", "*");
+    server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
+void handleOptions() {
+    sendCors();
+    server.send(204);
+}
+
+void handleGetPin() {
+    sendCors();
+    StaticJsonDocument<160> doc;
+    doc["pin"] = livePin;
+    doc["active"] = pinActive;
+    doc["ip"] = WiFi.localIP().toString();
+    String body;
+    serializeJson(doc, body);
+    server.send(200, "application/json", body);
+}
+
+void handlePostPin() {
+    sendCors();
+    StaticJsonDocument<160> doc;
+    DeserializationError err = deserializeJson(doc, server.arg("plain"));
+    String pin = doc["pin"].as<String>();
+    if (err || pin.length() < 4 || pin.length() > 8) {
+        server.send(400, "application/json", "{\"ok\":false}");
+        return;
+    }
+    livePin = pin;
+    pinActive = true;
+    failedAttemptCount = 0;
+    Serial.print(F("[WIFI] Code synced: "));
+    Serial.println(livePin);
+    updateDisplay("CODE READY", livePin, WiFi.localIP().toString());
+    server.send(200, "application/json", "{\"ok\":true}");
+}
+
+bool pinAccepted(const String &pin) {
+    if (pinActive) return pin == livePin;
+    return pin == "482915" || pin == "1234";
+}
+
+void connectWifi() {
+    if (strlen(WIFI_SSID) == 0) {
+        Serial.println(F("[WIFI] secrets.h has no SSID. Keypad bench code still works."));
+        updateDisplay("HULOG VAULT", "No Wi-Fi set", "Enter PIN #");
+        return;
+    }
+
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    updateDisplay("HULOG VAULT", "Joining Wi-Fi", WIFI_SSID);
+    Serial.print(F("[WIFI] Joining "));
+    Serial.println(WIFI_SSID);
+
+    unsigned long start = millis();
+    while (WiFi.status() != WL_CONNECTED && millis() - start < 15000) {
+        delay(250);
+        Serial.print('.');
+    }
+    Serial.println();
+
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println(F("[WIFI] Not joined. Keypad bench code still works."));
+        updateDisplay("HULOG VAULT", "No Wi-Fi", "Enter PIN #");
+        return;
+    }
+
+    wifiReady = true;
+    server.on("/pin", HTTP_OPTIONS, handleOptions);
+    server.on("/pin", HTTP_GET, handleGetPin);
+    server.on("/pin", HTTP_POST, handlePostPin);
+    server.begin();
+    Serial.print(F("[WIFI] Ready at "));
+    Serial.println(WiFi.localIP());
+    updateDisplay("HULOG VAULT", "Enter PIN #", WiFi.localIP().toString());
 }
 
 void beep(int count, int durationMs) {

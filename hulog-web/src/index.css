@@ -541,7 +541,7 @@ h2 {
 
 .try-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 36rem);
   gap: 1.5rem;
   align-items: start;
 }
@@ -591,6 +591,12 @@ input::placeholder {
   color: var(--deny);
   font-size: 0.85rem;
   margin: -0.35rem 0 0.7rem;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0.35rem 0 0.7rem;
 }
 
 .pin-sheet {

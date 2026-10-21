@@ -15,6 +15,7 @@ yarn-error.log*
 .env.*
 !.env.example
 *.local
+firmware/include/secrets.h
 
 # PlatformIO / Embedded / C++ Build Artifacts
 .pio/

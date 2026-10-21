@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { QRCodeSVG } from "qrcode.react";
 import { useVault } from "../vault/VaultContext";
-import { VaultFace } from "./VaultFace";
 
 export function TryIt() {
   const vault = useVault();
@@ -20,12 +18,24 @@ export function TryIt() {
 
   return (
     <div className="page">
-      <h2>Try a drop</h2>
-      <p className="lead">This is a practice vault in the browser. Same PIN on the keypad, the rider note, and the QR.</p>
+      <h2>Your code</h2>
+      <p className="lead">Stamp a code while you still have a signal. Copy the note into the rider’s chat. They type it on the box at the gate.</p>
 
       <div className="try-grid">
         <form className="notice-block" onSubmit={mint}>
-          <h3>You</h3>
+          <h3>Send a code</h3>
+          <label htmlFor="board">Board address</label>
+          <input
+            id="board"
+            value={vault.boardHost}
+            onChange={(e) => vault.setBoardHost(e.target.value)}
+            placeholder="192.168.1.23"
+            inputMode="url"
+            autoComplete="off"
+          />
+          {vault.boardNote && (
+            <p className={vault.boardNote.includes("did not") ? "field-error" : undefined}>{vault.boardNote}</p>
+          )}
           <label htmlFor="recipient">Who is this for?</label>
           <input id="recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)} autoComplete="name" />
           <label htmlFor="courier">Which rider?</label>
@@ -63,56 +73,14 @@ export function TryIt() {
                     {stamped.pin}
                   </motion.div>
                 </div>
-                <div style={{ margin: "0.75rem 0" }}>
-                  <QRCodeSVG value={stamped.qrPayload} size={112} bgColor="transparent" fgColor="#c45c4a" level="M" title="Hulog drop QR" />
-                </div>
+                <p className="field-hint">Copy the note into the rider’s chat. They type the number on the box.</p>
                 <button type="button" className="btn" onClick={vault.copyRiderNote} disabled={lifted}>
-                  {vault.copiedNote ? "Copied the rider note" : "Copy note for Kuya Rider"}
+                  {vault.copiedNote ? "Copied the chat note" : "Copy note for the chat"}
                 </button>
+                {lifted && <p className="field-hint">This code was used. It will not open the box again.</p>}
               </motion.div>
             )}
           </AnimatePresence>
-        </form>
-
-        <div className="notice-block">
-          <h3>Rider</h3>
-          <label htmlFor="pin">PIN from the chat</label>
-          <input
-            id="pin"
-            inputMode="numeric"
-            value={vault.courierPin}
-            onChange={(e) => vault.setCourierPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-            placeholder="6 digits"
-          />
-          {vault.courierError && <p className="field-error">{vault.courierError}</p>}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
-            <button type="button" className="stamp-cta stamp-cta-compact" onClick={vault.tryCourierPin} aria-label="Unlock with PIN">
-              <img src="/notice/cta-unlock.png" alt="" width={720} height={247} />
-            </button>
-            <button type="button" className="btn" onClick={vault.tryCourierScan}>
-              Scan the QR
-            </button>
-          </div>
-
-          <div className="check">
-            <span className="mark">{!vault.locked ? "x" : "o"}</span>
-            Bolt {vault.locked ? "locked" : "open"}
-          </div>
-          <div className="check">
-            <span className="mark">{vault.doorOpen ? "x" : "o"}</span>
-            Door {vault.doorOpen ? "open" : "closed"}
-          </div>
-          <div className="check">
-            <span className="mark">{vault.hasPackage ? "x" : "o"}</span>
-            Parcel {vault.hasPackage ? "inside" : "not yet"}
-          </div>
-
-          {vault.courierStep === "unlocked" && (
-            <button type="button" className="btn btn-stamp" style={{ marginTop: "0.8rem" }} onClick={vault.confirmDeposit}>
-              I dropped it. Shut the door.
-            </button>
-          )}
-          {vault.telegramAlert && <div className="alert">{vault.telegramAlert.replace("📦 ", "")}</div>}
 
           {vault.masterPending ? (
             <div style={{ marginTop: "1rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
@@ -128,23 +96,7 @@ export function TryIt() {
               I am home. Open it.
             </button>
           )}
-        </div>
-      </div>
-
-      <div className="exhibit" style={{ marginTop: "1.5rem", maxWidth: 420 }}>
-        <img className="exhibit-stamp" src="/notice/stamp-exhibit.png" alt="" width={840} height={840} />
-        <img className="exhibit-date" src="/notice/stamp-date.png" alt="" width={560} height={280} />
-        <div className="exhibit-well">
-          <VaultFace />
-        </div>
-        <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.85rem", flexWrap: "wrap" }}>
-          <button type="button" className="btn" onClick={vault.simulateDrop} disabled={vault.simulating}>
-            {vault.simulating ? "Dropping..." : "Play a full drop"}
-          </button>
-          <button type="button" className="btn btn-ghost" onClick={vault.generateNewPin}>
-            New PIN
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );

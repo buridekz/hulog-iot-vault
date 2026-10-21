@@ -32,7 +32,7 @@ export function buildQrPayload(pass: Pick<DeliveryPass, "pin" | "trackingNo" | "
 export const PAGES: Array<{ id: PageId; label: string }> = [
   { id: "home", label: "Home" },
   { id: "how", label: "How it works" },
-  { id: "try", label: "Try it" },
+  { id: "try", label: "Your code" },
   { id: "cost", label: "Cost" },
   { id: "wiring", label: "Wiring" },
   { id: "team", label: "Team" },

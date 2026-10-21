@@ -73,6 +73,9 @@ interface VaultContextValue {
   masterUnlocked: boolean;
   copiedNote: boolean;
   simulating: boolean;
+  boardHost: string;
+  boardNote: string;
+  setBoardHost: (v: string) => void;
   setCourierPin: (v: string) => void;
   setInputDigits: (v: string) => void;
   handleKey: (key: string) => void;
@@ -121,6 +124,8 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const [masterUnlocked, setMasterUnlocked] = useState(false);
   const [copiedNote, setCopiedNote] = useState(false);
   const [simulating, setSimulating] = useState(false);
+  const [boardHost, setBoardHostState] = useState(() => localStorage.getItem("hulog-board") ?? "");
+  const [boardNote, setBoardNote] = useState("");
 
   const activePass = useMemo(
     () => passes.find((p) => p.status === "ACTIVE") ?? createdPass,
@@ -133,6 +138,17 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     }, 2200);
     return () => window.clearInterval(t);
   }, []);
+
+  const setBoardHost = useCallback((value: string) => {
+    setBoardHostState(value);
+    localStorage.setItem("hulog-board", value.trim());
+  }, []);
+
+  const boardUrl = useCallback(() => {
+    const host = boardHost.trim().replace(/\/$/, "");
+    if (!host) return "";
+    return host.startsWith("http") ? host : `http://${host}`;
+  }, [boardHost]);
 
   const addLog = useCallback((text: string, type: UartLog["type"]) => {
     seq.current += 1;
@@ -240,10 +256,52 @@ export function VaultProvider({ children }: { children: ReactNode }) {
       setLocked(true);
       setDoorOpen(false);
       addLog(`New token generated: PIN [${pin}].`, "info");
+      const url = boardUrl();
+      if (url) {
+        void fetch(`${url}/pin`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pin }),
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("rejected");
+            setBoardNote("Code sent to the board.");
+            addLog(`Code [${pin}] sent to the board.`, "success");
+          })
+          .catch(() => {
+            setBoardNote("Board did not answer. Same Wi-Fi, and the address from the screen.");
+            addLog("Board did not answer.", "warn");
+          });
+      }
       return pass;
     },
-    [addLog],
+    [addLog, boardUrl],
   );
+
+  useEffect(() => {
+    const url = boardUrl();
+    if (!url) return;
+    const timer = window.setInterval(() => {
+      void fetch(`${url}/pin`)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data: { pin?: string; active?: boolean } | null) => {
+          if (!data || data.active !== false || !data.pin) return;
+          setCreatedPass((curr) => {
+            if (!curr || curr.pin !== data.pin || curr.status !== "ACTIVE") return curr;
+            return { ...curr, status: "COMPLETED", expiresIn: "Used", irVerified: true, dropTime: nowTime() };
+          });
+          setPasses((prev) =>
+            prev.map((p) =>
+              p.pin === data.pin && p.status === "ACTIVE"
+                ? { ...p, status: "COMPLETED", expiresIn: "Used", irVerified: true, dropTime: nowTime() }
+                : p,
+            ),
+          );
+        })
+        .catch(() => undefined);
+    }, 2000);
+    return () => window.clearInterval(timer);
+  }, [boardUrl]);
 
   const copyRiderNote = useCallback(() => {
     const pass = createdPass ?? activePass;
@@ -369,6 +427,9 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     masterUnlocked,
     copiedNote,
     simulating,
+    boardHost,
+    boardNote,
+    setBoardHost,
     setCourierPin,
     setInputDigits,
     handleKey,

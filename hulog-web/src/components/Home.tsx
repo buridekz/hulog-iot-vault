@@ -12,7 +12,7 @@ export function Home({ onGo }: { onGo: (page: PageId) => void }) {
         <ScribbleX className="headline-rule" />
         <p className="lede">Send your rider a one-time PIN. After they drop the parcel, that code is gone.</p>
         <div className="hero-actions">
-          <button type="button" className="stamp-cta" onClick={() => onGo("try")} aria-label="Try a drop">
+          <button type="button" className="stamp-cta" onClick={() => onGo("try")} aria-label="Stamp a code">
             <img src="/notice/cta-try.png" alt="" width={1120} height={320} />
           </button>
           <button type="button" className="parts-link" onClick={() => onGo("cost")}>

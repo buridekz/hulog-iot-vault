@@ -4,12 +4,12 @@ const STEPS = [
   {
     n: "1",
     title: "You make a pass",
-    body: "Open Hulog, name the rider, and get a 6-digit PIN plus a QR. Copy the Taglish note and send it in chat.",
+    body: "Open Hulog, name the rider, and get a 6-digit PIN. Copy the note and send it in chat.",
   },
   {
     n: "2",
     title: "Rider uses it once",
-    body: "They type the PIN on the keypad or show the QR to the little screen. The bolt opens for one drop.",
+    body: "They already have the PIN in the chat. They type it on the keypad at the gate. The bolt opens for one drop.",
   },
   {
     n: "3",
