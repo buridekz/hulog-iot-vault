@@ -41,8 +41,11 @@ pio run --target monitor
 
 ## 🧪 Bench Testing Without Full Enclosure
 
-You can bench-test the entire state machine on your desk with the bare modules:
-1. Connect the 0.96" OLED (`SDA -> GPIO 21`, `SCL -> GPIO 22`).
-2. Connect the 4x4 Keypad to the designated GPIO pins in `config.h`.
-3. Type test PIN `482915` (or `1234`) followed by `#`.
-4. Observe the relay click, OLED state transition, and serial debug output!
+Power the OLED from the ESP32 3.3V pin. Do not power it from 5V. Do not power the ESP32 from the USB cable and the buck 5V pin at the same time.
+
+1. Copy `include/secrets.example.h` to `include/secrets.h`. Put the house Wi-Fi in the first pair and the iPhone hotspot in the second pair, plus the Supabase URL and publishable key. `secrets.h` stays off git. The board tries the house network first, then the hotspot. Both must be 2.4 GHz WPA2. On the iPhone, turn on Maximize Compatibility.
+2. Connect the 0.96" OLED (`SDA -> GPIO 21`, `SCL -> GPIO 22`, `VCC -> 3.3V`).
+3. Connect the 4x4 keypad to the pins in `config.h`.
+4. Stamp a code on the owner page. The screen should say `Code ready` and must not show the digits.
+5. Type that code and `#`. There is no standing bench code. `1234` and `482915` do not open the box.
+6. The code is marked used only after the door has opened, the parcel sensor sees the parcel, and the door shuts again.

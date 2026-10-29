@@ -37,7 +37,7 @@ All pin assignments have been selected to avoid ESP32 strapping pins (`GPIO 0`, 
 | **Solenoid Relay** | Control Signal (`IN`) | **GPIO 23** | 3.3V / 5V | Output (Active LOW via Optocoupler) |
 | **OLED Display (SSD1306)** | I2C Clock (`SCL`) | **GPIO 22** | 3.3V / 5V | Hardware I2C Clock (100kHz / 400kHz) |
 | **OLED Display (SSD1306)** | I2C Data (`SDA`) | **GPIO 21** | 3.3V / 5V | Hardware I2C Data |
-| **Door Magnetic Reed Switch** | Door State Sense | **GPIO 19** | 3.3V | Input (`INPUT_PULLUP`). LOW = Closed, HIGH = Open |
+| **Door Magnetic Reed Switch** | Door State Sense | **GPIO 19** | 3.3V | MC-38 NC. Input (`INPUT_PULLUP`). HIGH = Closed, LOW = Open |
 | **Optical IR Presence Sensor** | Parcel Detection (`OUT`)| **GPIO 18** | 3.3V / 5V | Digital Input. LOW = Parcel Present in Tray |
 | **5V Active Buzzer** | Audio Feedback (+) | **GPIO 5** | 3.3V | Output. PWM / Digital Pulse for Chimes |
 | **4x4 Membrane Keypad** | Row 1 (R1) | **GPIO 13** | 3.3V | Keypad Matrix Row Scan (Output) |
@@ -98,8 +98,8 @@ Mounted on the door frame with the permanent magnet on the moving hatch door.
        (Firmware configures GPIO 19 with internal pull-up resistor: pinMode(19, INPUT_PULLUP))
 ```
 
-- **Door Closed:** Magnet aligns with switch -> Circuit CLOSED -> GPIO 19 reads `LOW` (0V).
-- **Door Open / Ajar:** Magnet moves away -> Circuit OPEN -> GPIO 19 pulled `HIGH` (3.3V).
+- **Door Closed:** Magnet aligns with the MC-38 -> the NC contact opens -> GPIO 19 is pulled `HIGH` (3.3V).
+- **Door Open / Ajar:** Magnet moves away -> the NC contact connects the pin to ground -> GPIO 19 reads `LOW` (0V).
 
 ---
 

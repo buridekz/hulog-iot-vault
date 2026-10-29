@@ -24,27 +24,20 @@ export function TryIt() {
       <div className="try-grid">
         <form className="notice-block" onSubmit={mint}>
           <h3>Send a code</h3>
-          <label htmlFor="board">Board address</label>
-          <input
-            id="board"
-            value={vault.boardHost}
-            onChange={(e) => vault.setBoardHost(e.target.value)}
-            placeholder="192.168.1.23"
-            inputMode="url"
-            autoComplete="off"
-          />
-          {vault.boardNote && (
-            <p className={vault.boardNote.includes("did not") ? "field-error" : undefined}>{vault.boardNote}</p>
-          )}
           <label htmlFor="recipient">Who is this for?</label>
           <input id="recipient" value={recipient} onChange={(e) => setRecipient(e.target.value)} autoComplete="name" />
           <label htmlFor="courier">Which rider?</label>
           <input id="courier" value={courier} onChange={(e) => setCourier(e.target.value)} />
           <label htmlFor="tracking">Tracking number</label>
           <input id="tracking" value={tracking} onChange={(e) => setTracking(e.target.value)} />
-          <button type="submit" className="stamp-cta stamp-cta-compact" aria-label="Stamp a new PIN">
+          <button type="submit" className="stamp-cta stamp-cta-compact" aria-label="Stamp a new PIN" disabled={vault.stampBusy}>
             <img src="/notice/cta-stamp-pin.png" alt="" width={720} height={239} />
           </button>
+          {vault.stampNote && (
+            <p className={vault.stampNote.includes("did not") || vault.stampNote.includes("not set") ? "field-error" : "field-hint"}>
+              {vault.stampNote}
+            </p>
+          )}
 
           <AnimatePresence mode="wait">
             {stamped && (
@@ -82,20 +75,24 @@ export function TryIt() {
             )}
           </AnimatePresence>
 
+          <p className="field-hint" style={{ marginTop: "1rem" }}>
+            This asks the box to open once. It does not leave a code you can type again.
+          </p>
           {vault.masterPending ? (
-            <div style={{ marginTop: "1rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-              <button type="button" className="btn btn-stamp" onClick={vault.confirmMasterUnlock}>
+            <div style={{ marginTop: "0.6rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+              <button type="button" className="btn btn-stamp" onClick={vault.confirmMasterUnlock} disabled={vault.homeBusy}>
                 Yes, open for me
               </button>
-              <button type="button" className="btn" onClick={vault.cancelMasterUnlock}>
+              <button type="button" className="btn" onClick={vault.cancelMasterUnlock} disabled={vault.homeBusy}>
                 Never mind
               </button>
             </div>
           ) : (
-            <button type="button" className="btn btn-ghost" style={{ marginTop: "1rem" }} onClick={vault.requestMasterUnlock}>
+            <button type="button" className="btn btn-ghost" onClick={vault.requestMasterUnlock} disabled={vault.homeBusy}>
               I am home. Open it.
             </button>
           )}
+          {vault.homeNote && <p className={vault.homeNote.includes("did not") || vault.homeNote.includes("not set") ? "field-error" : "field-hint"}>{vault.homeNote}</p>}
         </form>
       </div>
     </div>

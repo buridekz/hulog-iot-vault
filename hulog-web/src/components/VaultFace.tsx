@@ -1,4 +1,3 @@
-import { QRCodeSVG } from "qrcode.react";
 import { Lock, LockOpen } from "@phosphor-icons/react";
 import { SevenSeg } from "./SevenSeg";
 import { useVault } from "../vault/VaultContext";
@@ -12,9 +11,10 @@ export function VaultFace({ showKeypad = true }: { showKeypad?: boolean }) {
   const denied = oledMode === "denied";
   const open = granted || masterUnlocked;
 
-  let oledTitle = "ENTER DELIVERY PIN:";
-  if (denied) oledTitle = "ACCESS DENIED";
+  let oledTitle = "TYPE THE CODE";
+  if (denied) oledTitle = "WRONG CODE";
   else if (granted) oledTitle = "OPEN THE DOOR";
+  else if (activePass) oledTitle = "CODE READY";
 
   return (
     <div className="vault-face">
@@ -28,13 +28,8 @@ export function VaultFace({ showKeypad = true }: { showKeypad?: boolean }) {
           <div className="oled-body">
             <div className="oled-caption">{oledTitle}</div>
             <SevenSeg value={denied ? "------" : inputDigits} size="lg" />
-            <div className="oled-hint">{granted ? "BOLT OPEN" : denied ? "TRY AGAIN" : "# UNLOCK  * CLEAR"}</div>
+            <div className="oled-hint">{granted ? "BOLT OPEN" : denied ? "TRY AGAIN" : "# OPENS  * CLEARS"}</div>
           </div>
-          {activePass && activePass.status === "ACTIVE" && (
-            <div className="oled-qr">
-              <QRCodeSVG value={activePass.qrPayload} size={64} bgColor="#111111" fgColor="#f3f3f0" level="M" title="Hulog dynamic drop QR" />
-            </div>
-          )}
         </div>
 
         {showKeypad && (

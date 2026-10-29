@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { askOpenOnce, readLiveCode, stampLiveCode, supabaseReady } from "./liveCode";
 import {
   buildQrPayload,
   type CourierStep,
@@ -17,16 +18,6 @@ import {
 } from "./types";
 
 const SAMPLE_PASSES: DeliveryPass[] = [
-  {
-    id: "pass-live",
-    pin: "849201",
-    qrPayload: buildQrPayload({ pin: "849201", trackingNo: "SPX-PH-884920", courier: "Shopee Express (SPX)" }),
-    recipient: "Lance Corpuz (Unit 01)",
-    courier: "Shopee Express (SPX)",
-    trackingNo: "SPX-PH-884920",
-    expiresIn: "4 hours",
-    status: "ACTIVE",
-  },
   {
     id: "pass-1",
     pin: "849201",
@@ -46,7 +37,7 @@ const SAMPLE_PASSES: DeliveryPass[] = [
     recipient: "Justin Luzano (Unit 02)",
     courier: "Shopee Express",
     trackingNo: "SPX-PH-10928",
-    expiresIn: "Expired",
+    expiresIn: "Used",
     status: "COMPLETED",
     dropTime: "Yesterday",
     irVerified: true,
@@ -73,13 +64,14 @@ interface VaultContextValue {
   masterUnlocked: boolean;
   copiedNote: boolean;
   simulating: boolean;
-  boardHost: string;
-  boardNote: string;
-  setBoardHost: (v: string) => void;
+  stampNote: string;
+  stampBusy: boolean;
+  homeNote: string;
+  homeBusy: boolean;
   setCourierPin: (v: string) => void;
   setInputDigits: (v: string) => void;
   handleKey: (key: string) => void;
-  generatePass: (input: { recipient: string; courier: string; trackingNo: string }) => DeliveryPass;
+  generatePass: (input: { recipient: string; courier: string; trackingNo: string }) => Promise<DeliveryPass | null>;
   copyRiderNote: () => void;
   tryCourierPin: () => void;
   tryCourierScan: () => void;
@@ -102,8 +94,15 @@ function randomPin() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+function usedPass(pass: DeliveryPass): DeliveryPass {
+  return { ...pass, status: "COMPLETED", expiresIn: "Used", irVerified: true, dropTime: nowTime() };
+}
+
 export function VaultProvider({ children }: { children: ReactNode }) {
   const seq = useRef(10);
+  const sawLivePin = useRef<string | null>(null);
+  const watchGen = useRef(0);
+  const homeWait = useRef(0);
   const [pingMs, setPingMs] = useState(38);
   const [locked, setLocked] = useState(true);
   const [doorOpen, setDoorOpen] = useState(false);
@@ -115,7 +114,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const [createdPass, setCreatedPass] = useState<DeliveryPass | null>(null);
   const [telegramAlert, setTelegramAlert] = useState<string | null>(null);
   const [logs, setLogs] = useState<UartLog[]>([
-    { id: "boot", time: "09:00 AM", text: "Hulog Node armed. Core 1 ISR online.", type: "info" },
+    { id: "boot", time: "09:00 AM", text: "Hulog box is watching the house Wi-Fi.", type: "info" },
   ]);
   const [courierStep, setCourierStep] = useState<CourierStep>("auth");
   const [courierPin, setCourierPin] = useState("");
@@ -124,13 +123,19 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const [masterUnlocked, setMasterUnlocked] = useState(false);
   const [copiedNote, setCopiedNote] = useState(false);
   const [simulating, setSimulating] = useState(false);
-  const [boardHost, setBoardHostState] = useState(() => localStorage.getItem("hulog-board") ?? "");
-  const [boardNote, setBoardNote] = useState("");
+  const [stampNote, setStampNote] = useState("");
+  const [stampBusy, setStampBusy] = useState(false);
+  const [homeNote, setHomeNote] = useState("");
+  const [homeBusy, setHomeBusy] = useState(false);
 
   const activePass = useMemo(
-    () => passes.find((p) => p.status === "ACTIVE") ?? createdPass,
+    () => passes.find((p) => p.status === "ACTIVE") ?? (createdPass?.status === "ACTIVE" ? createdPass : null),
     [passes, createdPass],
   );
+
+  useEffect(() => {
+    localStorage.removeItem("hulog-board");
+  }, []);
 
   useEffect(() => {
     const t = window.setInterval(() => {
@@ -138,17 +143,6 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     }, 2200);
     return () => window.clearInterval(t);
   }, []);
-
-  const setBoardHost = useCallback((value: string) => {
-    setBoardHostState(value);
-    localStorage.setItem("hulog-board", value.trim());
-  }, []);
-
-  const boardUrl = useCallback(() => {
-    const host = boardHost.trim().replace(/\/$/, "");
-    if (!host) return "";
-    return host.startsWith("http") ? host : `http://${host}`;
-  }, [boardHost]);
 
   const addLog = useCallback((text: string, type: UartLog["type"]) => {
     seq.current += 1;
@@ -159,16 +153,16 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const grantAccess = useCallback(() => {
     setLocked(false);
     setOledMode("granted");
-    addLog(`PIN verified. Solenoid relay activated!`, "success");
+    addLog("Code matched. Bolt is open.", "success");
     window.setTimeout(() => {
       setDoorOpen(true);
-      addLog("Door opened by courier.", "info");
+      addLog("Door opened.", "info");
     }, 450);
   }, [addLog]);
 
   const denyAccess = useCallback((attempt: string) => {
     setOledMode("denied");
-    addLog(`DENIED: Invalid PIN [${attempt || "empty"}]. Buzzer chirped.`, "warn");
+    addLog(attempt ? "Wrong code." : "Empty code.", "warn");
     window.setTimeout(() => {
       setInputDigits("");
       setOledMode("idle");
@@ -185,23 +179,10 @@ export function VaultProvider({ children }: { children: ReactNode }) {
       setOledMode("idle");
       setInputDigits("");
       setCourierStep("done");
-      addLog("IR Sensor: Mass verified on floor. Door latched shut.", "success");
-      addLog(`Token [${pinUsed}] self-destructed.`, "success");
-      setTelegramAlert(
-        `📦 HULOG ALERT: Parcel safely dropped & verified via IR sensor at ${timeStr}! Door latched. Token #${pinUsed} burned.`,
-      );
-      setPasses((prev) =>
-        prev.map((p) =>
-          p.pin === pinUsed && p.status === "ACTIVE"
-            ? { ...p, status: "COMPLETED", dropTime: timeStr, irVerified: true, expiresIn: "Used" }
-            : p,
-        ),
-      );
-      setCreatedPass((curr) =>
-        curr && curr.pin === pinUsed
-          ? { ...curr, status: "COMPLETED", dropTime: timeStr, irVerified: true, expiresIn: "Used" }
-          : curr,
-      );
+      addLog("Parcel is in and the door is shut. That code is used.", "success");
+      setTelegramAlert(null);
+      setPasses((prev) => prev.map((p) => (p.pin === pinUsed && p.status === "ACTIVE" ? { ...usedPass(p), dropTime: timeStr } : p)));
+      setCreatedPass((curr) => (curr && curr.pin === pinUsed ? { ...usedPass(curr), dropTime: timeStr } : curr));
     },
     [addLog],
   );
@@ -234,8 +215,27 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   );
 
   const generatePass = useCallback(
-    (input: { recipient: string; courier: string; trackingNo: string }) => {
+    async (input: { recipient: string; courier: string; trackingNo: string }) => {
+      if (!supabaseReady()) {
+        setStampNote("The code list is not set up on this page yet.");
+        return null;
+      }
       const pin = randomPin();
+      homeWait.current += 1;
+      watchGen.current += 1;
+      sawLivePin.current = null;
+      setStampBusy(true);
+      setStampNote("");
+      setCopiedNote(false);
+      try {
+        await stampLiveCode(pin);
+        watchGen.current += 1;
+        sawLivePin.current = pin;
+      } catch {
+        setStampNote("The code did not save. Try the stamp again.");
+        setStampBusy(false);
+        return null;
+      }
       const pass: DeliveryPass = {
         id: `pass-${Date.now()}`,
         pin,
@@ -243,7 +243,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         recipient: input.recipient,
         courier: input.courier,
         trackingNo: input.trackingNo,
-        expiresIn: "4 hours",
+        expiresIn: "Until the drop",
         status: "ACTIVE",
       };
       setCreatedPass(pass);
@@ -255,53 +255,38 @@ export function VaultProvider({ children }: { children: ReactNode }) {
       setCourierError(null);
       setLocked(true);
       setDoorOpen(false);
-      addLog(`New token generated: PIN [${pin}].`, "info");
-      const url = boardUrl();
-      if (url) {
-        void fetch(`${url}/pin`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pin }),
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error("rejected");
-            setBoardNote("Code sent to the board.");
-            addLog(`Code [${pin}] sent to the board.`, "success");
-          })
-          .catch(() => {
-            setBoardNote("Board did not answer. Same Wi-Fi, and the address from the screen.");
-            addLog("Board did not answer.", "warn");
-          });
-      }
+      setMasterUnlocked(false);
+      setStampNote("The box will see this on the house Wi-Fi.");
+      addLog("New code saved for the box.", "info");
+      setStampBusy(false);
       return pass;
     },
-    [addLog, boardUrl],
+    [addLog],
   );
 
   useEffect(() => {
-    const url = boardUrl();
-    if (!url) return;
+    if (!supabaseReady()) return;
     const timer = window.setInterval(() => {
-      void fetch(`${url}/pin`)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data: { pin?: string; active?: boolean } | null) => {
-          if (!data || data.active !== false || !data.pin) return;
-          setCreatedPass((curr) => {
-            if (!curr || curr.pin !== data.pin || curr.status !== "ACTIVE") return curr;
-            return { ...curr, status: "COMPLETED", expiresIn: "Used", irVerified: true, dropTime: nowTime() };
-          });
-          setPasses((prev) =>
-            prev.map((p) =>
-              p.pin === data.pin && p.status === "ACTIVE"
-                ? { ...p, status: "COMPLETED", expiresIn: "Used", irVerified: true, dropTime: nowTime() }
-                : p,
-            ),
-          );
+      const gen = watchGen.current;
+      void readLiveCode()
+        .then((row) => {
+          if (!row || gen !== watchGen.current) return;
+          const apply = (curr: DeliveryPass | null) => {
+            if (!curr || curr.status !== "ACTIVE") return curr;
+            if (row.pin === curr.pin && row.active) {
+              sawLivePin.current = curr.pin;
+              return curr;
+            }
+            if (sawLivePin.current === curr.pin && row.active === false) return usedPass(curr);
+            return curr;
+          };
+          setCreatedPass((curr) => apply(curr));
+          setPasses((prev) => prev.map((p) => apply(p) ?? p));
         })
         .catch(() => undefined);
-    }, 2000);
+    }, 3000);
     return () => window.clearInterval(timer);
-  }, [boardUrl]);
+  }, []);
 
   const copyRiderNote = useCallback(() => {
     const pass = createdPass ?? activePass;
@@ -315,11 +300,11 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const tryCourierPin = useCallback(() => {
     setCourierError(null);
     if (!activePass || activePass.status !== "ACTIVE") {
-      setCourierError("No live drop token. Generate a 4-hour pass first.");
+      setCourierError("No live code yet. Stamp one first.");
       return;
     }
     if (courierPin !== activePass.pin) {
-      setCourierError("Invalid PIN. Check the rider note.");
+      setCourierError("That code does not match.");
       denyAccess(courierPin);
       return;
     }
@@ -329,16 +314,8 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   }, [activePass, courierPin, denyAccess, grantAccess]);
 
   const tryCourierScan = useCallback(() => {
-    setCourierError(null);
-    if (!activePass || activePass.status !== "ACTIVE") {
-      setCourierError("Nothing to scan. Generate a pass so the OLED QR is live.");
-      return;
-    }
-    setInputDigits(activePass.pin);
-    grantAccess();
-    setCourierStep("unlocked");
-    addLog("OLED QR decoded. Access granted.", "success");
-  }, [activePass, addLog, grantAccess]);
+    setCourierError("The rider types the code on the keypad.");
+  }, []);
 
   const confirmDeposit = useCallback(() => {
     if (!doorOpen && locked) return;
@@ -354,23 +331,63 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const requestMasterUnlock = useCallback(() => setMasterPending(true), []);
-  const cancelMasterUnlock = useCallback(() => setMasterPending(false), []);
+  const cancelMasterUnlock = useCallback(() => {
+    setMasterPending(false);
+    setHomeNote("");
+  }, []);
 
   const confirmMasterUnlock = useCallback(() => {
+    if (!supabaseReady()) {
+      setMasterPending(false);
+      setHomeNote("The code list is not set up on this page yet.");
+      return;
+    }
+    const token = homeWait.current + 1;
+    homeWait.current = token;
     setMasterPending(false);
-    setMasterUnlocked(true);
-    setLocked(false);
-    addLog("MASTER UNLOCK pulse 5.0s (owner retrieval).", "warn");
-    window.setTimeout(() => {
-      setMasterUnlocked(false);
-      setLocked(true);
-      setDoorOpen(false);
-      addLog("Master pulse ended. Fail-secure re-latch.", "info");
-    }, 5000);
+    setHomeBusy(true);
+    setHomeNote("Asking the box to open once.");
+    void (async () => {
+      try {
+        await askOpenOnce();
+        const started = Date.now();
+        let opened = false;
+        while (Date.now() - started < 30000) {
+          await new Promise((resolve) => window.setTimeout(resolve, 2000));
+          if (homeWait.current !== token) return;
+          const row = await readLiveCode();
+          if (row && row.open_once === false) {
+            opened = true;
+            break;
+          }
+        }
+        if (homeWait.current !== token) return;
+        if (opened) {
+          setMasterUnlocked(true);
+          setLocked(false);
+          setOledMode("granted");
+          setHomeNote("The box opened once. That request is gone.");
+          addLog("Owner open used once. The box forgot it.", "success");
+          window.setTimeout(() => {
+            setMasterUnlocked(false);
+            setLocked(true);
+            setDoorOpen(false);
+            setOledMode("idle");
+          }, 8000);
+        } else {
+          setHomeNote("The box has not opened yet. The request stays until the box sees it, then it is forgotten.");
+        }
+      } catch {
+        if (homeWait.current !== token) return;
+        setHomeNote("The box did not get the request. Try again.");
+      } finally {
+        if (homeWait.current === token) setHomeBusy(false);
+      }
+    })();
   }, [addLog]);
 
   const generateNewPin = useCallback(() => {
-    generatePass({
+    void generatePass({
       recipient: activePass?.recipient ?? "Lance Corpuz (Unit 01)",
       courier: activePass?.courier ?? "Shopee Express (SPX)",
       trackingNo: activePass?.trackingNo ?? `SPX-PH-${Math.floor(10000 + Math.random() * 89999)}`,
@@ -381,30 +398,39 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const simulateDrop = useCallback(() => {
     if (simulating) return;
     setSimulating(true);
-    const pin = activePass?.status === "ACTIVE" ? activePass.pin : generatePass({
-      recipient: "Lance Corpuz (Unit 01)",
-      courier: "Shopee Express (SPX)",
-      trackingNo: "SPX-PH-884920",
-    }).pin;
-
-    setInputDigits("");
-    setOledMode("entry");
-    let i = 0;
-    const typer = window.setInterval(() => {
-      i += 1;
-      setInputDigits(pin.slice(0, i));
-      if (i >= 6) {
-        window.clearInterval(typer);
-        window.setTimeout(() => {
-          grantAccess();
-          setCourierStep("unlocked");
-          window.setTimeout(() => {
-            completeDrop(pin);
-            setSimulating(false);
-          }, 1600);
-        }, 280);
+    void (async () => {
+      let pin = activePass?.status === "ACTIVE" ? activePass.pin : "";
+      if (!pin) {
+        const pass = await generatePass({
+          recipient: "Lance Corpuz (Unit 01)",
+          courier: "Shopee Express (SPX)",
+          trackingNo: "SPX-PH-884920",
+        });
+        pin = pass?.pin ?? "";
       }
-    }, 160);
+      if (!pin) {
+        setSimulating(false);
+        return;
+      }
+      setInputDigits("");
+      setOledMode("entry");
+      let i = 0;
+      const typer = window.setInterval(() => {
+        i += 1;
+        setInputDigits(pin.slice(0, i));
+        if (i >= 6) {
+          window.clearInterval(typer);
+          window.setTimeout(() => {
+            grantAccess();
+            setCourierStep("unlocked");
+            window.setTimeout(() => {
+              completeDrop(pin);
+              setSimulating(false);
+            }, 1600);
+          }, 280);
+        }
+      }, 160);
+    })();
   }, [activePass, completeDrop, generatePass, grantAccess, simulating]);
 
   const value: VaultContextValue = {
@@ -415,7 +441,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     parcelCount,
     inputDigits,
     oledMode,
-    activePass: activePass && activePass.status === "ACTIVE" ? activePass : createdPass?.status === "ACTIVE" ? createdPass : null,
+    activePass,
     passes,
     createdPass,
     telegramAlert,
@@ -427,9 +453,10 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     masterUnlocked,
     copiedNote,
     simulating,
-    boardHost,
-    boardNote,
-    setBoardHost,
+    stampNote,
+    stampBusy,
+    homeNote,
+    homeBusy,
     setCourierPin,
     setInputDigits,
     handleKey,

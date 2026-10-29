@@ -16,6 +16,11 @@ const STEPS = [
     title: "The door shuts. The pass dies.",
     body: "A switch feels the door close. A light inside checks the parcel is really there. Then that PIN will not work again.",
   },
+  {
+    n: "4",
+    title: "You take it out once",
+    body: "When you are home, ask the box to open. That request works one time. It does not leave a code on the keypad.",
+  },
 ];
 
 export function HowItWorks() {

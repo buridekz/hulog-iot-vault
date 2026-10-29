@@ -11,13 +11,15 @@
 #define PIN_RELAY_SOLENOID    23   // Active LOW trigger via PC817 Optocoupler
 
 // Sensors & Inputs
-#define PIN_REED_SWITCH       19   // Reed NO lead (INPUT_PULLUP: LOW = door closed)
+#define PIN_REED_SWITCH       19   // MC-38 NC reed (INPUT_PULLUP: HIGH = magnet present, door closed)
 #define PIN_IR_SENSOR         18   // Optical IR Sensor (LOW = Object Detected)
 
 // Audio Feedback
 #define PIN_BUZZER            5    // 5V Active Buzzer (HIGH = On)
 
 // I2C OLED Display (SSD1306 128x64)
+// Feed OLED VCC from the ESP32 3.3V pin only. Do not power the OLED from 5V.
+// Do not power the ESP32 from USB and the buck 5V pin at the same time.
 #define PIN_OLED_SDA          21   // Hardware I2C SDA
 #define PIN_OLED_SCL          22   // Hardware I2C SCL
 #define OLED_SCREEN_WIDTH     128
